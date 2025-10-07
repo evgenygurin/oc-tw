@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+{% if description %}
+<meta name="description" content="{{ description }}" />
+{% endif %}
+{% if keywords %}
+<meta name="keywords" content="{{ keywords }}" />
+{% endif %}
+<link href="{{ base }}catalog/view/theme/oc-astro/stylesheet/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="{{ base }}catalog/view/theme/oc-astro/stylesheet/astro-ecommerce.css" rel="stylesheet" type="text/css" />
+<link href="{{ base }}catalog/view/theme/oc-astro/stylesheet/stylesheet.css" rel="stylesheet" type="text/css" />
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+</head>
+<body>
+{# Complex Navbar inspired by Astro Ecommerce #}
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    {% if logo %}
+    <a class="navbar-brand" href="{{ home }}">
+      <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-fluid" style="max-height: 50px;" />
+    </a>
+    {% else %}
+    <a class="navbar-brand fw-bold" href="{{ home }}">{{ name }}</a>
+    {% endif %}
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ home }}">Home</a>
+        </li>
+        {% if categories %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu">
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{{ category.href }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="{{ shopping_cart }}">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">{{ cart_total }}</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ account }}">
+            <i class="fas fa-user"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+

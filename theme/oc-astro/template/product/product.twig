@@ -1,0 +1,259 @@
+{{ header }}
+
+<div class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  {# Product Overview Grid - inspired by productOverviewGrid #}
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      {# Product Image Gallery #}
+      <div class="product-gallery">
+        {% if thumb %}
+        <div class="main-image mb-3">
+          <img src="{{ thumb }}" alt="{{ heading_title }}" class="img-fluid rounded shadow-sm" id="mainProductImage" />
+        </div>
+        {% endif %}
+        
+        {% if images %}
+        <div class="thumbnail-gallery d-flex gap-2 overflow-auto">
+          <img src="{{ thumb }}" alt="{{ heading_title }}" class="img-thumbnail thumb-item" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;" onclick="changeMainImage(this.src)" />
+          {% for image in images %}
+          <img src="{{ image.thumb }}" alt="{{ heading_title }}" class="img-thumbnail thumb-item" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;" onclick="changeMainImage('{{ image.popup }}')" />
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      {# Product Details #}
+      <div class="product-details">
+        <h1 class="product-title fw-bold mb-3">{{ heading_title }}</h1>
+        
+        {% if manufacturer %}
+        <p class="text-muted mb-2">
+          <strong>Brand:</strong> <a href="{{ manufacturers }}">{{ manufacturer }}</a>
+        </p>
+        {% endif %}
+
+        {% if model %}
+        <p class="text-muted mb-2"><strong>Product Code:</strong> {{ model }}</p>
+        {% endif %}
+
+        {% if rating %}
+        <div class="product-rating mb-3">
+          <div class="stars text-warning">
+            {% for i in 1..5 %}
+              {% if i <= rating %}
+              <i class="fas fa-star"></i>
+              {% else %}
+              <i class="far fa-star"></i>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <span class="text-muted ms-2">({{ reviews }} reviews)</span>
+        </div>
+        {% endif %}
+
+        {# Price #}
+        <div class="product-price mb-4">
+          {% if special %}
+          <h2 class="text-danger mb-0">{{ special }}</h2>
+          <p class="text-muted"><del>{{ price }}</del> <span class="badge bg-danger">Sale</span></p>
+          {% else %}
+          <h2 class="mb-0">{{ price }}</h2>
+          {% endif %}
+          
+          {% if tax %}
+          <p class="text-muted small">{{ text_tax }} {{ tax }}</p>
+          {% endif %}
+        </div>
+
+        {# Product Options #}
+        {% if options %}
+        <div class="product-options mb-4">
+          {% for option in options %}
+          <div class="mb-3">
+            <label class="form-label fw-bold">{{ option.name }}{% if option.required %} *{% endif %}</label>
+            
+            {% if option.type == 'select' %}
+            <select name="option[{{ option.product_option_id }}]" class="form-select">
+              <option value="">--- Please Select ---</option>
+              {% for option_value in option.product_option_value %}
+              <option value="{{ option_value.product_option_value_id }}">
+                {{ option_value.name }}
+                {% if option_value.price %}
+                ({{ option_value.price_prefix }}{{ option_value.price }})
+                {% endif %}
+              </option>
+              {% endfor %}
+            </select>
+            {% endif %}
+
+            {% if option.type == 'radio' %}
+            {% for option_value in option.product_option_value %}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="option-{{ option_value.product_option_value_id }}">
+              <label class="form-check-label" for="option-{{ option_value.product_option_value_id }}">
+                {{ option_value.name }}
+                {% if option_value.price %}
+                ({{ option_value.price_prefix }}{{ option_value.price }})
+                {% endif %}
+              </label>
+            </div>
+            {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Quantity and Add to Cart #}
+        <div class="product-actions mb-4">
+          <div class="row g-3 align-items-end">
+            <div class="col-auto">
+              <label class="form-label">Quantity</label>
+              <input type="number" name="quantity" value="{{ minimum }}" min="{{ minimum }}" class="form-control" style="width: 100px;" id="input-quantity" />
+            </div>
+            <div class="col">
+              <button type="button" id="button-cart" class="btn btn-primary btn-lg px-5" onclick="cart.add('{{ product_id }}', '{{ quantity }}');">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {# Wishlist and Compare #}
+        <div class="product-actions-secondary d-flex gap-3 mb-4">
+          <button type="button" class="btn btn-outline-secondary" onclick="wishlist.add('{{ product_id }}');">
+            <i class="far fa-heart me-2"></i>Add to Wishlist
+          </button>
+          <button type="button" class="btn btn-outline-secondary" onclick="compare.add('{{ product_id }}');">
+            <i class="fas fa-exchange-alt me-2"></i>Compare
+          </button>
+        </div>
+
+        {# Stock Status #}
+        {% if stock %}
+        <div class="stock-info mb-3">
+          <p class="mb-1"><strong>Availability:</strong> 
+            <span class="{{ stock starts with 'In Stock' ? 'text-success' : 'text-danger' }}">{{ stock }}</span>
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {# Product Tabs - Description, Reviews, etc. #}
+  <div class="row mt-5">
+    <div class="col-12">
+      <ul class="nav nav-tabs" id="productTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+            Description
+          </button>
+        </li>
+        {% if attribute_groups %}
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="specification-tab" data-bs-toggle="tab" data-bs-target="#specification" type="button" role="tab">
+            Specification
+          </button>
+        </li>
+        {% endif %}
+        {% if reviews %}
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
+            Reviews ({{ reviews }})
+          </button>
+        </li>
+        {% endif %}
+      </ul>
+
+      <div class="tab-content border border-top-0 p-4" id="productTabsContent">
+        <div class="tab-pane fade show active" id="description" role="tabpanel">
+          {{ description }}
+        </div>
+
+        {% if attribute_groups %}
+        <div class="tab-pane fade" id="specification" role="tabpanel">
+          <table class="table table-bordered">
+            {% for attribute_group in attribute_groups %}
+            <thead>
+              <tr>
+                <th colspan="2" class="bg-light">{{ attribute_group.name }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for attribute in attribute_group.attribute %}
+              <tr>
+                <td class="fw-bold" style="width: 30%;">{{ attribute.name }}</td>
+                <td>{{ attribute.text }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            {% endfor %}
+          </table>
+        </div>
+        {% endif %}
+
+        <div class="tab-pane fade" id="reviews" role="tabpanel">
+          <div id="review"></div>
+          <h4 class="mt-4">Write a Review</h4>
+          <form id="form-review">
+            <div class="mb-3">
+              <label class="form-label">Your Rating</label>
+              <div class="rating-input">
+                <!-- Rating stars input here -->
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Your Review</label>
+              <textarea name="text" rows="5" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Related Products #}
+  {% if products %}
+  <div class="row mt-5">
+    <div class="col-12">
+      <h3 class="fw-bold mb-4">Related Products</h3>
+      <div class="row">
+        {% for product in products %}
+        <div class="col-md-6 col-lg-3 mb-4">
+          <div class="card card-product border shadow-sm h-100">
+            <a href="{{ product.href }}">
+              <img class="card-img-top p-4" src="{{ product.thumb }}" alt="{{ product.name }}" style="height: 200px; object-fit: contain;" />
+              <div class="card-body text-center">
+                <h6 class="card-title fw-bold">{{ product.name }}</h6>
+                <p class="mb-0">{{ product.price }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+function changeMainImage(src) {
+  document.getElementById('mainProductImage').src = src;
+}
+</script>
+
+{{ footer }}
+

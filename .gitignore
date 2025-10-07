@@ -1,0 +1,18 @@
+# env files
+.env
+.env.local
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+
+# Docker volumes (bind mounts)
+# Keep named volumes managed by Docker; nothing to ignore here
+
+# OpenCart cache/logs (if bind-mounted later)
+/storage/
+/system/storage/cache/
+/system/storage/logs/
+

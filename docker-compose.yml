@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   mariadb:
-    image: docker.io/bitnami/mariadb:11.3
+    image: docker.io/bitnami/mariadb:latest
     restart: unless-stopped
     environment:
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-rootpassword}
@@ -18,34 +16,26 @@ services:
       retries: 10
 
   opencart:
-    image: docker.io/bitnami/opencart-archived:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.opencart
     restart: unless-stopped
     depends_on:
       mariadb:
         condition: service_healthy
     ports:
-      - "8080:8080"   # HTTP
-      - "8443:8443"   # HTTPS
+      - "8080:80"   # HTTP
     environment:
-      - OPENCART_HOST=${OPENCART_HOST:-localhost}
-      - OPENCART_USERNAME=${OPENCART_USERNAME:-admin}
-      - OPENCART_PASSWORD=${OPENCART_PASSWORD:-admin123}
-      - OPENCART_EMAIL=${OPENCART_EMAIL:-admin@example.com}
-      - MARIADB_HOST=mariadb
-      - MARIADB_PORT_NUMBER=3306
-      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-rootpassword}
-      - MARIADB_DATABASE=${MARIADB_DATABASE:-bitnami_opencart}
-      - MARIADB_USER=${MARIADB_USER:-bn_opencart}
-      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-opencart}
-      # Optional: configure SMTP to test emails via MailHog
-      - SMTP_HOST=mailhog
-      - SMTP_PORT=1025
-      - SMTP_USER=
-      - SMTP_PASSWORD=
+      - DB_HOSTNAME=mariadb
+      - DB_USERNAME=${MARIADB_USER:-bn_opencart}
+      - DB_PASSWORD=${MARIADB_PASSWORD:-opencart}
+      - DB_DATABASE=${MARIADB_DATABASE:-bitnami_opencart}
+      - DB_PORT=3306
+      - DB_PREFIX=oc_
     volumes:
-      - opencart_data:/bitnami/opencart
+      - opencart_data:/var/www/html
       # Bind mount for custom theme development (optional)
-      - ./theme/oc-astro:/bitnami/opencart/catalog/view/theme/oc-astro
+      - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
 
   phpmyadmin:
     image: phpmyadmin:latest

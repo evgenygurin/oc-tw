@@ -18,7 +18,7 @@ services:
       retries: 10
 
   opencart:
-    image: docker.io/bitnami/opencart:latest
+    image: docker.io/bitnami/opencart-archived:latest
     restart: unless-stopped
     depends_on:
       mariadb:
@@ -67,4 +67,3 @@ services:
 volumes:
   mariadb_data:
   opencart_data:
-

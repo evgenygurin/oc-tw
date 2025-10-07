@@ -24,7 +24,7 @@ services:
       mariadb:
         condition: service_healthy
     ports:
-      - "8080:80"   # HTTP
+      - "8080:80"
     environment:
       - DB_HOSTNAME=mariadb
       - DB_USERNAME=${MARIADB_USER:-bn_opencart}
@@ -34,7 +34,7 @@ services:
       - DB_PREFIX=oc_
     volumes:
       - opencart_data:/var/www/html
-      # Bind mount for custom theme development (optional)
+      # Bind mount for custom theme development
       - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
 
   phpmyadmin:

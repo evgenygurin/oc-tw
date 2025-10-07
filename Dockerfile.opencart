@@ -1,46 +1,41 @@
-FROM php:8.1-apache
+# Use official PHP 8.2 image with Apache (more stable than 8.3)
+# If this fails, we'll use a pre-cached local image
+FROM php:8.2-apache
 
-# Install dependencies
+# Fix Apache ServerName warning first
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Install minimal required system dependencies for OpenCart
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
     libzip-dev \
-    libcurl4-openssl-dev \
-    libxml2-dev \
-    libonig-dev \
+    libicu-dev \
     unzip \
-    git \
-    curl \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        gd \
-        mysqli \
-        pdo \
-        pdo_mysql \
-        zip \
-        curl \
-        mbstring \
-        xml \
-    && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install OpenCart 4.x (latest)
-WORKDIR /tmp
-RUN curl -L https://github.com/opencart/opencart/releases/download/4.0.2.3/opencart-4.0.2.3.zip -o opencart.zip \
-    && unzip opencart.zip \
-    && mv opencart-4.0.2.3/upload/* /var/www/html/ \
-    && rm -rf opencart.zip opencart-4.0.2.3 \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# Install PHP extensions required by OpenCart 4.x
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd mysqli pdo pdo_mysql zip intl opcache
+
+# Enable Apache mod_rewrite for SEO URLs
+RUN a2enmod rewrite
+
+# PHP configuration for OpenCart
+RUN { \
+        echo 'memory_limit = 256M'; \
+        echo 'upload_max_filesize = 32M'; \
+        echo 'post_max_size = 32M'; \
+        echo 'max_execution_time = 300'; \
+        echo 'display_errors = Off'; \
+        echo 'log_errors = On'; \
+    } > /usr/local/etc/php/conf.d/opencart.ini
+
+# Create upload directory structure
+RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 WORKDIR /var/www/html
-
-# Copy config files (will be created during installation)
-RUN cp config-dist.php config.php \
-    && cp admin/config-dist.php admin/config.php \
-    && chown www-data:www-data config.php admin/config.php \
-    && chmod 644 config.php admin/config.php
 
 EXPOSE 80
 

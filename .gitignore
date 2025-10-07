@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ----- Extra ignores for Docker/OpenCart setup -----
+# Docker compose overrides or local config
+docker-compose.override.yml
+.docker/
+
+# Optional OpenCart bind-mounted storage (if configured later)
+/storage/
+/system/storage/cache/
+/system/storage/logs/
+

@@ -1,0 +1,16 @@
+/*
+  Placeholder stylesheet for the custom OpenCart theme "oc-astro".
+  You can copy compiled CSS from your Astro Ecommerce build into this file
+  or split assets as needed.
+*/
+
+/* Example: basic color variables (remove later) */
+:root {
+  --primary: #7c3aed;
+  --bg: #0b0b0f;
+}
+
+body {
+  background-color: var(--bg);
+}
+

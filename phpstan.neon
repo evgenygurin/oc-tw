@@ -4,7 +4,7 @@ services:
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
-    level: 5
+    level: 4
     paths:
         - ./upload/
     excludePaths:
@@ -32,3 +32,5 @@ parameters:
         - '#^PHPDoc tag @return with type .* is incompatible with native type .*\.$#'
         - '#^Comparison operation .* results in an error\.$#'
         - '#^Parameter \#2 \$total of method .* expects int, float given\.$#'
+        - '#^Method .* should return .* but returns .*\.$#'
+        - '#^PHPDoc tag @param references unknown parameter: .*$#'

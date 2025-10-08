@@ -21,7 +21,7 @@ class ReturnStatus extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, mixed &$output): void {
 		$task_data = [
 			'code'   => 'return_status',
 			'action' => 'task/admin/return_status',

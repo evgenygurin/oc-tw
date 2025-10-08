@@ -21,7 +21,7 @@ class SubscriptionStatus extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(string &$route, array &$args, mixed &$output): void {
 		$task_data = [
 			'code'   => 'subscription_status',
 			'action' => 'task/admin/subscription_status',

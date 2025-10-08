@@ -20,7 +20,7 @@ class Topic extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, mixed &$output): void {
 		$task_data = [
 			'code'   => 'article',
 			'action' => 'task/catalog/article',

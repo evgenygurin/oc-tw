@@ -156,7 +156,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 
 		// Create new instance of a store
-		$store = $this->model_setting_store->createStoreInstance($subscription_info['store_id'], $subscription_info['language'], $subscription_info['currency_code']);
+		$store = $this->model_setting_store->createStoreInstance($subscription_info['store_id'], $subscription_info['language']);
 
 		// Language
 		$store->request->get['language'] = $language_info['code'];

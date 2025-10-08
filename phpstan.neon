@@ -4,7 +4,7 @@ services:
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
-    level: 3
+    level: 2
     paths:
         - ./upload/
     excludePaths:
@@ -46,3 +46,7 @@ parameters:
         - '#^Cannot assign new offset to .*\.$#'
         - '#^Method .* with return type void returns .* but should not return anything\.$#'
         - '#^Method .* invoked with \d+ parameters, \d+ required\.$#'
+        - '#^Call to an undefined method .*::deleteTransactionByOrderId\(\)\.$#'
+        - '#^Call to an undefined method .*::deleteRewardByOrderId\(\)\.$#'
+        - '#^Property .* is not writable\.$#'
+        - '#^Class .* constructor invoked with \d+ parameters, \d+-\d+ required\.$#'

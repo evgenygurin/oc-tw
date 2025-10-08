@@ -156,6 +156,28 @@ class Article extends \Opencart\System\Engine\Model {
 	}
 
 	/**
+	 * Edit Status
+	 *
+	 * Edit article status in the database.
+	 *
+	 * @param int  $article_id primary key of the article record
+	 * @param bool $status     status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('cms/article');
+	 *
+	 * $this->model_cms_article->editStatus($article_id, $status);
+	 */
+	public function editStatus(int $article_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "article` SET `status` = '" . (bool)$status . "' WHERE `article_id` = '" . (int)$article_id . "'");
+
+		$this->cache->delete('article');
+	}
+
+	/**
 	 * Delete Article
 	 *
 	 * Delete article record in the database.

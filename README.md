@@ -1,200 +1,275 @@
-# OpenCart + Astro Ecommerce Theme (Docker)
+# OpenCart Taiwan (oc-tw)
 
-Production-ready OpenCart setup with a custom theme inspired by [Astro Ecommerce](https://www.creative-tim.com/product/astro-ecommerce) by Creative Tim.
+Modern OpenCart e-commerce platform with custom theming and Docker-based development environment.
 
 ## 🚀 Quick Start
 
 ```bash
-# 1. Clone the repository
+# Clone the repository
 git clone <your-repo-url>
 cd oc-tw
 
-# 2. Copy environment variables
-cp .env.example .env
+# Start the stack
+make install
 
-# 3. Start the services
-docker compose up -d
-
-# 4. Open your browser
+# Access OpenCart
 open http://localhost:8080
 ```
 
+**Default Credentials:**
+- Username: `admin`
+- Password: `admin123`
+- Admin Panel: http://localhost:8080/admin
+
 ## 📦 What's Included
 
-- **OpenCart** (latest stable via Bitnami) - E-commerce platform
-- **MariaDB 11.3** - Database
-- **phpMyAdmin** (port 8081) - Database management UI
-- **MailHog** (port 8025) - Email testing for development
-- **oc-astro Theme** - Modern theme based on Astro Ecommerce design
+- **OpenCart**: Latest version from master branch
+- **MariaDB 10.11**: Optimized MySQL-compatible database
+- **Adminer**: Web-based database management (http://localhost:8081)
+- **MailHog**: Email testing tool (http://localhost:8025)
+- **Custom Theme**: `oc-astro` theme with modern styling
 
-## 🔧 Services & Ports
+## 🛠️ Available Commands
 
-| Service | Port | URL | Purpose |
-|---------|------|-----|---------|
-| OpenCart | 8080 | http://localhost:8080 | Main store |
-| OpenCart Admin | 8080/admin | http://localhost:8080/admin | Admin panel |
-| phpMyAdmin | 8081 | http://localhost:8081 | Database GUI |
-| MailHog UI | 8025 | http://localhost:8025 | Email testing |
+Run `make help` to see all available commands:
 
-## ⚙️ Configuration
-
-### Environment Variables (`.env`)
-
-```env
-# OpenCart Settings
-OPENCART_HOST=localhost
-OPENCART_USERNAME=admin
-OPENCART_PASSWORD=admin123
-OPENCART_EMAIL=admin@example.com
-
-# Database Settings
-MARIADB_ROOT_PASSWORD=rootpassword
-MARIADB_USER=bn_opencart
-MARIADB_PASSWORD=opencart
-MARIADB_DATABASE=bitnami_opencart
-
-# SMTP (MailHog for local dev)
-SMTP_HOST=mailhog
-SMTP_PORT=1025
+```bash
+make help          # Show all commands
+make build         # Build Docker containers
+make up            # Start all services
+make down          # Stop all services
+make restart       # Restart services
+make logs          # View logs (all services)
+make logs-opencart # View OpenCart logs only
+make status        # Show service status
+make clean         # Remove containers and volumes
+make install       # Fresh installation
+make reset         # Complete reset (clean + install)
+make health        # Health check all services
+make backup-db     # Backup database
+make shell-opencart # Shell into OpenCart container
+make db-shell      # MySQL CLI access
 ```
 
-## 🎨 oc-astro Theme
+## 🏗️ Architecture
 
-The `oc-astro` theme is a modern, responsive OpenCart theme inspired by Astro Ecommerce:
+### Services
 
-### Features
-- 🎨 Modern UI with Bootstrap 5
-- 📱 Fully responsive design
-- 🛍️ Product cards with hover effects
-- 🛒 Shopping cart components
-- ⭐ Product reviews and ratings
-- 📦 Order history views
+1. **OpenCart** (Port 8080)
+   - PHP 8.2 with Apache
+   - Auto-installs on first run
+   - Volume-mounted for persistence
 
-### Installation
+2. **MariaDB** (Port 3307)
+   - MariaDB 10.11
+   - Optimized for Docker (io_uring disabled, binlog skipped)
+   - Health checks enabled
 
-1. **Start OpenCart** via Docker Compose
-2. **Complete the OpenCart installation** wizard at http://localhost:8080
-3. **Activate the theme:**
-   - Login to admin panel: http://localhost:8080/admin
-   - Go to **Extensions → Extensions → Themes**
-   - Find "oc-astro" and click **Install** then **Edit**
+3. **Adminer** (Port 8081)
+   - Lightweight phpMyAdmin alternative
+   - Connect with: Server=`mysql`, User=`opencart`, Pass=`opencart_pass`
 
-### Theme Development
+4. **MailHog** (Port 8025)
+   - Catches all outgoing emails
+   - Web UI for viewing emails
 
-Theme files are bind-mounted from `./theme/oc-astro/` to the container, so changes reflect immediately:
+### Directory Structure
+
+```
+oc-tw/
+├── theme/
+│   └── oc-astro/            # Custom OpenCart theme (bind-mounted)
+│       ├── template/
+│       ├── stylesheet/
+│       ├── image/
+│       └── js/
+├── scripts/
+│   └── opencart-entrypoint.sh  # Container initialization script
+├── docker-compose.yml       # Service orchestration
+├── Dockerfile              # OpenCart image definition
+├── Makefile                # Development commands
+├── .env                    # Environment variables
+└── README.md               # This file
+```
+
+## 🎨 Theme Development
+
+The `oc-astro` theme is bind-mounted, allowing real-time development:
+
+```bash
+# Edit theme files
+nano theme/oc-astro/stylesheet/stylesheet.css
+
+# Changes are immediately available (no restart needed for templates)
+# Restart OpenCart only for PHP logic changes:
+make restart
+```
+
+### Theme Structure
 
 ```
 theme/oc-astro/
 ├── template/
-│   ├── common/          # Header, footer, home
-│   ├── product/         # Product pages
-│   └── checkout/        # Cart, checkout
-├── stylesheet/
-│   └── stylesheet.css   # Custom styles
-└── js/
-    └── common.js        # Custom JS
+│   ├── common/      # header.twig, footer.twig, home.twig
+│   └── product/     # product.twig
+├── stylesheet/      # CSS files
+├── image/           # Theme images
+└── js/              # JavaScript files
 ```
-
-See [theme/oc-astro/README.md](theme/oc-astro/README.md) for detailed documentation.
-
-## 🛠️ Development Workflow
-
-### Start Services
-```bash
-docker compose up -d
-```
-
-### View Logs
-```bash
-docker compose logs -f opencart
-docker compose logs -f mariadb
-```
-
-### Stop Services
-```bash
-docker compose down
-```
-
-### Reset Database (Clean Install)
-```bash
-docker compose down -v  # ⚠️ This deletes all data
-docker compose up -d
-```
-
-### Access phpMyAdmin
-1. Open http://localhost:8081
-2. Server: `mariadb`
-3. Username: `bn_opencart` (or `root`)
-4. Password: from your `.env`
-
-### Test Emails with MailHog
-All emails sent by OpenCart will be captured by MailHog:
-- UI: http://localhost:8025
-- No emails leave your local environment
-
-## 🗂️ Project Structure
-
-```
-.
-├── docker-compose.yml        # Docker orchestration
-├── .env.example             # Environment variables template
-├── theme/
-│   └── oc-astro/           # OpenCart theme (bind-mounted)
-│       ├── template/       # Twig templates
-│       ├── stylesheet/     # CSS files
-│       ├── js/            # JavaScript
-│       └── README.md      # Theme documentation
-└── README.md              # This file
-```
-
-## 📚 Resources
-
-- **OpenCart Docs**: https://docs.opencart.com/
-- **Bitnami OpenCart**: https://hub.docker.com/r/bitnami/opencart
-- **Astro Ecommerce**: https://www.creative-tim.com/product/astro-ecommerce
-- **Bootstrap 5**: https://getbootstrap.com/
-- **FontAwesome**: https://fontawesome.com/
 
 ## 🐛 Troubleshooting
 
-### OpenCart installation wizard not appearing
-- Make sure the database is healthy: `docker compose ps`
-- Wait for the healthcheck: `docker compose logs mariadb`
-- If stuck, restart: `docker compose restart opencart`
+### "Too many open files" error
 
-### Theme not showing up in admin
-- Verify bind mount: `docker compose exec opencart ls -la /bitnami/opencart/catalog/view/theme/`
-- You should see `oc-astro` directory
-- Check file permissions
+This is a Docker Desktop on macOS issue. Solutions:
+1. Restart Docker Desktop
+2. Increase file descriptor limits (already set in config)
+3. Use `make prune` to clean up Docker resources
 
-### Database connection errors
-- Check `.env` values match between `MARIADB_*` and `OPENCART_*`
-- Ensure MariaDB is healthy: `docker compose ps`
-- Try recreating containers: `docker compose down && docker compose up -d`
+### OpenCart installation fails
 
-### Port conflicts
-If ports 8080, 8081, or 8025 are in use, edit `docker-compose.yml`:
-```yaml
-ports:
-  - "9080:8080"  # Change host port (left side)
+```bash
+# Check logs
+make logs-opencart
+
+# Reset everything
+make reset
 ```
 
-## 📄 License
+### MySQL connection errors
 
-- **This Project**: MIT (or specify your license)
-- **Astro Ecommerce**: MIT by Creative Tim
-- **OpenCart**: GPL
-- **Bootstrap**: MIT
-- **FontAwesome**: CC BY 4.0 / SIL OFL 1.1
+```bash
+# Check MySQL health
+make logs-mysql
+docker compose exec mysql mysqladmin ping -h localhost
 
-## 🙋 Support
+# Verify environment variables match
+cat .env
+```
 
-For issues related to:
-- **OpenCart**: [OpenCart Forums](https://forum.opencart.com/)
-- **Astro Ecommerce Design**: [Creative Tim Support](https://www.creative-tim.com/support)
-- **This setup**: Open an issue in this repository
+### Port conflicts
 
----
+Edit `docker-compose.yml` and change ports:
+```yaml
+ports:
+  - "9080:80"  # Change 8080 to 9080
+```
 
-**Built with** ❤️ using Docker, OpenCart, and Astro Ecommerce design inspiration.
+## 🔧 Configuration
 
+### Environment Variables (.env)
+
+```env
+# MySQL/MariaDB
+MYSQL_ROOT_PASSWORD=root_secure_2025
+MYSQL_DATABASE=opencart_db
+MYSQL_USER=opencart
+MYSQL_PASSWORD=opencart_pass
+
+# OpenCart Admin
+OPENCART_ADMIN_USERNAME=admin
+OPENCART_ADMIN_PASSWORD=admin123
+OPENCART_ADMIN_EMAIL=admin@example.com
+OPENCART_HTTP_SERVER=http://localhost:8080/
+
+# Timezone
+TZ=UTC
+```
+
+### Database Access
+
+**Via Adminer** (Web UI):
+- URL: http://localhost:8081
+- System: MySQL
+- Server: `mysql`
+- Username: `opencart`
+- Password: `opencart_pass`
+- Database: `opencart_db`
+
+**Via Command Line**:
+```bash
+make db-shell
+# Or manually:
+docker compose exec mysql mysql -u opencart -popencart_pass opencart_db
+```
+
+## 📊 Database Backup & Restore
+
+```bash
+# Backup database
+make backup-db
+# Creates: backups/opencart_YYYYMMDD_HHMMSS.sql
+
+# Restore database
+make restore-db file=backups/opencart_20250108_120000.sql
+```
+
+## 🚀 Production Deployment
+
+**DO NOT** use this Docker setup in production. This is a development environment.
+
+For production:
+1. Use managed database (RDS, CloudSQL, etc.)
+2. Deploy OpenCart to a PHP hosting environment
+3. Configure proper SSL/TLS
+4. Harden security settings
+5. Set up proper backups
+6. Configure CDN for static assets
+
+## 📚 Resources
+
+- [OpenCart Documentation](https://docs.opencart.com/)
+- [OpenCart GitHub](https://github.com/opencart/opencart)
+- [MariaDB Documentation](https://mariadb.org/documentation/)
+
+## ⚠️ Security Notes
+
+- Change default admin credentials immediately
+- Update `.env` with strong passwords
+- Don't commit `.env` to version control (already in .gitignore)
+- Remove `install/` directory after installation (auto-removed by entrypoint)
+- Keep OpenCart and dependencies updated
+
+## 🐳 Docker Commands Reference
+
+```bash
+# View all containers
+docker compose ps
+
+# View logs
+docker compose logs -f
+
+# Stop services
+docker compose down
+
+# Remove volumes (WARNING: deletes data)
+docker compose down -v
+
+# Rebuild from scratch
+docker compose build --no-cache
+
+# Execute command in container
+docker compose exec opencart bash
+docker compose exec mysql mysql -u root -p
+```
+
+## 📝 License
+
+OpenCart is licensed under GPL v3.0. See OpenCart documentation for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 🆘 Support
+
+For issues:
+1. Check logs: `make logs`
+2. Verify health: `make health`
+3. Review troubleshooting section above
+4. Check OpenCart community forums
+5. Open an issue in this repository

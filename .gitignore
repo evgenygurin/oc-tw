@@ -50,3 +50,6 @@ docker-compose.override.yml
 /system/storage/cache/
 /system/storage/logs/
 
+# OpenCart source archive (pre-downloaded for Docker builds)
+opencart-source/master.zip
+

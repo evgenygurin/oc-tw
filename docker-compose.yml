@@ -13,18 +13,6 @@ services:
     depends_on:
       php:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-          cpus: '0.25'
-        reservations:
-          memory: 64M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
     networks:
       - opencart
 
@@ -95,24 +83,12 @@ services:
       timeout: 3s
       retries: 10
       start_period: 10s
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-          cpus: '0.5'
-        reservations:
-          memory: 128M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
     networks:
       - opencart
 
   mysql:
     container_name: opencart-mysql
-    image: mariadb
+    image: mariadb:latest
     ports:
       - "${DB_EXPOSE_PORT:-3306}:${DB_PORT:-3306}"
     environment:
@@ -128,18 +104,6 @@ services:
       timeout: 2s
       retries: 10
       start_period: 30s
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
-        reservations:
-          memory: 256M
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
     networks:
       - opencart
 

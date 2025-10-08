@@ -61,7 +61,7 @@ class Sale extends \Opencart\System\Engine\Controller {
 		$results = $this->model_catalog_product->getProducts($args);
 
 		foreach ($results as $result) {
-			$this->model_catalog_product->editSale($result['product_id'], $this->model_sale_order->getTotalSales(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
+			$this->model_catalog_product->editSale($result['product_id'], (int)$this->model_sale_order->getTotalSales(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
 		}
 
 		$product_total = $this->model_catalog_product->getTotalProducts();

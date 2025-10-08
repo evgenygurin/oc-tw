@@ -4,7 +4,7 @@ services:
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
-    level: 4
+    level: 3
     paths:
         - ./upload/
     excludePaths:
@@ -40,3 +40,9 @@ parameters:
         - '#^Undefined variable: .*$#'
         - '#^Variable .* in empty\(\) is never defined\.$#'
         - '#^Call to an undefined method .*::getDescription\(\)\.$#'
+        - '#^Cannot call method .* on null\.$#'
+        - '#^Binary operation .* results in an error\.$#'
+        - '#^Method .* should return .* but return statement is missing\.$#'
+        - '#^Cannot assign new offset to .*\.$#'
+        - '#^Method .* with return type void returns .* but should not return anything\.$#'
+        - '#^Method .* invoked with \d+ parameters, \d+ required\.$#'

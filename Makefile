@@ -1,134 +1,145 @@
-.PHONY: help build up down restart logs clean install reset theme
+# Makefile for OpenCart Docker Environment
 
-# Colors for output
-BLUE := \033[0;34m
-GREEN := \033[0;32m
-YELLOW := \033[0;33m
-RED := \033[0;31m
-NC := \033[0m # No Color
+# Use bash for command execution for its advanced features like arrays and functions.
+SHELL := /bin/bash
 
-help: ## Show this help message
-	@echo "$(BLUE)OpenCart Taiwan - Available Commands$(NC)"
-	@echo ""
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-15s$(NC) %s\n", $$1, $$2}'
-	@echo ""
+# --- Color Codes ---
+# Using the 8-bit (256-color) palette for maximum compatibility.
+OPENCART_COLOR := \033[38;5;45m
+COLOR_RESET := \033[0m
 
-build: ## Build Docker containers
-	@echo "$(BLUE)🔨 Building containers...$(NC)"
-	docker compose build --no-cache
+# --- Docker Compose Setup ---
+# Define the base docker compose command to avoid repetition.
+COMPOSE := docker compose --env-file=./docker/.env.docker
 
-up: ## Start all services
-	@echo "$(BLUE)🚀 Starting services...$(NC)"
-	docker compose up -d
-	@echo "$(GREEN)✅ Services started!$(NC)"
-	@echo "$(YELLOW)📍 OpenCart: http://localhost:8080$(NC)"
-	@echo "$(YELLOW)👤 Admin: http://localhost:8080/admin$(NC)"
-	@echo "$(YELLOW)💾 Adminer: http://localhost:8081$(NC)"
-	@echo "$(YELLOW)📧 MailHog: http://localhost:8025$(NC)"
+# --- Variable Handling for Options ---
+# For passing extra arguments to docker compose commands.
+# Example: make down options="-v --remove-orphans"
+options ?=
+# For optional profiles.
+# Example: make up profiles="adminer redis"
+profiles ?=
+PROFILES_FLAGS := $(foreach p,$(profiles),--profile $(p))
 
-down: ## Stop all services
-	@echo "$(BLUE)🛑 Stopping services...$(NC)"
-	docker compose down
-	@echo "$(GREEN)✅ Services stopped$(NC)"
-
-restart: down up ## Restart all services
-
-logs: ## Show logs (use 'make logs s=opencart' for specific service)
-	@if [ -z "$(s)" ]; then \
-		docker compose logs -f; \
-	else \
-		docker compose logs -f $(s); \
-	fi
-
-logs-opencart: ## Show OpenCart logs
-	docker compose logs -f opencart
-
-logs-mysql: ## Show MySQL logs
-	docker compose logs -f mysql
-
-status: ## Show service status
-	@echo "$(BLUE)📊 Service Status:$(NC)"
-	@docker compose ps
-
-clean: ## Remove containers and volumes (WARNING: deletes all data!)
-	@echo "$(RED)⚠️  This will delete all containers and volumes!$(NC)"
-	@read -p "Are you sure? [y/N] " -n 1 -r; \
-	echo; \
-	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-		echo "$(BLUE)🗑️  Cleaning...$(NC)"; \
-		docker compose down -v; \
-		echo "$(GREEN)✅ Cleanup complete$(NC)"; \
-	else \
-		echo "$(YELLOW)Cancelled$(NC)"; \
-	fi
-
-install: build up ## Fresh install (build + start)
-	@echo "$(GREEN)🎉 Installation complete!$(NC)"
-	@echo ""
-	@echo "$(BLUE)Access your OpenCart installation:$(NC)"
-	@echo "  Frontend: http://localhost:8080"
-	@echo "  Admin:    http://localhost:8080/admin"
-	@echo "  Username: admin"
-	@echo "  Password: admin123"
-	@echo ""
-	@echo "$(BLUE)Database Management:$(NC)"
-	@echo "  Adminer:  http://localhost:8081"
-	@echo "  Server:   mysql"
-	@echo "  Database: opencart_db"
-	@echo "  Username: opencart"
-	@echo "  Password: opencart_pass"
-
-reset: clean install ## Complete reset (clean + install)
-
-shell-opencart: ## Shell into OpenCart container
-	docker compose exec opencart bash
-
-shell-mysql: ## Shell into MySQL container  
-	docker compose exec mysql bash
-
-db-shell: ## MySQL CLI
-	docker compose exec mysql mysql -u opencart -popencart_pass opencart_db
-
-theme: ## Watch theme changes
-	@echo "$(BLUE)👀 Watching theme directory: theme/oc-astro/$(NC)"
-	@echo "$(YELLOW)Changes will be reflected immediately (no restart needed)$(NC)"
-	@echo "Press Ctrl+C to stop"
-	@while true; do \
-		inotifywait -r -e modify,create,delete theme/oc-astro/ 2>/dev/null || fswatch -o theme/oc-astro/ | read; \
-		echo "$(GREEN)✅ Theme updated$(NC)"; \
-	done
-
-backup-db: ## Backup database
-	@mkdir -p backups
-	@echo "$(BLUE)💾 Creating database backup...$(NC)"
-	docker compose exec -T mysql mysqldump -u opencart -popencart_pass opencart_db > backups/opencart_$(shell date +%Y%m%d_%H%M%S).sql
-	@echo "$(GREEN)✅ Backup created in backups/$(NC)"
-
-restore-db: ## Restore database (use 'make restore-db file=backup.sql')
-	@if [ -z "$(file)" ]; then \
-		echo "$(RED)❌ Please specify file: make restore-db file=backups/opencart_20250108.sql$(NC)"; \
+# --- Helper Functions ---
+# Check if a service is running
+define check_service_running
+	@if ! $(COMPOSE) ps --services --filter "status=running" | grep -q "^$(1)$$"; then \
+		echo "Error: Service '$(1)' is not running."; \
+		echo "Run 'make up' first or check 'make ps' for service status."; \
 		exit 1; \
 	fi
-	@echo "$(BLUE)📥 Restoring database from $(file)...$(NC)"
-	docker compose exec -T mysql mysql -u opencart -popencart_pass opencart_db < $(file)
-	@echo "$(GREEN)✅ Database restored$(NC)"
+endef
 
-health: ## Check service health
-	@echo "$(BLUE)🏥 Health Check:$(NC)"
-	@echo ""
-	@echo "$(YELLOW)OpenCart:$(NC)"
-	@curl -s -o /dev/null -w "  HTTP Status: %{http_code}\n" http://localhost:8080 || echo "  $(RED)❌ Not accessible$(NC)"
-	@echo ""
-	@echo "$(YELLOW)Adminer:$(NC)"
-	@curl -s -o /dev/null -w "  HTTP Status: %{http_code}\n" http://localhost:8081 || echo "  $(RED)❌ Not accessible$(NC)"
-	@echo ""
-	@echo "$(YELLOW)MailHog:$(NC)"
-	@curl -s -o /dev/null -w "  HTTP Status: %{http_code}\n" http://localhost:8025 || echo "  $(RED)❌ Not accessible$(NC)"
-	@echo ""
-	@echo "$(YELLOW)MySQL:$(NC)"
-	@docker compose exec mysql mysqladmin ping -h localhost --silent && echo "  $(GREEN)✅ Healthy$(NC)" || echo "  $(RED)❌ Not healthy$(NC)"
+# List of all known targets.
+KNOWN_TARGETS := help init build up down restart logs apache php mysql exec ps
 
-prune: ## Prune Docker system (free up space)
-	@echo "$(BLUE)🧹 Pruning Docker system...$(NC)"
-	docker system prune -af --volumes
-	@echo "$(GREEN)✅ System pruned$(NC)"
+# Phony targets are not files.
+.PHONY: $(KNOWN_TARGETS)
+
+# Default target to run when 'make' is called without arguments.
+.DEFAULT_GOAL := help
+
+help: ## Show this help message
+	@echo "OpenCart Docker Environment"
+	@echo "---------------------------"
+	@echo "Usage: make <target> [options=\"...\"] [profiles=\"...\"]"
+	@echo ""
+	@echo "Core Commands:"
+	@echo -e "  $(OPENCART_COLOR)make init$(COLOR_RESET)           - Initialize the project (copies .env.docker)"
+	@echo -e "  $(OPENCART_COLOR)make build$(COLOR_RESET)          - Build or rebuild Docker images"
+	@echo -e "  $(OPENCART_COLOR)make up$(COLOR_RESET)             - Start all services"
+	@echo -e "  $(OPENCART_COLOR)make down$(COLOR_RESET)           - Stop and remove all containers"
+	@echo -e "  $(OPENCART_COLOR)make restart$(COLOR_RESET)        - Restart all services"
+	@echo -e "  $(OPENCART_COLOR)make ps$(COLOR_RESET)             - Show status of all services"
+	@echo -e "  $(OPENCART_COLOR)make logs$(COLOR_RESET)           - Show logs from all running services"
+	@echo ""
+	@echo "Service Interaction:"
+	@echo -e "  $(OPENCART_COLOR)make php$(COLOR_RESET)            - Enter the PHP container (bash)"
+	@echo -e "  $(OPENCART_COLOR)make apache$(COLOR_RESET)         - Enter the Apache container (sh)"
+	@echo -e "  $(OPENCART_COLOR)make mysql$(COLOR_RESET)          - Enter the MySQL container (bash)"
+	@echo -e "  $(OPENCART_COLOR)make exec$(COLOR_RESET)           - Execute a command in a service"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make up profiles=\"adminer redis\""
+	@echo "  make down options=\"-v\""
+	@echo "  make build options=\"--no-cache\""
+	@echo "  make logs options=\"php\""
+	@echo "  make exec service=php command=\"composer --version\""
+	@echo ""
+	@echo "Links:"
+	@echo "  OpenCart:       https://www.opencart.com"
+	@echo "  Live Demo:      https://www.opencart.com/index.php?route=cms/demo"
+	@echo "  Documentation:  https://docs.opencart.com"
+	@echo "  Support Forums: https://forum.opencart.com"
+	@echo "  GitHub:         https://github.com/opencart/opencart"
+
+# --- Project Lifecycle Targets ---
+init: ## Initialize the project (copies .env.docker)
+	@if [ ! -f ./docker/.env.docker ]; then \
+		echo "Copying docker/.env.docker.example to docker/.env.docker..."; \
+		cp docker/.env.docker.example docker/.env.docker; \
+	else \
+		echo "docker/.env.docker already exists. Skipping."; \
+	fi
+
+build: ## Build images. Use 'options' for flags (e.g., --no-cache)
+	$(COMPOSE) build $(options)
+
+up: ## Start services. Use 'profiles' and 'options'
+	@echo "Starting services..."
+	$(COMPOSE) $(PROFILES_FLAGS) up -d $(options)
+
+down: ## Stop containers. Use 'options' for flags (e.g., -v)
+	@echo "Stopping services..."
+	$(COMPOSE) down $(options)
+
+restart: ## Restart services. Passes 'options' and 'profiles'
+	@$(MAKE) down options="$(options)"
+	@$(MAKE) up profiles="$(profiles)" options="$(options)"
+
+# --- Service Status Commands ---
+ps: ## Show status of all services
+	@$(COMPOSE) ps
+
+logs: ## Show logs. Use 'options' to specify services (e.g., php)
+	@# If specific service provided, check if it exists
+	@if [ -n "$(options)" ] && ! echo "$(options)" | grep -q "^-"; then \
+		if ! $(COMPOSE) config --services | grep -q "^$(options)$$"; then \
+			echo "Error: Service '$(options)' not found."; \
+			echo "Available services:"; \
+			$(COMPOSE) config --services | sed 's/^/  - /'; \
+			exit 1; \
+		fi; \
+	fi
+	$(COMPOSE) logs -f $(options)
+
+# --- Service Interaction Targets ---
+exec: ## Execute a command. Usage: make exec service=<name> command="<command>"
+	@if [ -z "$(service)" ] || [ -z "$(command)" ]; then \
+		echo "Error: 'service' and 'command' variables are required."; \
+		echo "Usage: make exec service=<name> command=\"<command>\""; \
+		exit 1; \
+	fi
+	@# Validate service exists in docker-compose
+	@if ! $(COMPOSE) config --services | grep -q "^$(service)$$"; then \
+		echo "Error: Service '$(service)' not found in docker-compose configuration."; \
+		echo "Available services:"; \
+		$(COMPOSE) config --services | sed 's/^/  - /'; \
+		exit 1; \
+	fi
+	$(call check_service_running,$(service))
+	@# Use -- to prevent command injection
+	@$(COMPOSE) exec $(service) sh -c "$(command)"
+
+apache: ## Enter the Apache container (sh)
+	$(call check_service_running,apache)
+	$(COMPOSE) exec apache sh
+
+php: ## Enter the PHP container (bash)
+	$(call check_service_running,php)
+	@$(COMPOSE) exec --user www-data --workdir /var/www/upload php bash
+
+mysql: ## Enter the MySQL container (bash)
+	$(call check_service_running,mysql)
+	@$(COMPOSE) exec mysql bash

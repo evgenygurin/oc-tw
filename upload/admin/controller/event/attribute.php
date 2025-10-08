@@ -20,7 +20,7 @@ class Attribute extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, mixed &$output): void {
+	public function index(string &$route, array &$args, mixed mixed &$output): void {
 		$task_data = [
 			'code'   => 'attribute',
 			'action' => 'task/catalog/attribute',

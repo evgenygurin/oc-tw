@@ -797,4 +797,24 @@ class User extends \Opencart\System\Engine\Model {
 	public function deleteTokenByCode(string $code): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "user_token` WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
+
+	/**
+	 * Edit Status
+	 *
+	 * Updates the status of a user record.
+	 *
+	 * @param int  $user_id primary key of the user record
+	 * @param bool $status  status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('user/user');
+	 *
+	 * $this->model_user_user->editStatus($user_id, true);
+	 */
+	public function editStatus(int $user_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "user` SET `status` = '" . (int)$status . "' WHERE `user_id` = '" . (int)$user_id . "'");
+	}
 }

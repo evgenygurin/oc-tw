@@ -21,7 +21,7 @@ class Cli extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return \Opencart\System\Engine\Action|null
 	 */
-	public function index() {
+	public function index(): ?\Opencart\System\Engine\Action {
 		if (php_sapi_name() == 'cli') {
 			if (isset($this->request->server['argv'])) {
 				$argv = (array)$this->request->server['argv'];
@@ -51,7 +51,7 @@ class Cli extends \Opencart\System\Engine\Controller {
 		return null;
 	}
 
-	public function start() {
+	public function start(): void {
 		$this->load->model('setting/task');
 
 		$task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
@@ -108,12 +108,12 @@ class Cli extends \Opencart\System\Engine\Controller {
 		}
 	}
 
-	public function usage() {
+	public function usage(): void {
 		$results = oc_directory_read(DIR_CATALOG);
 
 	}
 
-	public function close() {
+	public function close(): void {
 
 	}
 }

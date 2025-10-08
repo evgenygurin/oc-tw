@@ -13,7 +13,7 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -44,7 +44,7 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -55,7 +55,7 @@ class Country extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('localisation/language');
 
-		$language_info = $this->model_localisation_language->getLanguage($args['language_id']);
+		$language_info = $this->model_localisation_language->getLanguage((int)$args['language_id']);
 
 		if (!$language_info) {
 			return ['error' => $this->language->get('error_language')];

@@ -459,4 +459,26 @@ class Zone extends \Opencart\System\Engine\Model {
 
 		return $query->rows;
 	}
+
+	/**
+	 * Edit Status
+	 *
+	 * Updates the status of a zone record.
+	 *
+	 * @param int  $zone_id primary key of the zone record
+	 * @param bool $status  status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('localisation/zone');
+	 *
+	 * $this->model_localisation_zone->editStatus($zone_id, true);
+	 */
+	public function editStatus(int $zone_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "zone` SET `status` = '" . (int)$status . "' WHERE `zone_id` = '" . (int)$zone_id . "'");
+		
+		$this->cache->delete('zone');
+	}
 }

@@ -27,7 +27,7 @@ class Debug extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function after(string $route, array &$args, &$output): void {
+	public function after(string $route, array &$args, mixed &$output): void {
 		if (isset($this->session->data['debug'][$route])) {
 			$log_data = [
 				'route' => $route,

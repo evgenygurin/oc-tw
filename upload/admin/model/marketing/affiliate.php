@@ -424,4 +424,24 @@ class Affiliate extends \Opencart\System\Engine\Model {
 
 		return (int)$query->row['total'];
 	}
+
+	/**
+	 * Edit Status
+	 *
+	 * Updates the status of an affiliate record.
+	 *
+	 * @param int  $customer_id primary key of the customer record
+	 * @param bool $status      status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('marketing/affiliate');
+	 *
+	 * $this->model_marketing_affiliate->editStatus($customer_id, true);
+	 */
+	public function editStatus(int $customer_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer_affiliate` SET `status` = '" . (int)$status . "' WHERE `customer_id` = '" . (int)$customer_id . "'");
+	}
 }

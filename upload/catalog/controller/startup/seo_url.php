@@ -15,9 +15,9 @@ class SeoUrl extends \Opencart\System\Engine\Controller {
 	/**
 	 * Index
 	 *
-	 * @return null
+	 * @return void
 	 */
-	public function index() {
+	public function index(): void {
 		// Add rewrite to URL class
 		if ($this->config->get('config_seo_url')) {
 			$this->load->model('design/seo_url');
@@ -34,7 +34,7 @@ class SeoUrl extends \Opencart\System\Engine\Controller {
 
 			// Decode URL
 			if (!isset($this->request->get['_route_'])) {
-				return null;
+				return;
 			}
 
 			$parts = explode('/', trim($this->request->get['_route_'], '/'));

@@ -320,4 +320,24 @@ class Api extends \Opencart\System\Engine\Model {
 
 		return (int)$query->row['total'];
 	}
+
+	/**
+	 * Edit Status
+	 *
+	 * Updates the status of an API record.
+	 *
+	 * @param int  $api_id primary key of the API record
+	 * @param bool $status status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('user/api');
+	 *
+	 * $this->model_user_api->editStatus($api_id, true);
+	 */
+	public function editStatus(int $api_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "api` SET `status` = '" . (int)$status . "' WHERE `api_id` = '" . (int)$api_id . "'");
+	}
 }

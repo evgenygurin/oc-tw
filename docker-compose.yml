@@ -2,12 +2,11 @@ services:
   # OpenCart Application (Apache + PHP 8.2)
   opencart:
     container_name: oc-tw-opencart
-    build: tools
-    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    build:
+      context: .
     ports:
       - "${HTTP_PORT:-8080}:80"
     volumes:
-      - ./upload:/var/www/html
       - ./storage_data:/var/www/storage_data
       - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
     depends_on:

@@ -97,7 +97,7 @@ class Startup extends \Opencart\System\Engine\Controller {
 			'total' => $startup_total,
 			'page'  => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'callback' => function(int $page) use ($url): string {
+			'callback' => function(int $page): string {
 				return $this->url->link('marketplace/startup.list', 'user_token=' . $this->session->data['user_token'] . ($page ? '&page=' . $page : ''));
 			}
 		]);

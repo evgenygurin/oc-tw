@@ -106,6 +106,26 @@ class Affiliate extends \Opencart\System\Engine\Model {
 	}
 
 	/**
+	 * Edit Status
+	 *
+	 * Edit affiliate status in the database.
+	 *
+	 * @param int  $customer_id primary key of the customer record
+	 * @param bool $status      status
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('marketing/affiliate');
+	 *
+	 * $this->model_marketing_affiliate->editStatus($customer_id, $status);
+	 */
+	public function editStatus(int $customer_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer_affiliate` SET `status` = '" . (bool)$status . "' WHERE `customer_id` = '" . (int)$customer_id . "'");
+	}
+
+	/**
 	 * Delete Affiliate
 	 *
 	 * Delete customer affiliate in the database.

@@ -871,7 +871,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 			// 1. Create a store instance using loader class to call controllers, models, views, libraries.
 			$this->load->model('setting/store');
 
-			$store = $this->model_setting_store->createStoreInstance($store_id, $language, $currency);
+			$store = $this->model_setting_store->createStoreInstance($store_id, $language);
 
 			// Set the store ID.
 			$store->config->set('config_store_id', $store_id);

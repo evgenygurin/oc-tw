@@ -20,7 +20,7 @@ class Language extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, mixed &$output): void {
 		$task_data = [
 			'code'   => 'language',
 			'action' => 'task/catalog/language',
@@ -93,7 +93,7 @@ class Language extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function after(string &$route, array &$args, &$output): void {
+	public function after(string &$route, array &$args, mixed &$output): void {
 		$data = json_decode($this->language->get('backup'), true);
 
 		if (is_array($data)) {

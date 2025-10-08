@@ -11,9 +11,9 @@ class StockStatus extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate stock status task list.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/stock_status');
@@ -42,9 +42,9 @@ class StockStatus extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON stock status list file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/admin/stock_status');
@@ -63,7 +63,7 @@ class StockStatus extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('localisation/stock_status');
 
-		$stock_statuses = $this->model_localisation_stock_status->getStockStatuses(['filter_language_id' => $language_info['language_id']]);
+		$stock_statuses = $this->model_localisation_stock_status->getStockStatuses(['filter_language_id' => (int)$language_info['language_id']]);
 
 		$base = DIR_APPLICATION . 'view/data/';
 		$directory = $language_info['code'] . '/localisation/';
@@ -85,9 +85,9 @@ class StockStatus extends \Opencart\System\Engine\Controller {
 	 *
 	 * Delete generated JSON stock status files.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/stock_status');

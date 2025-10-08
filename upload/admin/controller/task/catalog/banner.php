@@ -13,7 +13,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/catalog/banner');
@@ -53,7 +53,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/catalog/banner');
@@ -115,7 +115,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function banner(array $args = []): array {
 		$this->load->language('task/catalog/banner');
@@ -156,7 +156,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 			return ['error' => sprintf($this->language->get('error_directory'), $directory)];
 		}
 
-		if (!file_put_contents($base . $directory . $filename, json_encode($banner_info + ['banner_image' => $this->model_design_banner->getImageDescription($banner_info['banner_id'], $language_info['language_id'])]))) {
+		if (!file_put_contents($base . $directory . $filename, json_encode($banner_info + ['banner_image' => $this->model_design_banner->getImagesBy($banner_info['banner_id'], $language_info['language_id'])]))) {
 			return ['error' => sprintf($this->language->get('error_file'), $directory . $filename)];
 		}
 
@@ -170,7 +170,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/catalog/language');

@@ -13,9 +13,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate subscription task list.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/subscription');
@@ -46,6 +46,15 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		return ['success' => $this->language->get('text_success')];
 	}
 
+	/**
+	 * Confirm
+	 *
+	 * Confirm subscription payment.
+	 *
+	 * @param array<string, mixed> $args
+	 *
+	 * @return array<string, string>
+	 */
 	public function confirm(array $args = []): array {
 		$this->load->language('task/admin/subscription');
 
@@ -156,7 +165,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 
 		// Create new instance of a store
-		$store = $this->model_setting_store->createStoreInstance($subscription_info['store_id'], $subscription_info['language'], $subscription_info['currency_code']);
+		$store = $this->model_setting_store->createStoreInstance($subscription_info['store_id'], $subscription_info['language']);
 
 		// Language
 		$store->request->get['language'] = $language_info['code'];
@@ -281,7 +290,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		$store->model_checkout_subscription->addHistory($subscription_info['subscription_id'], $this->config->get('config_subscription_failed_status_id'), $this->language->get('text_log'));
 
 		// Log errors
-		$store->model_checkout_subscription->addLog($subscription_info['subscription_id'], $key, $value);
+		$store->model_checkout_subscription->addLog($subscription_info['subscription_id'], 'payment_error', 'Payment processing failed');
 
 
 		// 7. Clean up data by clearing cart.

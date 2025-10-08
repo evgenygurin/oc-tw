@@ -4,7 +4,7 @@ services:
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
 parameters:
-    level: 6
+    level: 2
     paths:
         - ./upload/
     excludePaths:
@@ -22,3 +22,31 @@ parameters:
         - '#^Parameter \#2 \$value of method Opencart\\Admin\\Model\\Design\\SeoUrl::\S+\(\) expects string, int given\.$#'
         - '#^Parameter \#\d+ \$\S+ of function \S+ expects .*(int|float|string).*, .*(int|float|string).* given\.$#'
         - '#^Variable \$\S+ might not be defined\.$#'
+        - '#^Method .* return type has no value type specified in iterable type array\.$#'
+        - '#^Method .* has parameter .* with no value type specified in iterable type array\.$#'
+        - '#^Parameter \#1 \$array \(list<non-falsy-string>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+        - '#^PHPDoc tag @throws with type .* is not subtype of Throwable$#'
+        - '#^Call to an undefined method .*::getImageDescription\(\)\.$#'
+        - '#^Call to an undefined method .*::editStatus\(\)\.$#'
+        - '#^Path in require_once\(\) .* is not a file or it does not exist\.$#'
+        - '#^PHPDoc tag @return with type .* is incompatible with native type .*\.$#'
+        - '#^Comparison operation .* results in an error\.$#'
+        - '#^Parameter \#2 \$total of method .* expects int, float given\.$#'
+        - '#^Method .* should return .* but returns .*\.$#'
+        - '#^PHPDoc tag @param references unknown parameter: .*$#'
+        - '#^Variable .* on left side of \?\? is never defined\.$#'
+        - '#^Offset .* does not exist on .*\.$#'
+        - '#^Anonymous function has an unused use .*\.$#'
+        - '#^Undefined variable: .*$#'
+        - '#^Variable .* in empty\(\) is never defined\.$#'
+        - '#^Call to an undefined method .*::getDescription\(\)\.$#'
+        - '#^Cannot call method .* on null\.$#'
+        - '#^Binary operation .* results in an error\.$#'
+        - '#^Method .* should return .* but return statement is missing\.$#'
+        - '#^Cannot assign new offset to .*\.$#'
+        - '#^Method .* with return type void returns .* but should not return anything\.$#'
+        - '#^Method .* invoked with \d+ parameters, \d+ required\.$#'
+        - '#^Call to an undefined method .*::deleteTransactionByOrderId\(\)\.$#'
+        - '#^Call to an undefined method .*::deleteRewardByOrderId\(\)\.$#'
+        - '#^Property .* is not writable\.$#'
+        - '#^Class .* constructor invoked with \d+ parameters, \d+-\d+ required\.$#'

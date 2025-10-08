@@ -20,7 +20,7 @@ class Article extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, mixed mixed &$output): void {
+	public function index(string &$route, array &$args, mixed &$output): void {
 		oc_directory_delete(DIR_OPENCART . 'shop/cms/');
 	}
 }

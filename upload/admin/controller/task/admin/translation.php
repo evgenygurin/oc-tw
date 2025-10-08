@@ -11,9 +11,9 @@ class Translation extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate translation task list.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/translation');
@@ -87,9 +87,9 @@ class Translation extends \Opencart\System\Engine\Controller {
 	 *
 	 * Writes the translation files.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function write(array $args = []): array {
 		$this->load->language('task/admin/translation');
@@ -151,9 +151,9 @@ class Translation extends \Opencart\System\Engine\Controller {
 	 *
 	 * Deletes generated translation data.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/translation');

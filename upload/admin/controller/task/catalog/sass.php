@@ -15,7 +15,7 @@ class Sass extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return array
 	 *
-	 * @throws \Exception\ScssPhp\ScssPhp\Exception\SassException
+	 * @throws \ScssPhp\ScssPhp\Exception\SassException
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/catalog/sass');

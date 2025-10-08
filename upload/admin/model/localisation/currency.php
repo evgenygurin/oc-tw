@@ -230,6 +230,28 @@ class Currency extends \Opencart\System\Engine\Model {
 	}
 
 	/**
+	 * Edit Status
+	 *
+	 * Edit currency status in the database.
+	 *
+	 * @param int  $currency_id primary key of the currency record
+	 * @param bool $status      status
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('localisation/currency');
+	 *
+	 * $this->model_localisation_currency->editStatus($currency_id, $status);
+	 */
+	public function editStatus(int $currency_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `status` = '" . (bool)$status . "' WHERE `currency_id` = '" . (int)$currency_id . "'");
+
+		$this->cache->delete('currency');
+	}
+
+	/**
 	 * Get Total Currencies
 	 *
 	 * Get the total number of currency records in the database.

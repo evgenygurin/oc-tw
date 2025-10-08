@@ -11,9 +11,9 @@ class Store extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON store list file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/store');
@@ -48,9 +48,9 @@ class Store extends \Opencart\System\Engine\Controller {
 	 *
 	 * Delete generated JSON store files.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/store');

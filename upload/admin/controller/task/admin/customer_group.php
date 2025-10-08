@@ -11,9 +11,9 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate customer group task list.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
      */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
@@ -42,9 +42,9 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON customer group list file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
@@ -55,7 +55,7 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('localisation/language');
 
-		$language_info = $this->model_localisation_language->getLanguage($args['language_id']);
+		$language_info = $this->model_localisation_language->getLanguage((int)$args['language_id']);
 
 		if (!$language_info) {
 			return ['error' => $this->language->get('error_language')];
@@ -65,7 +65,7 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('customer/customer_group');
 
-		$customer_groups = $this->model_customer_customer_group->getCustomerGroups(['filter_language_id' => $language_info['language_id']]);
+		$customer_groups = $this->model_customer_customer_group->getCustomerGroups(['filter_language_id' => (int)$language_info['language_id']]);
 
 		foreach ($customer_groups as $customer_group) {
 			// Add a task for generating the country info data
@@ -74,7 +74,7 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 				'action' => 'task/admin/customer_group.info',
 				'args'   => [
 					'customer_group_id' => $customer_group['customer_group_id'],
-					'language_id'       => $language_info['language_id']
+					'language_id'       => (int)$language_info['language_id']
 				]
 			];
 
@@ -101,9 +101,9 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON customer group information file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function info(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
@@ -135,7 +135,7 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 			return ['error' => $this->language->get('error_customer_group')];
 		}
 
-		$description_info = $this->model_customer_customer_group->getDescription($customer_group_info['customer_group_id'], $language_info['language_id']);
+		$description_info = $this->model_customer_customer_group->getDescription((int)$customer_group_info['customer_group_id'], (int)$language_info['language_id']);
 
 		if (!$description_info) {
 			return ['error' => $this->language->get('error_description')];
@@ -143,7 +143,7 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 
 		$filter_data = [
 			'filter_customer_group_id' => $customer_group_info['customer_group_id'],
-			'filter_language_id'       => $language_info['language_id'],
+			'filter_language_id'       => (int)$language_info['language_id'],
 			'filter_Status'            => true
 		];
 
@@ -171,9 +171,9 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	 *
 	 * Delete generated JSON customer group files.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/customer_group');

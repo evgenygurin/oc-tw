@@ -11,9 +11,9 @@ class Information extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate information task list.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/catalog/information');
@@ -51,9 +51,9 @@ class Information extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON information list file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/catalog/information');
@@ -88,8 +88,8 @@ class Information extends \Opencart\System\Engine\Controller {
 		}
 
 		$filter_data = [
-			'filter_store_id'    => $store_info['store_id'],
-			'filter_language_id' => $language_info['language_id'],
+			'filter_store_id'    => (int)$store_info['store_id'],
+			'filter_language_id' => (int)$language_info['language_id'],
 			'status'             => 1
 		];
 
@@ -104,8 +104,8 @@ class Information extends \Opencart\System\Engine\Controller {
 				'args'   => [
 					'route'          => 'product/manufacturer',
 					'information_id' => $information['information_id'],
-					'store_id'       => $store_info['store_id'],
-					'language_id'    => $language_info['language_id']
+					'store_id'       => (int)$store_info['store_id'],
+					'language_id'    => (int)$language_info['language_id']
 				]
 			];
 
@@ -140,9 +140,9 @@ class Information extends \Opencart\System\Engine\Controller {
 	 *
 	 * Delete generated JSON information files.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/catalog/information');

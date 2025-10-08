@@ -11,9 +11,9 @@ class Language extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate language list file.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/language');
@@ -44,9 +44,9 @@ class Language extends \Opencart\System\Engine\Controller {
 	 *
 	 * Clears generated language data.
 	 *
-	 * @param array<string, string> $args
+	 * @param array<string, mixed> $args
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/language');

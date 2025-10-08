@@ -692,4 +692,26 @@ class Language extends \Opencart\System\Engine\Model {
 
 		return (int)$query->row['total'];
 	}
+
+	/**
+	 * Edit Status
+	 *
+	 * Updates the status of a language record.
+	 *
+	 * @param int  $language_id primary key of the language record
+	 * @param bool $status      status to set
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('localisation/language');
+	 *
+	 * $this->model_localisation_language->editStatus($language_id, true);
+	 */
+	public function editStatus(int $language_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "language` SET `status` = '" . (int)$status . "' WHERE `language_id` = '" . (int)$language_id . "'");
+		
+		$this->cache->delete('language');
+	}
 }

@@ -13,7 +13,7 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -44,7 +44,7 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param array<string, string> $args
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/admin/country');

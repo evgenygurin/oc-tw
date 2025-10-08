@@ -42,6 +42,14 @@ class Url {
 	 * @var string
 	 */
 	private string $fragment;
+	/**
+	 * @var string|null
+	 */
+	private ?string $user = null;
+	/**
+	 * @var string|null
+	 */
+	private ?string $pass = null;
 
 	/**
 	 * @var array<int, object>

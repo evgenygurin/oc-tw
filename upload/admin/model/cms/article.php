@@ -920,4 +920,24 @@ class Article extends \Opencart\System\Engine\Model {
 
 		return (int)$query->row['total'];
 	}
+
+	/**
+	 * Edit Article Status
+	 *
+	 * Update the status of an article.
+	 *
+	 * @param int  $article_id article ID
+	 * @param bool $status     status value
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('cms/article');
+	 *
+	 * $this->model_cms_article->editStatus($article_id, true);
+	 */
+	public function editStatus(int $article_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "article` SET `status` = '" . (bool)$status . "' WHERE `article_id` = '" . (int)$article_id . "'");
+	}
 }

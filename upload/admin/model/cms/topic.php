@@ -625,4 +625,24 @@ class Topic extends \Opencart\System\Engine\Model {
 
 		return (int)$query->row['total'];
 	}
+
+	/**
+	 * Edit Topic Status
+	 *
+	 * Update the status of a topic.
+	 *
+	 * @param int  $topic_id topic ID
+	 * @param bool $status   status value
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('cms/topic');
+	 *
+	 * $this->model_cms_topic->editStatus($topic_id, true);
+	 */
+	public function editStatus(int $topic_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "topic` SET `status` = '" . (bool)$status . "' WHERE `topic_id` = '" . (int)$topic_id . "'");
+	}
 }

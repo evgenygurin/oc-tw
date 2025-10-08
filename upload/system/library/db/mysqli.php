@@ -148,31 +148,6 @@ class MySQLi {
 				unset($data);
 
 				return $result;
-
-				return new class($query) {
-					private $query;
-					private $num_rows = 0;
-					private $row = [];
-					private $rows = [];
-
-					public function __construct(\mysqli_result $result) {
-						$this->query = $result;
-
-						$this->num_rows = mysqli_num_rows($result);
-					}
-
-					public function fetch() {
-						return $this->query->fetch_assoc();
-					}
-
-					public function fetchAll() {
-						return $this->query->fetch_all();
-					}
-
-					public function __destruct() {
-						$this->query->free();
-					}
-				};
 			} else {
 				return true;
 			}

@@ -1500,4 +1500,24 @@ class Customer extends \Opencart\System\Engine\Model {
 	public function deleteTokenByCode(string $code): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_token` WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
+
+	/**
+	 * Edit Customer Status
+	 *
+	 * Update the status of a customer.
+	 *
+	 * @param int  $customer_id customer ID
+	 * @param bool $status      status value
+	 *
+	 * @return void
+	 *
+	 * @example
+	 *
+	 * $this->load->model('customer/customer');
+	 *
+	 * $this->model_customer_customer->editStatus($customer_id, true);
+	 */
+	public function editStatus(int $customer_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET `status` = '" . (bool)$status . "' WHERE `customer_id` = '" . (int)$customer_id . "'");
+	}
 }

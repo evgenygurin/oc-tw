@@ -27,8 +27,14 @@ RUN a2enmod rewrite
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy OpenCart files
-COPY . /var/www/html/
+# Download and install OpenCart
+RUN curl -L https://github.com/opencart/opencart/releases/download/4.0.2.3/opencart-4.0.2.3.zip -o opencart.zip \
+    && unzip opencart.zip \
+    && cp -r opencart-4.0.2.3/upload/* /var/www/html/ \
+    && rm -rf opencart.zip opencart-4.0.2.3
+
+# Create temporary directory for project metadata (optional)
+RUN mkdir -p /tmp/project-files
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

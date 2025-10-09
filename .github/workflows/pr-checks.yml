@@ -84,8 +84,8 @@ jobs:
             }
 
             // Check for WHY section
-            if (!body.includes('WHY:')) {
-              core.setFailed('PR must explain WHY the change was made.');
+            if (!body.includes('**WHY:**')) {
+              core.setFailed('PR must explain WHY the change was made. Expected format: **WHY:** followed by explanation.');
               return;
             }
 

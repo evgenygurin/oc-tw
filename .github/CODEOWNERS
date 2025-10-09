@@ -1,0 +1,159 @@
+# Code Owners for OpenCart E-commerce Platform
+# This file defines who should review specific parts of the codebase
+# More specific patterns override less specific ones
+
+# Global fallback - all files
+* @opencart/core-team
+
+# Core OpenCart System
+/upload/system/ @opencart/core-team @opencart/backend-team
+/upload/system/engine/ @opencart/core-team
+/upload/system/library/ @opencart/core-team @opencart/backend-team
+
+# Admin Panel (Backend)
+/upload/admin/ @opencart/backend-team
+/upload/admin/controller/ @opencart/backend-team
+/upload/admin/model/ @opencart/backend-team @opencart/database-team
+/upload/admin/view/ @opencart/backend-team @opencart/frontend-team
+
+# Customer Frontend (Catalog)
+/upload/catalog/ @opencart/frontend-team
+/upload/catalog/controller/ @opencart/frontend-team @opencart/backend-team
+/upload/catalog/model/ @opencart/frontend-team @opencart/database-team
+/upload/catalog/view/ @opencart/frontend-team @opencart/ui-team
+
+# Extensions and Modules
+/upload/extension/ @opencart/extension-team @opencart/backend-team
+
+# Configuration Files
+/upload/config-dist.php @opencart/core-team @opencart/devops-team
+/upload/admin/config-dist.php @opencart/core-team @opencart/devops-team
+
+# Installation System
+/upload/install/ @opencart/core-team @opencart/devops-team
+
+# Database and SQL
+**/*.sql @opencart/database-team @opencart/core-team
+/upload/install/opencart-*.sql @opencart/database-team @opencart/core-team
+
+# Docker Configuration
+/docker/ @opencart/devops-team
+/Dockerfile* @opencart/devops-team
+/docker-compose*.yml @opencart/devops-team
+/Makefile @opencart/devops-team
+
+# CI/CD and GitHub Configuration
+/.github/ @opencart/devops-team @opencart/core-team
+/.github/workflows/ @opencart/devops-team
+/.github/ISSUE_TEMPLATE/ @opencart/community-team @opencart/core-team
+/.github/pull_request_template.md @opencart/community-team @opencart/core-team
+/.github/codegen.yml @opencart/devops-team @opencart/ai-team
+
+# Documentation
+*.md @opencart/documentation-team @opencart/community-team
+/docs/ @opencart/documentation-team
+/README*.md @opencart/documentation-team @opencart/core-team
+/CHANGELOG.md @opencart/core-team @opencart/documentation-team
+/CONTRIBUTING.md @opencart/community-team @opencart/documentation-team
+
+# Development Tools and Configuration
+/tools/ @opencart/devops-team @opencart/core-team
+/phpstan.neon @opencart/core-team @opencart/quality-team
+/composer.json @opencart/core-team @opencart/devops-team
+/composer.lock @opencart/core-team @opencart/devops-team
+
+# Frontend Assets and Themes
+/upload/catalog/view/theme/ @opencart/frontend-team @opencart/ui-team
+/upload/admin/view/stylesheet/ @opencart/frontend-team @opencart/ui-team
+/upload/admin/view/javascript/ @opencart/frontend-team @opencart/ui-team
+**/*.css @opencart/frontend-team @opencart/ui-team
+**/*.scss @opencart/frontend-team @opencart/ui-team
+**/*.js @opencart/frontend-team
+**/*.twig @opencart/frontend-team @opencart/ui-team
+
+# Language Files and Internationalization
+/upload/admin/language/ @opencart/i18n-team @opencart/backend-team
+/upload/catalog/language/ @opencart/i18n-team @opencart/frontend-team
+/upload/install/language/ @opencart/i18n-team @opencart/core-team
+**/*language*.php @opencart/i18n-team
+
+# Images and Media
+/upload/image/ @opencart/ui-team @opencart/frontend-team
+**/*.png @opencart/ui-team
+**/*.jpg @opencart/ui-team
+**/*.jpeg @opencart/ui-team
+**/*.gif @opencart/ui-team
+**/*.svg @opencart/ui-team
+
+# Security-sensitive Files
+/upload/system/library/encryption.php @opencart/security-team @opencart/core-team
+/upload/system/library/session.php @opencart/security-team @opencart/core-team
+/upload/admin/controller/user/ @opencart/security-team @opencart/backend-team
+/upload/catalog/controller/account/ @opencart/security-team @opencart/frontend-team
+**/*auth*.php @opencart/security-team
+**/*login*.php @opencart/security-team
+**/*password*.php @opencart/security-team
+**/*security*.php @opencart/security-team
+
+# Payment and Financial Components
+/upload/admin/controller/sale/ @opencart/payment-team @opencart/security-team
+/upload/catalog/controller/checkout/ @opencart/payment-team @opencart/security-team
+/upload/extension/opencart/catalog/controller/payment/ @opencart/payment-team @opencart/security-team
+**/*payment*.php @opencart/payment-team @opencart/security-team
+**/*checkout*.php @opencart/payment-team @opencart/security-team
+
+# API Components
+/upload/admin/controller/api/ @opencart/api-team @opencart/backend-team
+/upload/catalog/controller/api/ @opencart/api-team @opencart/frontend-team
+**/*api*.php @opencart/api-team
+**/*rest*.php @opencart/api-team
+
+# Performance-critical Components
+/upload/system/library/cache/ @opencart/performance-team @opencart/core-team
+/upload/system/library/image.php @opencart/performance-team @opencart/core-team
+**/*cache*.php @opencart/performance-team
+**/*optimization*.php @opencart/performance-team
+
+# Testing Files
+/tests/ @opencart/quality-team @opencart/core-team
+**/*test*.php @opencart/quality-team
+**/*.test.* @opencart/quality-team
+
+# Build and Release Files
+/buildspec.yml @opencart/devops-team @opencart/release-team
+/crowdin.yml @opencart/i18n-team @opencart/devops-team
+/.cursorrules @opencart/ai-team @opencart/devops-team
+
+# Specific High-impact Files (Require Multiple Approvals)
+/upload/system/startup.php @opencart/core-team @opencart/security-team
+/upload/system/framework.php @opencart/core-team @opencart/security-team
+/upload/index.php @opencart/core-team @opencart/security-team
+/upload/admin/index.php @opencart/core-team @opencart/security-team
+
+# Third-party Integrations
+/upload/system/storage/vendor/ @opencart/core-team @opencart/security-team
+
+# Environment and Deployment
+/.env* @opencart/devops-team @opencart/security-team
+/docker/.env* @opencart/devops-team @opencart/security-team
+
+# Team Definitions (GitHub Teams)
+# These teams should be created in your GitHub organization:
+#
+# @opencart/core-team - Core maintainers with full access
+# @opencart/backend-team - Backend/PHP developers
+# @opencart/frontend-team - Frontend developers
+# @opencart/ui-team - UI/UX designers and developers
+# @opencart/database-team - Database specialists
+# @opencart/devops-team - DevOps and infrastructure
+# @opencart/security-team - Security specialists
+# @opencart/performance-team - Performance optimization experts
+# @opencart/api-team - API developers
+# @opencart/payment-team - Payment system experts
+# @opencart/extension-team - Extension developers
+# @opencart/i18n-team - Internationalization team
+# @opencart/quality-team - QA and testing team
+# @opencart/documentation-team - Technical writers
+# @opencart/community-team - Community managers
+# @opencart/ai-team - AI/ML automation specialists
+# @opencart/release-team - Release management

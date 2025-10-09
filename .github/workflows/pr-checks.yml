@@ -29,13 +29,62 @@ jobs:
       - name: Start Docker services
         run: docker compose up -d
 
-      - name: Wait for services
-        run: sleep 30
-
-      - name: Check services health
+      - name: Wait for services to start
         run: |
+          echo "Waiting for services to initialize..."
+          sleep 60
+          
+          # Wait specifically for MariaDB to be healthy
+          echo "Waiting for MariaDB to be healthy..."
+          for i in {1..30}; do
+            if docker compose ps mariadb | grep -q "healthy"; then
+              echo "✅ MariaDB is healthy"
+              break
+            fi
+            echo "Waiting for MariaDB... ($i/30)"
+            sleep 5
+          done
+
+      - name: Check services status
+        run: |
+          echo "=== Docker Compose Services Status ==="
           docker compose ps
-          docker compose ps | grep -q "healthy" || exit 1
+          
+          echo -e "\n=== Checking individual service health ==="
+          
+          # Check MariaDB
+          if docker compose ps mariadb | grep -q "healthy"; then
+            echo "✅ MariaDB: healthy"
+          else
+            echo "❌ MariaDB: not healthy"
+            docker compose logs mariadb | tail -20
+            exit 1
+          fi
+          
+          # Check other services are running (don't require healthy status)
+          if docker compose ps opencart | grep -q "Up"; then
+            echo "✅ OpenCart: running"
+          else
+            echo "❌ OpenCart: not running"
+            docker compose logs opencart | tail -20
+            exit 1
+          fi
+          
+          if docker compose ps phpmyadmin | grep -q "Up"; then
+            echo "✅ phpMyAdmin: running"
+          else
+            echo "❌ phpMyAdmin: not running"
+            docker compose logs phpmyadmin | tail -20
+          fi
+          
+          if docker compose ps mailhog | grep -q "Up"; then
+            echo "✅ MailHog: running"
+          else
+            echo "❌ MailHog: not running"
+            docker compose logs mailhog | tail -20
+          fi
+          
+          echo -e "\n✅ Core services are operational"
 
       - name: Cleanup
         if: always()

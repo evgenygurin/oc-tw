@@ -1,0 +1,295 @@
+Note: Using configuration file /tmp/evgenygurin/oc-tw/phpstan.neon.
+::error file=upload/admin/controller/design/translation.php,line=14,col=0::PHPDoc tag @return with type array is incompatible with native type void.
+::error file=upload/admin/controller/event/article.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Article::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/attribute.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Attribute::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/attribute_group.php,line=23,col=0::Method Opencart\Admin\Controller\Event\AttributeGroup::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/banner.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Banner::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/category.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Category::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/country.php,line=27,col=0::Method Opencart\Admin\Controller\Event\Country::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/filter.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Filter::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/filter_group.php,line=23,col=0::Method Opencart\Admin\Controller\Event\FilterGroup::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/information.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Information::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/language.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Language::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/manufacturer.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Manufacturer::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/product.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Product::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/subscription_status.php,line=24,col=0::PHPDoc tag @param references unknown parameter: $args
+::error file=upload/admin/controller/event/subscription_status.php,line=24,col=0::PHPDoc tag @param references unknown parameter: $output
+::error file=upload/admin/controller/event/subscription_status.php,line=24,col=0::PHPDoc tag @param references unknown parameter: $route
+::error file=upload/admin/controller/event/topic.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Topic::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/event/translation.php,line=23,col=0::Method Opencart\Admin\Controller\Event\Translation::index() has parameter $output with no type specified.
+::error file=upload/admin/controller/localisation/currency.php,line=382,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Currency>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Currency>::editStatus().
+::error file=upload/admin/controller/localisation/currency.php,line=416,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Currency>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Currency>::editStatus().
+::error file=upload/admin/controller/localisation/language.php,line=360,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Language>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Language>::editStatus().
+::error file=upload/admin/controller/localisation/language.php,line=394,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Language>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Language>::editStatus().
+::error file=upload/admin/controller/localisation/zone.php,line=487,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Zone>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Zone>::editStatus().
+::error file=upload/admin/controller/localisation/zone.php,line=521,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Localisation\Zone>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Localisation\Zone>::editStatus().
+::error file=upload/admin/controller/marketing/affiliate.php,line=845,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Marketing\Affiliate>::editStatus().
+::error file=upload/admin/controller/marketing/affiliate.php,line=879,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Marketing\Affiliate>::editStatus().
+::error file=upload/admin/controller/marketing/coupon.php,line=479,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Marketing\Affiliate>::editStatus().
+::error file=upload/admin/controller/marketplace/startup.php,line=100,col=0::Anonymous function has an unused use $url.
+::error file=upload/admin/controller/sale/subscription.php,line=874,col=0::Method Opencart\Admin\Model\Setting\Store::createStoreInstance() invoked with 3 parameters, 0-2 required.
+::error file=upload/admin/controller/startup/cli.php,line=40,col=0::Class Opencart\System\Engine\Action constructor invoked with 2 parameters, 1 required.
+::error file=upload/admin/controller/startup/cli.php,line=42,col=0::Unreachable statement - code above always terminates.
+::error file=upload/admin/controller/startup/cli.php,line=45,col=0::Class Opencart\System\Engine\Action constructor invoked with 2 parameters, 1 required.
+::error file=upload/admin/controller/startup/cli.php,line=47,col=0::Unreachable statement - code above always terminates.
+::error file=upload/admin/controller/startup/cli.php,line=54,col=0::Method Opencart\Admin\Controller\Startup\Cli::start() has no return type specified.
+::error file=upload/admin/controller/startup/cli.php,line=111,col=0::Method Opencart\Admin\Controller\Startup\Cli::usage() has no return type specified.
+::error file=upload/admin/controller/startup/cli.php,line=116,col=0::Method Opencart\Admin\Controller\Startup\Cli::close() has no return type specified.
+::error file=upload/admin/controller/startup/sass.php,line=16,col=0::PHPDoc tag @throws with type Exception\ScssPhp\ScssPhp\Exception\SassException is not subtype of Throwable
+::error file=upload/admin/controller/startup/task.php,line=25,col=0::Method Opencart\Admin\Controller\Startup\Task::index() should return Opencart\System\Engine\Action|null but return statement is missing.
+::error file=upload/admin/controller/startup/task.php,line=28,col=0::Method Opencart\Admin\Controller\Startup\Task::start() has no return type specified.
+::error file=upload/admin/controller/startup/task.php,line=85,col=0::Method Opencart\Admin\Controller\Startup\Task::usage() has no return type specified.
+::error file=upload/admin/controller/startup/task.php,line=90,col=0::Method Opencart\Admin\Controller\Startup\Task::close() has no return type specified.
+::error file=upload/admin/controller/task/admin/country.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Country::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/country.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\Country::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/country.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/country.php,line=118,col=0::Method Opencart\Admin\Controller\Task\Admin\Country::info() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/country.php,line=187,col=0::Method Opencart\Admin\Controller\Task\Admin\Country::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/currency.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Currency::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/currency.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\Currency::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/currency.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/currency.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\Currency::refresh() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/currency.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\Currency::refresh() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/currency.php,line=126,col=0::Method Opencart\Admin\Controller\Task\Admin\Currency::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/customer_group.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\CustomerGroup::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/customer_group.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\CustomerGroup::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/customer_group.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/customer_group.php,line=108,col=0::Method Opencart\Admin\Controller\Task\Admin\CustomerGroup::info() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/customer_group.php,line=178,col=0::Method Opencart\Admin\Controller\Task\Admin\CustomerGroup::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/information.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Information::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/information.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Admin\Information::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/information.php,line=147,col=0::Method Opencart\Admin\Controller\Task\Admin\Information::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/language.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Language::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/language.php,line=51,col=0::Method Opencart\Admin\Controller\Task\Admin\Language::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/length_class.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\LengthClass::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/length_class.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\LengthClass::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/length_class.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/length_class.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\LengthClass::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/order_status.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\OrderStatus::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/order_status.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\OrderStatus::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/order_status.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/order_status.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\OrderStatus::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_action.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnAction::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_action.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnAction::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_action.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/return_action.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnAction::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_reason.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnReason::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_reason.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnReason::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_reason.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/return_reason.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnReason::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_status.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnStatus::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_status.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnStatus::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/return_status.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/return_status.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\ReturnStatus::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/sass.php,line=20,col=0::Method Opencart\Admin\Controller\Task\Admin\Sass::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/sass.php,line=20,col=0::PHPDoc tag @throws with type Exception\ScssPhp\ScssPhp\Exception\SassException is not subtype of Throwable
+::error file=upload/admin/controller/task/admin/sass.php,line=62,col=0::Method Opencart\Admin\Controller\Task\Admin\Sass::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/stock_status.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\StockStatus::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/stock_status.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\StockStatus::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/stock_status.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\StockStatus::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/store.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Store::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/store.php,line=55,col=0::Method Opencart\Admin\Controller\Task\Admin\Store::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription.php,line=20,col=0::Method Opencart\Admin\Controller\Task\Admin\Subscription::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\Subscription::confirm() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\Subscription::confirm() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription.php,line=159,col=0::Method Opencart\Admin\Model\Setting\Store::createStoreInstance() invoked with 3 parameters, 0-2 required.
+::error file=upload/admin/controller/task/admin/subscription.php,line=284,col=0::Undefined variable: $value
+::error file=upload/admin/controller/task/admin/subscription_status.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\SubscriptionStatus::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription_status.php,line=48,col=0::Method Opencart\Admin\Controller\Task\Admin\SubscriptionStatus::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/subscription_status.php,line=57,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/subscription_status.php,line=91,col=0::Method Opencart\Admin\Controller\Task\Admin\SubscriptionStatus::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/translation.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\Translation::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/translation.php,line=64,col=0::Parameter #1 $array (list<non-falsy-string>) to function array_filter does not contain falsy values, the array will always stay the same.
+::error file=upload/admin/controller/task/admin/translation.php,line=94,col=0::Method Opencart\Admin\Controller\Task\Admin\Translation::write() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/translation.php,line=158,col=0::Method Opencart\Admin\Controller\Task\Admin\Translation::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/weight_class.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Admin\WeightClass::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/weight_class.php,line=49,col=0::Method Opencart\Admin\Controller\Task\Admin\WeightClass::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/admin/weight_class.php,line=58,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/admin/weight_class.php,line=92,col=0::Method Opencart\Admin\Controller\Task\Admin\WeightClass::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/banner.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Banner::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/banner.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\Banner::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/banner.php,line=120,col=0::Method Opencart\Admin\Controller\Task\Catalog\Banner::banner() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/banner.php,line=159,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Design\Banner>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Design\Banner>::getImageDescription().
+::error file=upload/admin/controller/task/catalog/banner.php,line=175,col=0::Method Opencart\Admin\Controller\Task\Catalog\Banner::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/country.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Country::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/country.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\Country::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/country.php,line=66,col=0::Parameter #1 $store_id of method Opencart\Admin\Model\Setting\Store::getStore() expects int, string given.
+::error file=upload/admin/controller/task/catalog/country.php,line=75,col=0::Parameter #1 $language_id of method Opencart\Admin\Model\Localisation\Language::getLanguage() expects int, string given.
+::error file=upload/admin/controller/task/catalog/country.php,line=137,col=0::Method Opencart\Admin\Controller\Task\Catalog\Country::info() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/country.php,line=226,col=0::Method Opencart\Admin\Controller\Task\Catalog\Country::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/currency.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Currency::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/currency.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\Currency::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/currency.php,line=116,col=0::Method Opencart\Admin\Controller\Task\Catalog\Currency::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/customer_group.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\CustomerGroup::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/customer_group.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\CustomerGroup::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/customer_group.php,line=135,col=0::Method Opencart\Admin\Controller\Task\Catalog\CustomerGroup::info() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/customer_group.php,line=217,col=0::Method Opencart\Admin\Controller\Task\Catalog\CustomerGroup::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/language.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Language::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/language.php,line=57,col=0::Method Opencart\Admin\Controller\Task\Catalog\Language::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/return_reason.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\ReturnReason::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/return_reason.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\ReturnReason::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/return_reason.php,line=122,col=0::Method Opencart\Admin\Controller\Task\Catalog\ReturnReason::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/review.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Review::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/review.php,line=58,col=0::Method Opencart\Admin\Controller\Task\Catalog\Review::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/review.php,line=111,col=0::Method Opencart\Admin\Controller\Task\Catalog\Review::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/sass.php,line=20,col=0::Method Opencart\Admin\Controller\Task\Catalog\Sass::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/sass.php,line=20,col=0::PHPDoc tag @throws with type Exception\ScssPhp\ScssPhp\Exception\SassException is not subtype of Throwable
+::error file=upload/admin/controller/task/catalog/sass.php,line=62,col=0::Method Opencart\Admin\Controller\Task\Catalog\Sass::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/template.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Template::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/template.php,line=99,col=0::Method Opencart\Admin\Controller\Task\Catalog\Template::write() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/template.php,line=99,col=0::Method Opencart\Admin\Controller\Task\Catalog\Template::write() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/template.php,line=187,col=0::Method Opencart\Admin\Controller\Task\Catalog\Template::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/translation.php,line=18,col=0::Method Opencart\Admin\Controller\Task\Catalog\Translation::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/translation.php,line=99,col=0::Method Opencart\Admin\Controller\Task\Catalog\Translation::write() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/translation.php,line=99,col=0::Method Opencart\Admin\Controller\Task\Catalog\Translation::write() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/catalog/translation.php,line=188,col=0::Method Opencart\Admin\Controller\Task\Catalog\Translation::clear() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/order.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Order::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/order.php,line=67,col=0::Method Opencart\Admin\Controller\Task\Report\Order::sale() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/order.php,line=86,col=0::Method Opencart\Admin\Controller\Task\Report\Order::processing() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/order.php,line=105,col=0::Method Opencart\Admin\Controller\Task\Report\Order::complete() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/order.php,line=124,col=0::Method Opencart\Admin\Controller\Task\Report\Order::other() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/rating.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Rating::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/rating.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Rating::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/rating.php,line=54,col=0::Method Opencart\Admin\Controller\Task\Report\Rating::list() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/rating.php,line=54,col=0::Method Opencart\Admin\Controller\Task\Report\Rating::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/returns.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Returns::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/returns.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Returns::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/review.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Review::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/review.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Review::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/sale.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Sale::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/sale.php,line=16,col=0::Method Opencart\Admin\Controller\Task\Report\Sale::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/sale.php,line=54,col=0::Method Opencart\Admin\Controller\Task\Report\Sale::list() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/sale.php,line=54,col=0::Method Opencart\Admin\Controller\Task\Report\Sale::list() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/sale.php,line=64,col=0::Parameter #2 $total of method Opencart\Admin\Model\Catalog\Product::editSale() expects int, float given.
+::error file=upload/admin/controller/task/report/stock.php,line=14,col=0::Method Opencart\Admin\Controller\Task\Report\Stock::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/report/stock.php,line=14,col=0::Method Opencart\Admin\Controller\Task\Report\Stock::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/backup.php,line=16,col=0::Method Opencart\Admin\Controller\Task\System\Backup::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/backup.php,line=16,col=0::Method Opencart\Admin\Controller\Task\System\Backup::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/backup.php,line=92,col=0::Method Opencart\Admin\Controller\Task\System\Backup::write() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/backup.php,line=92,col=0::Method Opencart\Admin\Controller\Task\System\Backup::write() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/backup.php,line=167,col=0::Comparison operation ">=" between (array|float|int) and int<min, -1>|int<1, max> results in an error.
+::error file=upload/admin/controller/task/system/mail.php,line=14,col=0::Method Opencart\Admin\Controller\Task\System\Mail::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/mail.php,line=14,col=0::Method Opencart\Admin\Controller\Task\System\Mail::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/restore.php,line=16,col=0::Method Opencart\Admin\Controller\Task\System\Restore::index() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/restore.php,line=16,col=0::Method Opencart\Admin\Controller\Task\System\Restore::index() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/restore.php,line=61,col=0::Method Opencart\Admin\Controller\Task\System\Restore::read() has parameter $args with no value type specified in iterable type array.
+::error file=upload/admin/controller/task/system/restore.php,line=61,col=0::Method Opencart\Admin\Controller\Task\System\Restore::read() return type has no value type specified in iterable type array.
+::error file=upload/admin/controller/tool/upgrade.php,line=95,col=0::PHPDoc tag @return with type array is incompatible with native type void.
+::error file=upload/admin/controller/user/api.php,line=351,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\User\Api>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\User\Api>::editStatus().
+::error file=upload/admin/controller/user/api.php,line=385,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\User\Api>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\User\Api>::editStatus().
+::error file=upload/admin/controller/user/user.php,line=642,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\User\User>::editStatus().
+::error file=upload/admin/controller/user/user.php,line=676,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\User\User>::editStatus().
+::error file=upload/admin/index.php,line=7,col=0::Path in require_once() "config.php" is not a file or it does not exist.
+::error file=upload/admin/model/catalog/attribute.php,line=205,col=0::Method Opencart\Admin\Model\Catalog\Attribute::getTotalAttributes() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/attribute_group.php,line=194,col=0::Method Opencart\Admin\Model\Catalog\AttributeGroup::getTotalAttributeGroups() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/download.php,line=206,col=0::Method Opencart\Admin\Model\Catalog\Download::getTotalDownloads() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/filter_group.php,line=204,col=0::Method Opencart\Admin\Model\Catalog\FilterGroup::getTotalFilterGroups() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/information.php,line=306,col=0::Method Opencart\Admin\Model\Catalog\Information::getTotalInformations() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/manufacturer.php,line=310,col=0::Method Opencart\Admin\Model\Catalog\Manufacturer::getTotalManufacturers() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/catalog/product.php,line=965,col=0::PHPDoc tag @param references unknown parameter: $rating
+::error file=upload/admin/model/catalog/product.php,line=2713,col=0::Method Opencart\Admin\Model\Catalog\Product::getSeoUrls() should return array<int, string> but returns array<array>.
+::error file=upload/admin/model/catalog/subscription_plan.php,line=102,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Admin\Model\Catalog\SubscriptionPlan>|Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Catalog\SubscriptionPlan>::getDescription().
+::error file=upload/admin/model/catalog/subscription_plan.php,line=255,col=0::Method Opencart\Admin\Model\Catalog\SubscriptionPlan::getTotalSubscriptionPlans() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/cms/topic.php,line=314,col=0::Method Opencart\Admin\Model\Cms\Topic::getTotalTopics() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/customer/custom_field.php,line=132,col=0::PHPDoc tag @param references unknown parameter: $information_id
+::error file=upload/admin/model/customer/custom_field.php,line=290,col=0::Method Opencart\Admin\Model\Customer\CustomField::getTotalCustomFields() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/customer/customer_group.php,line=207,col=0::Method Opencart\Admin\Model\Customer\CustomerGroup::getTotalCustomerGroups() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/design/banner.php,line=319,col=0::Method Opencart\Admin\Model\Design\Banner::getImagesBy() return type has no value type specified in iterable type array.
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::Method Opencart\Admin\Model\Design\SeoRegex::addSeoRegex() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $key
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $keyword
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $language_id
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $sort_order
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $store_id
+::error file=upload/admin/model/design/seo_regex.php,line=29,col=0::PHPDoc tag @param references unknown parameter: $value
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::Method Opencart\Admin\Model\Design\SeoRegex::editSeoRegex() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $key
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $keyword
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $language_id
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $sort_order
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $store_id
+::error file=upload/admin/model/design/seo_regex.php,line=54,col=0::PHPDoc tag @param references unknown parameter: $value
+::error file=upload/admin/model/design/theme.php,line=80,col=0::PHPDoc tag @param references unknown parameter: $category_id
+::error file=upload/admin/model/design/theme.php,line=159,col=0::Method Opencart\Admin\Model\Design\Theme::getThemes() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/design/theme.php,line=159,col=0::PHPDoc tag @param references unknown parameter: $limit
+::error file=upload/admin/model/design/theme.php,line=159,col=0::PHPDoc tag @param references unknown parameter: $start
+::error file=upload/admin/model/design/translation.php,line=82,col=0::PHPDoc tag @param references unknown parameter: $category_id
+::error file=upload/admin/model/design/translation.php,line=244,col=0::Variable $data in empty() is never defined.
+::error file=upload/admin/model/design/translation.php,line=245,col=0::Undefined variable: $data
+::error file=upload/admin/model/design/translation.php,line=248,col=0::Variable $data in empty() is never defined.
+::error file=upload/admin/model/design/translation.php,line=249,col=0::Undefined variable: $data
+::error file=upload/admin/model/design/translation.php,line=252,col=0::Variable $data in empty() is never defined.
+::error file=upload/admin/model/design/translation.php,line=253,col=0::Undefined variable: $data
+::error file=upload/admin/model/localisation/country.php,line=116,col=0::PHPDoc tag @param references unknown parameter: $information_id
+::error file=upload/admin/model/localisation/length_class.php,line=232,col=0::Method Opencart\Admin\Model\Localisation\LengthClass::getTotalLengthClasses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/length_class.php,line=326,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/order_status.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\OrderStatus::getTotalOrderStatuses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/order_status.php,line=290,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/return_action.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\ReturnAction::getTotalReturnActions() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/return_action.php,line=292,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/return_reason.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\ReturnReason::getTotalReturnReasons() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/return_reason.php,line=292,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/return_status.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\ReturnStatus::getTotalReturnStatuses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/return_status.php,line=292,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/stock_status.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\StockStatus::getTotalStockStatuses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/stock_status.php,line=292,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/subscription_status.php,line=218,col=0::Method Opencart\Admin\Model\Localisation\SubscriptionStatus::getTotalSubscriptionStatuses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/subscription_status.php,line=292,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/localisation/weight_class.php,line=211,col=0::Method Opencart\Admin\Model\Localisation\WeightClass::getTotalWeightClasses() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/localisation/weight_class.php,line=305,col=0::PHPDoc tag @param references unknown parameter: $country_id
+::error file=upload/admin/model/marketing/coupon.php,line=122,col=0::PHPDoc tag @param references unknown parameter: $information_id
+::error file=upload/admin/model/setting/event.php,line=226,col=0::Method Opencart\Admin\Model\Setting\Event::getTotalEvents() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/setting/task.php,line=26,col=0::Method Opencart\Admin\Model\Setting\Task::addTask() has parameter $data with no value type specified in iterable type array.
+::error file=upload/admin/model/setting/task.php,line=48,col=0::Method Opencart\Admin\Model\Setting\Task::editStatus() has parameter $response with no value type specified in iterable type array.
+::error file=upload/admin/model/setting/task.php,line=215,col=0::Method Opencart\Admin\Model\Setting\Task::getTotalTasks() has parameter $data with no value type specified in iterable type array.
+::error file=upload/catalog/controller/account/order.php,line=94,col=0::Anonymous function has an unused use $url.
+::error file=upload/catalog/controller/api/affiliate.php,line=49,col=0::Offset 'value' does not exist on non-empty-array<int, array<string, mixed>>.
+::error file=upload/catalog/controller/api/cart.php,line=289,col=0::Variable $price_status on left side of ?? is never defined.
+::error file=upload/catalog/controller/api/cart.php,line=305,col=0::Method Opencart\Catalog\Controller\Api\Cart::getProducts() should return array<string, mixed> but returns list<array<string, mixed>>.
+::error file=upload/catalog/controller/event/ssr.php,line=35,col=0::Method Opencart\Catalog\Controller\Event\Ssr::index() has parameter $output with no type specified.
+::error file=upload/catalog/controller/event/ssr.php,line=35,col=0::PHPDoc tag @param references unknown parameter: $code
+::error file=upload/catalog/controller/event/theme.php,line=24,col=0::Method Opencart\Admin\Model\Design\Theme::getTheme() invoked with 2 parameters, 1 required.
+::error file=upload/catalog/controller/mail/order.php,line=120,col=0::Undefined variable: $language_code
+::error file=upload/catalog/controller/mail/order.php,line=121,col=0::Undefined variable: $language_code
+::error file=upload/catalog/controller/product/manufacturer.php,line=16,col=0::Method Opencart\Catalog\Controller\Product\Manufacturer::index() with return type void returns mixed but should not return anything.
+::error file=upload/catalog/controller/product/special.php,line=16,col=0::Method Opencart\Catalog\Controller\Product\Special::index() with return type void returns mixed but should not return anything.
+::error file=upload/catalog/controller/startup/language.php,line=19,col=0::PHPDoc tag @return with type Opencart\System\Engine\Action|null is incompatible with native type void.
+::error file=upload/catalog/controller/startup/seo_url.php,line=13,col=0::Property Opencart\Catalog\Controller\Startup\SeoUrl::$data type has no value type specified in iterable type array.
+::error file=upload/catalog/controller/startup/seo_url.php,line=22,col=0::Method Opencart\Catalog\Controller\Startup\SeoUrl::index() should return null but return statement is missing.
+::error file=upload/catalog/controller/startup/seo_url.php,line=32,col=0::Cannot assign new offset to string.
+::error file=upload/catalog/controller/startup/seo_url.php,line=72,col=0::Method Opencart\Catalog\Controller\Startup\SeoUrl::index() should return null but return statement is missing.
+::error file=upload/catalog/controller/startup/seo_url.php,line=142,col=0::Offset 'match' does not exist on string.
+::error file=upload/catalog/controller/startup/seo_url.php,line=143,col=0::Binary operation "+" between array{keyword: list<string>|string|null} and string results in an error.
+::error file=upload/catalog/controller/startup/seo_url.php,line=143,col=0::Offset 'match' does not exist on string.
+::error file=upload/catalog/controller/startup/seo_url.php,line=143,col=0::Offset 'replace' does not exist on string.
+::error file=upload/catalog/model/design/seo_regex.php,line=24,col=0::PHPDoc tag @param references unknown parameter: $keyword
+::error file=upload/catalog/model/setting/extension.php,line=72,col=0::Method Opencart\Catalog\Model\Setting\Extension::getInstalls() return type has no value type specified in iterable type array.
+::error file=upload/catalog/model/setting/task.php,line=26,col=0::Method Opencart\Catalog\Model\Setting\Task::addTask() has parameter $data with no value type specified in iterable type array.
+::error file=upload/catalog/model/setting/task.php,line=52,col=0::Method Opencart\Catalog\Model\Setting\Task::getTotalTasks() has parameter $data with no value type specified in iterable type array.
+::error file=upload/extension/opencart/admin/controller/fraud/ddos.php,line=95,col=0::Cannot call method install() on null.
+::error file=upload/extension/opencart/admin/controller/fraud/ddos.php,line=109,col=0::Cannot call method uninstall() on null.
+::error file=upload/extension/opencart/admin/controller/fraud/ddos.php,line=137,col=0::Cannot call method getDdos() on null.
+::error file=upload/extension/opencart/admin/controller/fraud/ddos.php,line=148,col=0::Cannot call method getTotalDdos() on null.
+::error file=upload/extension/opencart/admin/controller/task/product_viewed.php,line=22,col=0::Undefined variable: $page
+::error file=upload/extension/opencart/catalog/model/total/credit.php,line=72,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Account\Transaction>::deleteTransactionByOrderId().
+::error file=upload/extension/opencart/catalog/model/total/reward.php,line=115,col=0::Call to an undefined method Opencart\System\Engine\Proxy<Opencart\Catalog\Model\Account\Reward>::deleteRewardByOrderId().
+::error file=upload/index.php,line=7,col=0::Path in require_once() "config.php" is not a file or it does not exist.
+::error file=upload/install/cli_install.php,line=91,col=0::Unreachable statement - code above always terminates.
+::error file=upload/install/controller/install/step_3.php,line=132,col=0::Property $this(Opencart\Install\Controller\Install\Step3)::$db is not writable.
+::error file=upload/install/model/upgrade/upgrade.php,line=27,col=0::Method Opencart\Install\Model\Upgrade\Upgrade::addRecord() has parameter $data with no type specified.
+::error file=upload/install/model/upgrade/upgrade.php,line=27,col=0::Method Opencart\Install\Model\Upgrade\Upgrade::addRecord() has parameter $table with no type specified.
+::error file=upload/install/model/upgrade/upgrade.php,line=47,col=0::Parameter #1 $value of method Opencart\System\Library\DB::escape() expects string, list<bool|string> given.
+::error file=upload/install/model/upgrade/upgrade.php,line=50,col=0::Parameter #1 $value of method Opencart\System\Library\DB::escape() expects string, list<bool|string> given.
+::error file=upload/system/engine/factory.php,line=69,col=0::Method Opencart\System\Engine\Factory::model() should return Opencart\System\Engine\Model but returns Exception.
+::error file=upload/system/helper/db_schema.php,line=21,col=0::Class Opencart\System\Library\DB constructor invoked with 9 parameters, 0-1 required.
+::error file=upload/system/helper/db_schema.php,line=21,col=0::Parameter #1 $option of class Opencart\System\Library\DB constructor expects array<string, mixed>, string given.
+::error file=upload/system/library/cart/customer.php,line=20,col=0::Property Opencart\System\Library\Cart\Customer::$request is never read, only written.
+::error file=upload/system/library/cart/user.php,line=16,col=0::Property Opencart\System\Library\Cart\User::$request is never read, only written.
+::error file=upload/system/library/url.php,line=24,col=0::Property Opencart\System\Library\Url::$scheme is never read, only written.
+::error file=upload/system/library/url.php,line=28,col=0::Property Opencart\System\Library\Url::$host is never read, only written.
+::error file=upload/system/library/url.php,line=32,col=0::Property Opencart\System\Library\Url::$port is never read, only written.
+::error file=upload/system/library/url.php,line=36,col=0::Property Opencart\System\Library\Url::$path is never read, only written.
+::error file=upload/system/library/url.php,line=40,col=0::Property Opencart\System\Library\Url::$query is never read, only written.
+::error file=upload/system/library/url.php,line=44,col=0::Property Opencart\System\Library\Url::$fragment is never read, only written.
+::error file=upload/system/library/url.php,line=48,col=0::Property Opencart\System\Library\Url::$user is never read, only written.
+::error file=upload/system/library/url.php,line=52,col=0::Property Opencart\System\Library\Url::$pass is never read, only written.

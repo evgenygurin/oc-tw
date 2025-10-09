@@ -1,413 +1,482 @@
-# AGENTS.md - Codegen Agent Rules
+# 🤖 Codegen AI Agents Configuration
 
-Правила для AI агентов (Codegen) при работе с Pull Requests в репозитории **oc-tw** (OpenCart E-commerce).
+This document describes the AI agents and automation setup for the OpenCart repository, providing intelligent code review, automated testing, and development assistance.
 
-## 🎯 Agent Mission
+## 🎯 Overview
 
-Codegen agent - **senior code reviewer** для OpenCart проектов, обеспечивающий:
+Our Codegen AI system includes multiple specialized agents that work together to maintain code quality, security, and performance standards across the OpenCart e-commerce platform.
 
-1. Соблюдение PHP/OpenCart coding standards
-2. Безопасность (SQL injection, XSS, CSRF)
-3. Производительность приложения
-4. Качество документации
-5. Корректность Docker конфигурации
+## 🤖 AI Agents
 
-## 🔍 PR Review Protocol
+### 1. Code Review Agent (`@codegen-reviewer`)
 
-### Phase 1: Automated Analysis
+**Purpose**: Automated code review and quality assessment
 
-При получении нового PR, агент ДОЛЖЕН:
+**Capabilities**:
+- ✅ OpenCart MVC pattern compliance checking
+- ✅ PHP 8+ best practices enforcement
+- ✅ Security vulnerability detection
+- ✅ Performance optimization suggestions
+- ✅ Documentation completeness verification
+- ✅ Test coverage analysis
 
-1. **Validate PR Template**
-   - Проверить наличие описания (минимум 50 символов)
-   - Убедиться в наличии "WHY" объяснения
-   - Проверить выбор type classification
-   - Валидировать filled checklist
+**Triggers**:
+- Pull request opened/updated
+- Manual review request via comment: `@codegen-reviewer please review`
 
-2. **Code Quality Checks**
-   - Валидировать PHP код на PSR-12 compliance
-   - Проверить Twig templates syntax
-   - Проверить CSS/SCSS на valid syntax
-   - Запустить Docker compose для проверки конфигурации
-   - Валидировать file upload security
-
-3. **Security Scanning**
-   - Сканировать на hardcoded secrets
-   - Валидировать SQL queries на injection risks
-   - Проверить XSS vulnerabilities в Twig templates
-   - Проверить CSRF protection в формах
-   - Валидировать file upload security
-
-4. **Performance Analysis**
-   - Искать N+1 database queries
-   - Проверить image optimization
-   - Валидировать caching strategies
-   - Анализировать database query efficiency
-
-### Phase 2: Architectural Review
-
-Агент должен проверить:
-
-1. **Соответствие OpenCart архитектуре**
-   - MVC pattern compliance
-   - Twig template best practices
-   - PHP PSR-12 coding standards
-   - Proper use of OpenCart APIs
-
-2. **Database Changes**
-   - Наличие migrations для schema changes
-   - Backwards compatibility
-   - Proper indexing
-   - Transaction safety
-
-3. **Docker Configuration**
-   - Valid docker-compose.yml syntax
-   - Environment variables properly configured
-   - No hardcoded credentials
-   - Health checks configured
-
-### Phase 3: Testing Validation
-
-Проверить наличие:
-
-1. **Testing Evidence**
-   - Manual testing steps в PR description
-   - Screenshots для UI changes
-   - Database migration testing
-   - Docker compose успешно стартует
-
-2. **Edge Cases**
-   - Error scenarios covered
-   - Boundary conditions tested
-   - Empty state handling
-   - Invalid input validation
-
-### Phase 4: Documentation Review
-
-1. **Code Documentation**
-   - Complex logic имеет PHPDoc comments
-   - Twig templates имеют комментарии
-   - Database schema changes документированы
-
-2. **Project Documentation**
-   - `CLAUDE.md` updated при архитектурных изменениях
-   - README updated при новых setup steps
-   - `.env.example` updated при новых переменных
-
-## 🚨 Blocking Issues
-
-Агент ДОЛЖЕН заблокировать PR если обнаружено:
-
-### Critical (Auto-block)
-
-- ❌ Hardcoded secrets (API keys, passwords, database credentials)
-- ❌ SQL injection vulnerabilities
-- ❌ XSS vulnerabilities в Twig templates
-- ❌ Missing CSRF protection в формах
-- ❌ Breaking changes без migration path
-- ❌ Docker build failures
-- ❌ PHP syntax errors
-
-### High Priority (Request changes)
-
-- ⚠️ Missing error handling
-- ⚠️ No testing evidence в PR
-- ⚠️ Performance regressions (N+1 queries)
-- ⚠️ Missing input validation
-- ⚠️ Inadequate PR description
-- ⚠️ File upload без validation
-
-### Medium Priority (Comment/suggest)
-
-- 💡 PHP code style inconsistencies
-- 💡 Missing PHPDoc comments
-- 💡 Optimization opportunities
-- 💡 Best practices suggestions
-- 💡 Accessibility improvements
-
-## ✅ Auto-approve Criteria
-
-Агент может **автоматически approve** PR если:
-
-1. ✅ Все automated checks прошли (green CI)
-2. ✅ Нет blocking issues
-3. ✅ Документация актуальна
-4. ✅ PR template полностью заполнен
-5. ✅ Commits follow conventional format
-
-**И дополнительно для простых PR:**
-
-- Только documentation changes (*.md)
-- Только styling changes (*.css без logic)
-- Только config changes (без breaking changes)
-- Minor bug fixes с testing evidence
-
-## 🤖 Agent Behavior Guidelines
-
-### Communication Style
-
-**DO:**
-- ✅ Быть конкретным в комментариях (указывать file:line)
-- ✅ Объяснять WHY, не только WHAT
-- ✅ Предлагать конкретные code fixes
-- ✅ Хвалить хорошие решения
-- ✅ Группировать похожие issues
-
-**DON'T:**
-- ❌ Писать generic комментарии
-- ❌ Nitpick на minor style issues
-- ❌ Repeat одинаковые комментарии
-- ❌ Block на non-critical issues
-
-### Comment Examples
-
-**Good ✅:**
-```markdown
-❌ **Security Issue** (catalog/controller/account/login.php:42)
-
-SQL query vulnerable to injection:
-`SELECT * FROM users WHERE username = '$username'`
-
-**Fix:**
-Use parameterized query:
-`$this->db->query("SELECT * FROM users WHERE username = ?", [$username])`
-
-**Why:** Direct string interpolation allows attackers to inject
-malicious SQL. Parameterized queries escape input safely.
+**Configuration**:
+```yaml
+review_agent:
+  model: "gpt-4-turbo"
+  focus_areas:
+    - security
+    - performance
+    - opencart_standards
+    - code_quality
+  auto_comment: true
+  severity_threshold: "medium"
 ```
 
-**Bad ❌:**
-```markdown
-This code is unsafe
+### 2. Security Agent (`@codegen-security`)
+
+**Purpose**: Specialized security analysis and vulnerability detection
+
+**Capabilities**:
+- 🔒 SQL injection prevention verification
+- 🔒 XSS vulnerability detection
+- 🔒 CSRF protection validation
+- 🔒 Authentication/authorization review
+- 🔒 Input sanitization checking
+- 🔒 Dependency vulnerability scanning
+
+**Triggers**:
+- Security-sensitive file changes
+- Manual security review: `@codegen-security scan`
+- Scheduled daily security audits
+
+**Configuration**:
+```yaml
+security_agent:
+  model: "gpt-4-turbo"
+  security_rules:
+    - sql_injection_prevention
+    - xss_protection
+    - csrf_validation
+    - input_sanitization
+    - secure_authentication
+  alert_threshold: "low"
+  create_issues: true
 ```
 
-## 📊 Metrics & Reporting
+### 3. Performance Agent (`@codegen-performance`)
 
-После review агент должен предоставить:
+**Purpose**: Performance optimization and monitoring
 
-### Summary Comment
+**Capabilities**:
+- ⚡ Database query optimization
+- ⚡ Caching strategy recommendations
+- ⚡ Asset optimization suggestions
+- ⚡ Memory usage analysis
+- ⚡ Load time impact assessment
+- ⚡ N+1 query detection
 
-```markdown
-## 🔍 Codegen Review Summary
+**Triggers**:
+- Performance-critical file changes
+- Manual performance review: `@codegen-performance analyze`
+- Performance regression detection
 
-**Overall Status:** ✅ Approved | ⚠️ Changes Requested | ❌ Blocked
-
-### Quality Scores
-- Code Quality: 9/10
-- Security: 10/10
-- Performance: 8/10
-- Documentation: 7/10
-
-### Key Findings
-✅ Proper PSR-12 compliance
-✅ Comprehensive error handling
-⚠️ Missing PHPDoc for new controller methods
-💡 Consider adding database indexes for better performance
-
-### Recommended Actions
-1. Add PHPDoc to ProductController::getRelatedProducts()
-2. Update CLAUDE.md with new API endpoint
-3. Consider index on products.category_id
-
-### Issues Found
-- 0 Critical
-- 2 High Priority
-- 1 Medium Priority
+**Configuration**:
+```yaml
+performance_agent:
+  model: "gpt-4-turbo"
+  metrics:
+    - database_queries
+    - memory_usage
+    - load_time
+    - cache_efficiency
+  thresholds:
+    query_time: "100ms"
+    memory_limit: "256MB"
+    page_load: "2s"
 ```
 
-## 🎯 Special Rules for OpenCart Files
+### 4. Documentation Agent (`@codegen-docs`)
 
-### PHP Files (*.php)
+**Purpose**: Automated documentation generation and maintenance
 
-```php
-// MUST: Follow PSR-12
-class ProductController {
-    // MUST: PHPDoc comments
-    /**
-     * Get related products
-     * @param int $product_id
-     * @return array
-     */
-    public function getRelatedProducts(int $product_id): array {
-        // MUST: Prepared statements
-        $stmt = $this->db->query(
-            "SELECT * FROM products WHERE related_id = ?",
-            [$product_id]
-        );
+**Capabilities**:
+- 📚 API documentation generation
+- 📚 Code comment quality assessment
+- 📚 README and changelog updates
+- 📚 Migration guide generation
+- 📚 Developer guide updates
 
-        // MUST: Error handling
-        if (!$stmt) {
-            $this->log->error('Failed to fetch related products', [
-                'product_id' => $product_id
-            ]);
-            return [];
-        }
+**Triggers**:
+- API changes detected
+- Manual documentation request: `@codegen-docs update`
+- New feature additions
 
-        return $stmt->rows;
+**Configuration**:
+```yaml
+documentation_agent:
+  model: "gpt-4-turbo"
+  output_formats:
+    - markdown
+    - html
+    - json
+  auto_update:
+    - changelog
+    - api_docs
+    - readme
+```
+
+### 5. Test Generation Agent (`@codegen-tests`)
+
+**Purpose**: Automated test generation and test quality improvement
+
+**Capabilities**:
+- 🧪 Unit test generation
+- 🧪 Integration test suggestions
+- 🧪 Test coverage analysis
+- 🧪 Test case recommendations
+- 🧪 Mock object generation
+
+**Triggers**:
+- New controller/model additions
+- Manual test request: `@codegen-tests generate`
+- Low test coverage detection
+
+**Configuration**:
+```yaml
+test_agent:
+  model: "gpt-4-turbo"
+  test_types:
+    - unit_tests
+    - integration_tests
+    - api_tests
+  frameworks:
+    - phpunit
+  coverage_threshold: 80
+```
+
+### 6. Migration Agent (`@codegen-migration`)
+
+**Purpose**: Database migration and upgrade assistance
+
+**Capabilities**:
+- 🗄️ Database schema analysis
+- 🗄️ Migration script generation
+- 🗄️ Compatibility checking
+- 🗄️ Rollback script creation
+- 🗄️ Data integrity verification
+
+**Triggers**:
+- Database schema changes
+- Manual migration request: `@codegen-migration create`
+- Version upgrade preparations
+
+**Configuration**:
+```yaml
+migration_agent:
+  model: "gpt-4-turbo"
+  database_types:
+    - mysql
+    - mariadb
+  migration_patterns:
+    - opencart_schema
+    - version_upgrades
+```
+
+## 🎮 Agent Commands
+
+### Universal Commands (Work with all agents)
+
+```bash
+# Request comprehensive review
+@codegen review this PR
+
+# Get help with specific issue
+@codegen help with [description]
+
+# Explain code changes
+@codegen explain changes in [file/function]
+
+# Suggest improvements
+@codegen suggest improvements
+
+# Check compatibility
+@codegen check compatibility with OpenCart 4.1
+```
+
+### Agent-Specific Commands
+
+#### Code Review Agent
+```bash
+@codegen-reviewer review security
+@codegen-reviewer check performance
+@codegen-reviewer validate opencart standards
+@codegen-reviewer assess code quality
+```
+
+#### Security Agent
+```bash
+@codegen-security scan vulnerabilities
+@codegen-security check authentication
+@codegen-security validate input sanitization
+@codegen-security review permissions
+```
+
+#### Performance Agent
+```bash
+@codegen-performance analyze queries
+@codegen-performance check memory usage
+@codegen-performance optimize caching
+@codegen-performance benchmark changes
+```
+
+#### Documentation Agent
+```bash
+@codegen-docs update api documentation
+@codegen-docs generate changelog entry
+@codegen-docs create migration guide
+@codegen-docs update readme
+```
+
+#### Test Generation Agent
+```bash
+@codegen-tests generate unit tests
+@codegen-tests create integration tests
+@codegen-tests suggest test cases
+@codegen-tests analyze coverage
+```
+
+#### Migration Agent
+```bash
+@codegen-migration create schema migration
+@codegen-migration generate rollback script
+@codegen-migration check data integrity
+@codegen-migration validate compatibility
+```
+
+## 🔧 Configuration Files
+
+### Main Configuration (`.github/codegen.yml`)
+Central configuration file for all AI agents and automation rules.
+
+### Agent-Specific Configurations
+
+#### Security Rules (`.github/codegen-security.yml`)
+```yaml
+security_rules:
+  php:
+    forbidden_functions:
+      - eval
+      - exec
+      - system
+      - shell_exec
+    required_validation:
+      - input_sanitization
+      - output_escaping
+      - csrf_protection
+  
+  opencart:
+    authentication:
+      - session_validation
+      - permission_checks
+      - secure_cookies
+    
+    database:
+      - prepared_statements
+      - parameter_binding
+      - query_validation
+```
+
+#### Performance Rules (`.github/codegen-performance.yml`)
+```yaml
+performance_rules:
+  database:
+    max_queries_per_page: 20
+    query_timeout: 5000ms
+    avoid_select_star: true
+    require_indexes: true
+  
+  caching:
+    cache_expensive_operations: true
+    cache_ttl_minimum: 300
+    use_appropriate_cache_levels: true
+  
+  assets:
+    minify_css: true
+    minify_js: true
+    optimize_images: true
+    use_cdn: recommended
+```
+
+## 📊 Monitoring and Analytics
+
+### Agent Performance Metrics
+
+- **Review Accuracy**: Percentage of accurate code review comments
+- **Security Detection Rate**: Vulnerabilities caught vs. missed
+- **Performance Impact**: Improvements suggested vs. implemented
+- **Documentation Quality**: Completeness and accuracy scores
+- **Test Coverage**: Coverage improvement from generated tests
+
+### Dashboard Integration
+
+```yaml
+monitoring:
+  dashboard_url: "https://dashboard.codegen.ai/opencart"
+  metrics:
+    - agent_performance
+    - code_quality_trends
+    - security_vulnerability_trends
+    - performance_improvements
+    - documentation_completeness
+  
+  alerts:
+    critical_security_issues: immediate
+    performance_regressions: 1_hour
+    test_failures: 30_minutes
+```
+
+## 🚀 Getting Started
+
+### 1. Enable AI Agents
+
+Add this to your repository settings:
+
+```yaml
+# .github/settings.yml
+repository:
+  features:
+    codegen_ai: true
+    auto_review: true
+    security_scanning: true
+    performance_monitoring: true
+```
+
+### 2. Configure Team Permissions
+
+```yaml
+teams:
+  ai_agents:
+    permissions: write
+    members:
+      - codegen-reviewer
+      - codegen-security
+      - codegen-performance
+      - codegen-docs
+      - codegen-tests
+      - codegen-migration
+```
+
+### 3. Set Up Webhooks
+
+Configure webhooks for real-time AI agent responses:
+
+```bash
+# GitHub webhook configuration
+curl -X POST \
+  https://api.github.com/repos/your-org/opencart/hooks \
+  -H 'Authorization: token YOUR_TOKEN' \
+  -d '{
+    "name": "web",
+    "active": true,
+    "events": ["pull_request", "push", "issue_comment"],
+    "config": {
+      "url": "https://api.codegen.ai/webhook/github",
+      "content_type": "json"
     }
-}
+  }'
 ```
 
-### Twig Templates (*.twig)
+## 🎓 Training and Learning
 
-```twig
-{# MUST: Escape output #}
-{{ product.name|e }}
+### Continuous Learning
 
-{# MUST: Check existence #}
-{% if product is defined %}
-  {{ product.price }}
-{% endif %}
+The AI agents continuously learn from:
+- Code review feedback
+- Merged PR patterns
+- Issue resolution outcomes
+- Performance improvements
+- Security incident responses
 
-{# PREFER: Filters over raw output #}
-{{ description|striptags }}
+### Custom Training Data
 
-{# MUST: CSRF tokens in forms #}
-<form method="post">
-  {{ csrf_token }}
-  {# form fields #}
-</form>
+```yaml
+training:
+  opencart_specific:
+    - mvc_patterns
+    - extension_architecture
+    - theme_development
+    - api_conventions
+  
+  project_specific:
+    - coding_standards
+    - security_requirements
+    - performance_targets
+    - documentation_style
 ```
 
-### Docker Files
+## 🔒 Privacy and Security
 
-```dockerfile
-# MUST: Multi-stage builds for optimization
-FROM php:8.2-apache AS builder
-# build steps...
+### Data Protection
+- No sensitive data stored in AI models
+- Code analysis performed in secure environments
+- Compliance with GDPR and privacy regulations
+- Audit logs for all AI agent activities
 
-FROM php:8.2-apache
-# production steps...
+### Access Control
+- Agent permissions limited to necessary scopes
+- Encrypted communication channels
+- Regular security audits of AI systems
+- Incident response procedures
 
-# MUST: Non-root user when possible
-USER www-data
+## 📚 Best Practices
 
-# MUST: Health checks
-HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1
-```
+### Effective AI Agent Usage
 
-## 🛡️ Security Rules
+1. **Be Specific**: Use detailed commands for better results
+2. **Provide Context**: Include relevant background information
+3. **Review Suggestions**: Always validate AI recommendations
+4. **Iterate**: Use follow-up commands to refine results
+5. **Learn Patterns**: Understand how agents interpret your codebase
 
-### MUST Check
+### Team Collaboration
 
-1. **SQL Injection Prevention**
-   - Все queries используют prepared statements
-   - Нет string concatenation в SQL
-   - Input sanitization перед queries
+1. **Agent Etiquette**: Use `@codegen` mentions appropriately
+2. **Review AI Comments**: Treat AI feedback as peer review
+3. **Provide Feedback**: Help improve agent accuracy
+4. **Share Knowledge**: Document successful AI interactions
+5. **Stay Updated**: Keep up with new agent capabilities
 
-2. **XSS Prevention**
-   - Все output escaped в Twig templates
-   - Использование `|e` filter
-   - Sanitization для HTML input
+## 🆘 Troubleshooting
 
-3. **CSRF Protection**
-   - Все формы имеют CSRF tokens
-   - Validation на backend
-   - Proper session management
+### Common Issues
 
-4. **File Upload Security**
-   - Type validation
-   - Size limits
-   - Storage outside web root
-   - Unique filenames
+**Agent Not Responding**
+- Check webhook configuration
+- Verify repository permissions
+- Review rate limits
 
-### MUST NOT Allow
+**Inaccurate Reviews**
+- Provide more context in PR descriptions
+- Use specific agent commands
+- Report issues to improve training
 
-- ❌ `eval()` или `exec()` в PHP
-- ❌ SQL concatenation (use prepared statements)
-- ❌ Hardcoded credentials anywhere
-- ❌ Disabled CSRF protection
-- ❌ File uploads без validation
-- ❌ Raw HTML output без escaping
-- ❌ `rm -rf` в скриптах без проверок
+**Performance Issues**
+- Monitor API rate limits
+- Optimize agent configurations
+- Use caching where appropriate
 
-## 📈 Performance Rules
+### Support Channels
 
-### MUST Optimize
-
-1. **Database Queries**
-   - Используй indexes
-   - Избегай N+1 queries
-   - Используй pagination для large datasets
-   - Cache expensive queries
-
-2. **Image Optimization**
-   - Optimize images before upload
-   - Use appropriate formats (WebP)
-   - Implement lazy loading
-   - Serve responsive images
-
-3. **Caching**
-   - Use OpenCart cache system
-   - Cache expensive operations
-   - Clear cache on updates
-   - Set appropriate TTL
-
-4. **Docker Images**
-   - Multi-stage builds
-   - Minimal base images
-   - .dockerignore для exclude unnecessary files
-
-### Performance Budgets
-
-- Docker image: < 500MB (OpenCart)
-- Page load: < 2s (p95)
-- API response: < 200ms (p95)
-- Database queries: < 50ms average
-
-## 🔧 Tech Stack Specific Rules
-
-### PHP 8.2+
-
-- ✅ Type hints для всех parameters
-- ✅ Return type declarations
-- ✅ Strict types enabled
-- ✅ Nullable types where appropriate
-
-### OpenCart
-
-- ✅ Follow OpenCart MVC pattern
-- ✅ Use OpenCart APIs (не прямые DB queries где возможно)
-- ✅ Proper event system usage
-- ✅ Extension development best practices
-
-### Twig
-
-- ✅ Escape all output
-- ✅ Use template inheritance
-- ✅ Minimize logic in templates
-- ✅ Cache templates in production
-
-### MariaDB
-
-- ✅ Proper indexes on foreign keys
-- ✅ Use transactions for multi-step operations
-- ✅ Avoid SELECT *
-- ✅ Use EXPLAIN для query optimization
-
-## 🎓 Learning & Improvement
-
-Агент должен:
-
-1. **Собирать паттерны**
-   - Tracking часто повторяющихся issues
-   - Identifying best practices из approved PRs
-   - Building knowledge base
-
-2. **Suggest improvements**
-   - Предлагать refactoring opportunities
-   - Identifying technical debt
-   - Recommending modern approaches
-
-3. **Update rules**
-   - Адаптироваться к team feedback
-   - Evolve с изменениями в codebase
-   - Stay current с OpenCart updates
+- **GitHub Issues**: Report bugs and feature requests
+- **Documentation**: Comprehensive guides and examples
+- **Community Forum**: Peer support and discussions
+- **Direct Support**: Enterprise support for critical issues
 
 ---
 
-**Agent Version:** 2.0.0 (OpenCart focused)
-**Last Updated:** 2025-01-09
-**Maintained by:** @evgenygurin
-
-_Эти правила специально адаптированы для OpenCart проектов. Предложения по улучшению приветствуются через PR._
+**🎉 Welcome to the future of automated development with Codegen AI! These agents are here to help you build better, more secure, and more performant OpenCart applications.**

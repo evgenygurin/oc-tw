@@ -1,313 +1,183 @@
-# oc-tw - OpenCart E-commerce Platform
+# OpenCart
 
-OpenCart e-commerce platform running in Docker with MariaDB and phpMyAdmin.
+## Overview
 
-## 📋 PR Automation Setup
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/)
+[![GitHub release](https://img.shields.io/github/v/release/opencart/opencart)](https://github.com/opencart/opencart/releases)
+[![Lint](https://github.com/opencart/opencart/actions/workflows/Lint.yml/badge.svg)](https://github.com/opencart/opencart/actions/workflows/Lint.yml)
 
-**🎉 This repository has comprehensive PR automation!**
+OpenCart is a free open source e-commerce platform for online merchants. OpenCart provides a professional and reliable foundation from which to build a successful online store.
 
-For contributors:
+## How to install
 
-- 📖 Read [Contributing Guide](.github/CONTRIBUTING.md)
-- ✨ See [PR Example](.github/PR_EXAMPLE.md)
+Please read the [installation instructions](INSTALL.md) included in the repository or download file.
 
-For maintainers:
+## How to upgrade from previous versions
 
-- ⚙️ Apply [GitHub Settings](.github/branch-protection.md)
-- 🤖 Configure [Codegen AI](.github/AGENTS.md)
-- 📊 See [Full Summary](PR_RULES_SUMMARY.md)
+Please read the [upgrading instructions](UPGRADE.md) included in the repository or download file.
 
-## 🚀 Quick Start
+## Reporting a bug
+
+Read the instructions below before you create a bug report.
+
+1. Search the [OpenCart forum](https://forum.opencart.com/viewforum.php?f=201), ask the community if they have seen the bug or know how to fix it.
+2. Check all open and closed issues on the [GitHub bug tracker](https://github.com/opencart/opencart/issues).
+3. If your bug is related to the OpenCart core code then please create a bug report on GitHub.
+4. READ the [changelog for the master branch](https://github.com/opencart/opencart/blob/master/CHANGELOG.md)
+5. Use [Google](https://www.google.com) to search for your issue.
+6. Make sure that your bug/issue is not related to your hosting environment.
+
+If you are not sure about your issue, it is always best to ask the community on our [bug forum thread](https://forum.opencart.com/viewforum.php?f=201)
+
+**Important!**
+
+- If your bug report is not related to the core code (such as a 3rd party module or your server configuration) then the issue will be closed without a reason. You must contact the extension developer, use the forum or find a commercial partner to resolve a 3rd party code issue.
+- If you would like to report a serious security bug please PM an OpenCart moderator/administrator on the forum. Please do not report concept/ideas/unproven security flaws - all security reports are taken seriously but you must include the EXACT details steps to reproduce it. Please DO NOT post security flaws in a public location.
+
+## How to contribute
+
+Fork the repository, edit and [submit a pull request](https://github.com/opencart/opencart/wiki/Creating-a-pull-request).
+
+Please be very clear on your commit messages and pull request, empty pull request messages may be rejected without reason.
+
+Your code standards should match the [OpenCart coding standards](https://github.com/opencart/opencart/wiki/Coding-standards). We use an automated code scanner to check for most basic mistakes - if the test fails your pull request will be rejected.
+
+## Local Development with Docker
+
+This project includes a Docker-based environment for local development.
 
 ### Prerequisites
 
-- Docker Desktop installed and running
-- Stable internet connection for pulling Docker images
+* You must have Docker and Docker Compose installed on your machine. If you're installing `Composer` separately from Docker, make sure to install `docker-compose-v2`. Using the older `docker-compose` version may cause the build process (specifically the make build step) to fail. [Docker Desktop](https://www.docker.com/products/docker-desktop/) is the easiest way to get them.
+* You must have `make` installed on your system (usually pre-installed on macOS and Linux distributions).
 
-### Installation
+> [!IMPORTANT]
+>
+> **For Windows Users:**
+> It is **strongly recommended** to use the WSL 2 (Windows Subsystem for Linux) backend for Docker Desktop.
+> **You should clone this project _inside_ your WSL distribution (e.g., Ubuntu 24.04) for best performance.**
+> Access your project via `\\wsl$\Ubuntu-24.04\home\youruser\opencart` from Windows Explorer if needed.
+> Without WSL 2, file system performance will be extremely slow, making the application nearly unusable.
+> Docker Desktop will typically prompt you to enable WSL 2 during installation.
 
-```bash
-# 1. Start Docker Desktop
-open -a Docker
+> [!NOTE]
+>
+> OpenCart itself does **not** use any `.env` file for its configuration.
+> The provided `.env.docker` file is **only** for configuring the Docker Compose environment.
+> To avoid confusion with classic development workflows, this file is named `.env.docker` and placed inside the `docker` directory.
 
-# 2. Configure environment
-cp .env.example .env
-# Edit .env with your secure credentials
+### Getting Started
 
-# 3. Start services
-docker compose up -d
+1. Clone the repository to your local machine.
+2. Initialize the project:
+    ```bash
+    make init
+    ```
+3. Build the images:
+    ```bash
+    make build
+    ```
+4. Start all services:
+    ```bash
+    make up
+    ```
 
-# 4. Complete installation wizard
-open http://localhost:8080/install
+After the process is complete, your OpenCart store will be available at `http://localhost`.
 
-# 5. Remove install directory (security)
-docker compose exec opencart rm -rf /var/www/html/install
-```
+### Common Commands
 
-**Default Credentials** (from `.env`):
+* **To stop the environment:**
+    ```bash
+    make down
+    ```
+* **To view the logs from all services:**
+    ```bash
+    make logs
+    ```
+* **To enter the PHP container:**
+    ```bash
+    make php
+    ```
+* **To see all available commands:**
+    ```bash
+    make help
+    ```
 
-- Username: `admin`
-- Password: `admin123`
-- Email: `admin@example.com`
-- Admin Panel: <http://localhost:8080/admin>
+### Changing the PHP Version
 
-**⚠️ Security Note**: After installation, the `/install` directory is automatically removed from the container for security. The local `/install` directory in your project is the OpenCart installer source code and should remain in the repository.
+The environment uses PHP 8.4 by default.
+You can easily switch to a different version by editing the `PHP_VERSION` variable in the `docker/.env.docker` file.
 
-## 📦 What's Included
-
-- **OpenCart**: Latest version from master branch
-- **MariaDB 10.11**: Optimized MySQL-compatible database
-- **Adminer**: Web-based database management (<http://localhost:8081>)
-- **MailHog**: Email testing tool (<http://localhost:8025>)
-- **Custom Theme**: `oc-astro` theme with modern styling
-
-## 🛠️ Available Commands
-
-Run `make help` to see all available commands:
-
-```bash
-make help          # Show all commands
-make build         # Build Docker containers
-make up            # Start all services
-make down          # Stop all services
-make restart       # Restart services
-make logs          # View logs (all services)
-make logs-opencart # View OpenCart logs only
-make status        # Show service status
-make clean         # Remove containers and volumes
-make install       # Fresh installation
-make reset         # Complete reset (clean + install)
-make health        # Health check all services
-make backup-db     # Backup database
-make shell-opencart # Shell into OpenCart container
-make db-shell      # MySQL CLI access
-```
-
-## 🏗️ Architecture
-
-### Services
-
-1. **OpenCart** (Port 8080)
-   - PHP 8.2 with Apache
-   - Auto-installs on first run
-   - Volume-mounted for persistence
-
-2. **MariaDB** (Port 3307)
-   - MariaDB 10.11
-   - Optimized for Docker (io_uring disabled, binlog skipped)
-   - Health checks enabled
-
-3. **Adminer** (Port 8081)
-   - Lightweight phpMyAdmin alternative
-   - Connect with: Server=`mysql`, User=`opencart`, Pass=`opencart_pass`
-
-4. **MailHog** (Port 8025)
-   - Catches all outgoing emails
-   - Web UI for viewing emails
-
-### Directory Structure
-
-```text
-oc-tw/
-├── theme/
-│   └── oc-astro/            # Custom OpenCart theme (bind-mounted)
-│       ├── template/
-│       ├── stylesheet/
-│       ├── image/
-│       └── js/
-├── scripts/
-│   └── opencart-entrypoint.sh  # Container initialization script
-├── docker-compose.yml       # Service orchestration
-├── Dockerfile              # OpenCart image definition
-├── Makefile                # Development commands
-├── .env                    # Environment variables
-└── README.md               # This file
-```
-
-## 🎨 Theme Development
-
-The `oc-astro` theme is bind-mounted, allowing real-time development:
-
-```bash
-# Edit theme files
-nano theme/oc-astro/stylesheet/stylesheet.css
-
-# Changes are immediately available (no restart needed for templates)
-# Restart OpenCart only for PHP logic changes:
-make restart
-```
-
-### Theme Structure
-
-```text
-theme/oc-astro/
-├── template/
-│   ├── common/      # header.twig, footer.twig, home.twig
-│   └── product/     # product.twig
-├── stylesheet/      # CSS files
-├── image/           # Theme images
-└── js/              # JavaScript files
-```
-
-## 🐛 Troubleshooting
-
-### "Too many open files" error
-
-This is a Docker Desktop on macOS issue. Solutions:
-
-1. Restart Docker Desktop
-2. Increase file descriptor limits (already set in config)
-3. Use `make prune` to clean up Docker resources
-
-### OpenCart installation fails
-
-```bash
-# Check logs
-make logs-opencart
-
-# Reset everything
-make reset
-```
-
-### MySQL connection errors
-
-```bash
-# Check MySQL health
-make logs-mysql
-docker compose exec mysql mysqladmin ping -h localhost
-
-# Verify environment variables match
-cat .env
-```
-
-### Port conflicts
-
-Edit `docker-compose.yml` and change ports:
-
-```yaml
-ports:
-  - "9080:80"  # Change 8080 to 9080
-```
-
-## 🔧 Configuration
-
-### Environment Variables (.env)
+For example, to use PHP 8.2, open `docker/.env.docker` and set:
 
 ```env
-# MySQL/MariaDB
-MYSQL_ROOT_PASSWORD=root_secure_2025
-MYSQL_DATABASE=opencart_db
-MYSQL_USER=opencart
-MYSQL_PASSWORD=opencart_pass
-
-# OpenCart Admin
-OPENCART_ADMIN_USERNAME=admin
-OPENCART_ADMIN_PASSWORD=admin123
-OPENCART_ADMIN_EMAIL=admin@example.com
-OPENCART_HTTP_SERVER=http://localhost:8080/
-
-# Timezone
-TZ=UTC
+PHP_VERSION=8.2
 ```
 
-### Database Access
-
-**Via Adminer** (Web UI):
-
-- URL: <http://localhost:8081>
-- System: MySQL
-- Server: `mysql`
-- Username: `opencart`
-- Password: `opencart_pass`
-- Database: `opencart_db`
-
-**Via Command Line**:
+After changing the version, rebuild the images:
 
 ```bash
-make db-shell
-# Or manually:
-docker compose exec mysql mysql -u opencart -popencart_pass opencart_db
+make build
 ```
 
-## 📊 Database Backup & Restore
+### Using Docker Compose Profiles for Optional Services
 
-```bash
-# Backup database
-make backup-db
-# Creates: backups/opencart_YYYYMMDD_HHMMSS.sql
+By default, only the core services (`apache`, `php`, `mysql`) are started.
+Optional services such as **Adminer**, **Redis**, **Memcached**, and **PostgreSQL** can be enabled using [Docker Compose profiles](https://docs.docker.com/compose/profiles/).
 
-# Restore database
-make restore-db file=backups/opencart_20250108_120000.sql
-```
+To enable one or more optional services, use the `--profile` flag and specify your env file:
 
-## 🚀 Production Deployment
+- **Start with Adminer:**
+    ```bash
+    make up profiles="adminer"
+    ```
+- **Start with Redis and Memcached:**
+    ```bash
+    make up profiles="redis memcached"
+    ```
+- **Start all optional services:**
+    ```bash
+   make up profiles="adminer redis memcached postgres"
+    ```
 
-**DO NOT** use this Docker setup in production. This is a development environment.
+> [!TIP]
+>
+> You can combine any profiles as needed for your development workflow.
 
-For production:
+## Versioning
 
-1. Use managed database (RDS, CloudSQL, etc.)
-2. Deploy OpenCart to a PHP hosting environment
-3. Configure proper SSL/TLS
-4. Harden security settings
-5. Set up proper backups
-6. Configure CDN for static assets
+The version is broken down into 4 points e.g 1.2.3.4 We use MAJOR.MINOR.FEATURE.PATCH to describe the version numbers.
 
-## 📚 Resources
+A MAJOR is very rare, it would only be considered if the source was effectively re-written or a clean break was desired for other reasons. This increment would likely break most 3rd party modules.
 
-- [OpenCart Documentation](https://docs.opencart.com/)
-- [OpenCart GitHub](https://github.com/opencart/opencart)
-- [MariaDB Documentation](https://mariadb.org/documentation/)
+A MINOR is when there are significant changes that affect core structures. This increment would likely break some 3rd party modules.
 
-## ⚠️ Security Notes
+A FEATURE version is when new extensions or features are added (such as a payment gateway, shipping module etc). Updating a feature version is at a low risk of breaking 3rd party modules.
 
-- Change default admin credentials immediately
-- Update `.env` with strong passwords
-- Don't commit `.env` to version control (already in .gitignore)
-- Remove `install/` directory after installation (auto-removed by entrypoint)
-- Keep OpenCart and dependencies updated
+A PATCH version is when a fix is added, it should be considered safe to update patch versions e.g 1.2.3.4 to 1.2.3.5
 
-## 🐳 Docker Commands Reference
+## Releases
 
-```bash
-# View all containers
-docker compose ps
+OpenCart will announce to developers 1 week prior to public release of FEATURE versions, this is to allow for testing of their own modules for compatibility. For bigger releases (ones that contain many core changes, features and fixes) an extended period will be considered following an announced release candidate (RC). Patch versions (which are considered safe to update with) may have a significantly reduced developer release period.
 
-# View logs
-docker compose logs -f
+The master branch will always contain an "_rc" postfix of the next intended version. The next "_rc" version may change at any time.
 
-# Stop services
-docker compose down
+Developer release source code will not change once tagged.
 
-# Remove volumes (WARNING: deletes data)
-docker compose down -v
+If a bug is found in an announced developer release that is significant (such as a major feature is broken) then the release will be pulled. A patch version will be issued to replace it, depending on the severity of the patch an extended testing period may be announced. If the developer release version was never made public then the preceding patch version tag will be removed.
 
-# Rebuild from scratch
-docker compose build --no-cache
+To receive developer notifications about release information, sign up to the newsletter on the [OpenCart website](https://www.opencart.com) - located in the footer. Then choose the developer news option.
 
-# Execute command in container
-docker compose exec opencart bash
-docker compose exec mysql mysql -u root -p
-```
+## License
 
-## 📝 License
+[GNU General Public License version 3 (GPLv3)](https://github.com/opencart/opencart/blob/master/LICENSE.md)
 
-OpenCart is licensed under GPL v3.0. See OpenCart documentation for details.
+## Links
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 🆘 Support
-
-For issues:
-
-1. Check logs: `make logs`
-2. Verify health: `make health`
-3. Review troubleshooting section above
-4. Check OpenCart community forums
-5. Open an issue in this repository
+- [OpenCart homepage](https://www.opencart.com/)
+- [OpenCart forums](https://forum.opencart.com/)
+- [OpenCart blog](https://www.opencart.com/index.php?route=feature/blog)
+- [How to documents](http://docs.opencart.com/en-gb/introduction/)
+- [Newsletter](https://newsletter.opencart.com/h/r/B660EBBE4980C85C)
+- [Discussions](https://github.com/opencart/opencart/discussions)
+- [Chat](https://teams.live.com/l/community/FEAMBRGMM2X2wz82gI)

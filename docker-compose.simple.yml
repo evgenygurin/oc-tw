@@ -1,0 +1,48 @@
+name: opencart
+
+services:
+  web:
+    container_name: opencart-web
+    image: php:8.2-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./upload:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    depends_on:
+      - mysql
+    command: >
+      bash -c "
+      apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev unzip &&
+      docker-php-ext-configure gd --with-freetype --with-jpeg &&
+      docker-php-ext-install -j\$(nproc) gd mysqli pdo pdo_mysql zip &&
+      a2enmod rewrite &&
+      chown -R www-data:www-data /var/www/html &&
+      apache2-foreground
+      "
+    networks:
+      - opencart
+
+  mysql:
+    container_name: opencart-mysql
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: opencart
+      MYSQL_DATABASE: opencart
+      MYSQL_USER: opencart
+      MYSQL_PASSWORD: opencart
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - opencart
+
+volumes:
+  mysql-data:
+
+networks:
+  opencart:
+    driver: bridge
+

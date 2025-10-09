@@ -5,9 +5,9 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6">
-        <h1 class="display-4 fw-bold mb-4">Welcome to {{ name }}</h1>
+        <h1 class="display-4 fw-bold mb-4">Welcome to {{ name|default('Our Store') }}</h1>
         <p class="lead mb-4">Discover amazing products with our modern e-commerce platform</p>
-        <a href="{{ href_product }}" class="btn btn-light btn-lg">Shop Now</a>
+        <a href="{{ href_product|default('index.php?route=product/search') }}" class="btn btn-light btn-lg">Shop Now</a>
       </div>
       <div class="col-lg-6">
         <div class="hero-image text-center">

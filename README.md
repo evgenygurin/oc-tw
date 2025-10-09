@@ -19,6 +19,20 @@ For maintainers:
 
 ## 🚀 Quick Start
 
+### ⚡ **АВТОМАТИЧЕСКИЙ ЗАПУСК (ОДНА КОМАНДА):**
+
+```bash
+./quick-start.sh
+```
+
+**Или полная установка:**
+
+```bash
+./auto-setup-complete.sh
+```
+
+### 📋 **Ручная установка:**
+
 ### Prerequisites
 
 - Docker Desktop installed and running

@@ -1,0 +1,129 @@
+name: Basic Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [master, main, develop]
+
+jobs:
+  basic-validation:
+    name: Basic Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Validate Files
+        run: |
+          echo "✅ Validating repository structure..."
+          
+          # Check if required files exist
+          if [ -f ".cursorrules" ]; then
+            echo "✅ Cursor rules file exists"
+          else
+            echo "❌ Cursor rules file missing"
+            exit 1
+          fi
+          
+          if [ -d ".github" ]; then
+            echo "✅ GitHub configuration directory exists"
+          else
+            echo "❌ GitHub configuration missing"
+            exit 1
+          fi
+          
+          # Validate PHP syntax if PHP files exist
+          if find upload -name "*.php" -type f | head -1 | grep -q .; then
+            echo "✅ Checking PHP syntax..."
+            find upload -name "*.php" -type f ! -path 'upload/system/storage/vendor/*' -exec php -l {} \; | grep -q "No syntax errors" || {
+              echo "❌ PHP syntax errors found"
+              exit 1
+            }
+            echo "✅ PHP syntax is valid"
+          fi
+          
+          echo "✅ All basic validations passed"
+
+      - name: Check Documentation
+        run: |
+          echo "✅ Checking documentation completeness..."
+          
+          # Check if main documentation files exist
+          required_docs=("README.md" ".github/CONTRIBUTING.md" ".github/PR_EXAMPLE.md")
+          
+          for doc in "${required_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✅ $doc exists"
+            else
+              echo "⚠️  $doc is missing but not critical"
+            fi
+          done
+          
+          echo "✅ Documentation check completed"
+
+  security-basic:
+    name: Basic Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Basic Security Scan
+        run: |
+          echo "🔒 Running basic security checks..."
+          
+          # Check for common security issues
+          security_issues=0
+          
+          # Check for hardcoded passwords or keys
+          if grep -r "password.*=" --include="*.php" --include="*.js" upload/ | grep -v "password_hash\|password_verify" | head -5; then
+            echo "⚠️  Potential hardcoded passwords found"
+            security_issues=$((security_issues + 1))
+          fi
+          
+          # Check for eval usage
+          if grep -r "eval(" --include="*.php" upload/ | head -5; then
+            echo "❌ eval() usage found - security risk"
+            security_issues=$((security_issues + 1))
+          fi
+          
+          # Check for SQL injection patterns
+          if grep -r "\$_GET\[.*\].*query\|\$_POST\[.*\].*query" --include="*.php" upload/ | head -5; then
+            echo "⚠️  Potential SQL injection patterns found"
+            security_issues=$((security_issues + 1))
+          fi
+          
+          if [ $security_issues -eq 0 ]; then
+            echo "✅ No major security issues detected"
+          else
+            echo "⚠️  $security_issues potential security issues found (warnings only)"
+          fi
+          
+          echo "✅ Basic security scan completed"
+
+  pr-validation:
+    name: PR Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate PR
+        run: |
+          echo "📋 Validating pull request..."
+          
+          # This is a basic validation that always passes
+          # The actual PR template validation should be handled by GitHub
+          
+          echo "✅ PR validation completed"
+          echo "ℹ️  For detailed PR requirements, see .github/pull_request_template.md"

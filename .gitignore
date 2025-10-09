@@ -1,55 +1,58 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Environment
+.env
+.env.local
+.env*.local
 
-# dependencies
-/node_modules
-/.pnp
+# OpenCart generated files
+config.php
+admin/config.php
+system/storage/
+
+# Image uploads
+image/cache/
+image/catalog/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+*.pem
+
+# Backup
+.backup/
+
+# Docker
+docker-compose.override.yml
+.docker/
+mariadb_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js (if used for theme development)
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
+# Next.js (if used)
+/.next/
+/out/
+/build
 *.tsbuildinfo
 next-env.d.ts
-
-# ----- Extra ignores for Docker/OpenCart setup -----
-# Docker compose overrides or local config
-docker-compose.override.yml
-.docker/
-
-# Optional OpenCart bind-mounted storage (if configured later)
-/storage/
-/system/storage/cache/
-/system/storage/logs/
-
-# OpenCart source archive (pre-downloaded for Docker builds)
-opencart-source/master.zip
-
+.vercel

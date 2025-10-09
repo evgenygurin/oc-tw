@@ -113,6 +113,7 @@ After: 142kB (+4kB for google-auth-library) ✅ within budget
 
 - [x] **Branch naming**: `feat/oauth2-google-integration` ✅
 - [x] **Commit messages**: Follow conventional commits format
+
   ```bash
   feat(auth): add Google OAuth2 integration
   feat(db): add oauth_providers table for social auth
@@ -208,11 +209,13 @@ npm run dev
 ### Performance Impact
 
 **Positive:**
+
 - OAuth flow сокращает время регистрации на 2.75 минуты
 - Reduced server load от email verification workflow
 - Better user retention (+25% conversion)
 
 **Neutral:**
+
 - +4kB bundle size (within budget)
 - +1 database table (lightweight, properly indexed)
 
@@ -237,6 +240,7 @@ npm run dev
 ---
 
 **Automated checks summary:**
+
 - ✅ Next.js Code Quality: PASSED
 - ✅ Docker Services Health: PASSED
 - ✅ Security Vulnerabilities: PASSED

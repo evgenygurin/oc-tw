@@ -1,79 +1,65 @@
 services:
-  opencart:
-    container_name: oc-tw-opencart
-    build: .
-    ports:
-      - "8080:80"
+  mariadb:
+    image: mariadb:11.3
+    container_name: opencart_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
-      - opencart-data:/var/www/html
-      - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - opencart_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  opencart:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: opencart_app
     depends_on:
-      mysql:
+      mariadb:
         condition: service_healthy
     environment:
-      - TZ=UTC
-      - OPENCART_ADMIN_USERNAME=admin
-      - OPENCART_ADMIN_PASSWORD=admin123
-      - OPENCART_ADMIN_EMAIL=admin@example.com
-      - OPENCART_HTTP_SERVER=http://localhost:8080/
-      - MYSQL_USER=opencart
-      - MYSQL_PASSWORD=opencart_pass
-      - MYSQL_DATABASE=opencart_db
-    restart: unless-stopped
-    networks:
-      - oc-network
-
-  mysql:
-    container_name: oc-tw-mysql
-    image: mariadb:10.11
-    command: --skip-log-bin --innodb-use-native-aio=0
-    ports:
-      - "3307:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=root_secure_2025
-      - MYSQL_DATABASE=opencart_db
-      - MYSQL_USER=opencart
-      - MYSQL_PASSWORD=opencart_pass
+      DB_HOSTNAME: mariadb
+      DB_USERNAME: ${MARIADB_USER}
+      DB_PASSWORD: ${MARIADB_PASSWORD}
+      DB_DATABASE: ${MARIADB_DATABASE}
+      DB_PORT: 3306
+      DB_PREFIX: oc_
     volumes:
-      - mysql-data:/var/lib/mysql
-    restart: unless-stopped
-    networks:
-      - oc-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
-  adminer:
-    container_name: oc-tw-adminer
-    image: adminer:latest
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
-    depends_on:
-      - mysql
+      - ./system/storage:/var/www/html/system/storage
+      - ./image:/var/www/html/image
     ports:
-      - "8081:8080"
-    restart: unless-stopped
+      - "8080:80"
     networks:
-      - oc-network
+      - opencart_network
 
-  mailhog:
-    container_name: oc-tw-mailhog
-    image: mailhog/mailhog:latest
-    ports:
-      - "8025:8025"
-      - "1025:1025"
-    restart: unless-stopped
-    networks:
-      - oc-network
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   container_name: opencart_phpmyadmin
+  #   depends_on:
+  #     - mariadb
+  #   environment:
+  #     PMA_HOST: mariadb
+  #     PMA_PORT: 3306
+  #     PMA_USER: ${MARIADB_USER}
+  #     PMA_PASSWORD: ${MARIADB_PASSWORD}
+  #   ports:
+  #     - "8081:80"
+  #   networks:
+  #     - opencart_network
 
 volumes:
-  opencart-data:
-    driver: local
-  mysql-data:
-    driver: local
+  mariadb_data:
 
 networks:
-  oc-network:
+  opencart_network:
     driver: bridge

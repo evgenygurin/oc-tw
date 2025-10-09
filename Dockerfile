@@ -37,9 +37,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -L https://github.com/opencart/opencart/releases/download/4.0.2.3/opencart-4.0.2.3.zip -o opencart.zip \
     && unzip -q opencart.zip \
     && cp -r opencart-4.0.2.3/upload/* /var/www/html/ \
-    && rm -rf opencart.zip opencart-4.0.2.3 \
-    && cd /var/www/html \
-    && composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+    && rm -rf opencart.zip opencart-4.0.2.3
 
 # Create temporary directory for project metadata (optional)
 RUN mkdir -p /tmp/project-files

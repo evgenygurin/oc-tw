@@ -152,9 +152,10 @@ jobs:
       - name: Check branch naming
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          if ! [[ "$BRANCH_NAME" =~ ^(feat|fix|refactor|style|docs|chore|perf)/.+ ]]; then
+          if ! [[ "$BRANCH_NAME" =~ ^(feat|fix|refactor|style|docs|chore|perf|codegen-bot|cursor)/.+ ]]; then
             echo "❌ Branch name must follow pattern: type/description"
             echo "   Examples: feat/user-auth, fix/mobile-menu"
+            echo "   Automated branches: codegen-bot/*, cursor/*"
             exit 1
           fi
           echo "✅ Branch name is valid: $BRANCH_NAME"

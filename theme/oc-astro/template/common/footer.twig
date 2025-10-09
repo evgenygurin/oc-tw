@@ -1,4 +1,5 @@
-  <footer class="bg-dark text-light py-5 mt-5">
+<!-- Footer component for OpenCart oc-astro theme -->
+<footer class="bg-dark text-light py-5 mt-5">
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-6 mb-4">
@@ -8,14 +9,16 @@
           {% endif %}
         </div>
         
-        {% for information in informations %}
-          <div class="col-lg-2 col-md-6 mb-4">
-            <h6 class="text-uppercase mb-3">Information</h6>
-            <ul class="list-unstyled">
-              <li><a href="{{ information.href }}" class="text-muted text-decoration-none">{{ information.title }}</a></li>
-            </ul>
-          </div>
-        {% endfor %}
+        {% if informations is defined and informations %}
+          {% for information in informations %}
+            <div class="col-lg-2 col-md-6 mb-4">
+              <h6 class="text-uppercase mb-3">Information</h6>
+              <ul class="list-unstyled">
+                <li><a href="{{ information.href }}" class="text-muted text-decoration-none">{{ information.title }}</a></li>
+              </ul>
+            </div>
+          {% endfor %}
+        {% endif %}
         
         <div class="col-lg-3 col-md-6 mb-4">
           <h6 class="text-uppercase mb-3">Contact Info</h6>
@@ -36,7 +39,7 @@
       
       <div class="row align-items-center">
         <div class="col-md-6">
-          <p class="text-muted mb-0">&copy; {{ date('Y') }} {{ name }}. All rights reserved.</p>
+          <p class="text-muted mb-0">&copy; {{ 'now'|date('Y') }} {{ name|default('Store') }}. All rights reserved.</p>
         </div>
         <div class="col-md-6 text-md-end">
           {% if powered %}

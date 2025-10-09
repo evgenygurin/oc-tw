@@ -1,0 +1,18 @@
+{
+  "name": "opencart-sentry-integration",
+  "version": "1.0.0",
+  "description": "OpenCart with Sentry integration via MCP Server",
+  "scripts": {
+    "setup-sentry": "./install-sentry-mcp.sh",
+    "sentry-mcp": "npx -y @modelcontextprotocol/server-sentry",
+    "test-sentry": "node scripts/test-sentry.js"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server-sentry": "latest",
+    "@sentry/cli": "^2.21.2"
+  },
+  "dependencies": {
+    "@sentry/node": "^7.80.0",
+    "@sentry/profiling-node": "^1.2.6"
+  }
+}

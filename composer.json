@@ -1,0 +1,30 @@
+{
+    "name": "opencart/opencart",
+    "description": "OpenCart 4.x E-Commerce Platform",
+    "type": "project",
+    "license": "GPL-3.0",
+    "require": {
+        "php": "^7.4 || ^8.0 || ^8.1 || ^8.2",
+        "twig/twig": "^3.3.7",
+        "aws/aws-sdk-php": "^3.142.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Opencart\\": "system/library/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
+

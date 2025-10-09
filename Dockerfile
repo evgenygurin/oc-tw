@@ -39,6 +39,12 @@ RUN curl -L https://github.com/opencart/opencart/releases/download/4.0.2.3/openc
     && cp -r opencart-4.0.2.3/upload/* /var/www/html/ \
     && rm -rf opencart.zip opencart-4.0.2.3
 
+# Copy custom composer.json (fixes upstream JSON syntax errors)
+COPY composer.json /var/www/html/composer.json
+
+# Install Composer dependencies
+RUN cd /var/www/html && composer install --no-dev --optimize-autoloader --no-interaction || true
+
 # Create temporary directory for project metadata (optional)
 RUN mkdir -p /tmp/project-files
 

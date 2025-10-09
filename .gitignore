@@ -22,6 +22,8 @@ image/
 !CLAUDE.md
 !README.md
 !*.sh
+!composer.json
+!composer.lock
 
 # OpenCart generated files
 config.php

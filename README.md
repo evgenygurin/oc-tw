@@ -61,6 +61,8 @@ docker compose exec opencart rm -rf /var/www/html/install
 - **MailHog**: Email testing tool (<http://localhost:8025>)
 - **Custom Theme**: `oc-astro` theme with modern styling
 - **ClickUp Integration**: 🆕 AI-powered task management integration ([Setup Guide](README_CLICKUP.md))
+- **CircleCI Integration**: 🆕 Intelligent CI/CD monitoring with auto-fix ([Setup Guide](README_CIRCLECI.md))
+- **Codegen Orchestrator**: 🔥 Unified CI/CD and task management through Codegen APIs ([Setup Guide](README_CODEGEN_ORCHESTRATOR.md))
 
 ## 🛠️ Available Commands
 
@@ -83,8 +85,10 @@ make backup-db     # Backup database
 make shell-opencart # Shell into OpenCart container
 make db-shell      # MySQL CLI access
 
-# ClickUp Integration
-./clickup_integration/docker-setup.sh  # Install ClickUp integration
+# AI-Powered Integrations
+./clickup_integration/docker-setup.sh     # Install ClickUp integration
+./circleci_integration/install.php        # Install CircleCI monitoring
+./codegen_integration/install.php         # Install unified Codegen orchestrator
 ```
 
 ## 🏗️ Architecture

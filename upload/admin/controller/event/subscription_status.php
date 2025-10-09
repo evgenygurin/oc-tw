@@ -15,10 +15,6 @@ class SubscriptionStatus extends \Opencart\System\Engine\Controller {
 	 * model/localisation/subscription_status/editSubscriptionStatus/after
 	 * model/localisation/subscription_status/deleteSubscriptionStatus/after
 	 *
-	 * @param string $route
-	 * @param array<int, mixed> $args
-	 * @param mixed $output
-	 *
 	 * @return void
 	 */
 	public function index(string &$route, array &$args, mixed &$output): void {

@@ -11,9 +11,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate country task list.
 	 *
-	 * @param array<string, mixed> $args
+	 * @param array<string, string> $args
 	 *
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
 	public function index(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -42,9 +42,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON country list file.
 	 *
-	 * @param array<string, mixed> $args
+	 * @param array<string, string> $args
 	 *
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
 	public function list(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -62,7 +62,7 @@ class Country extends \Opencart\System\Engine\Controller {
 		}
 
 		$filter_data = [
-			'filter_language_id' => (int)$language_info['language_id'],
+			'filter_language_id' => $language_info['language_id'],
 			'sort_order'         => 'ASC'
 		];
 
@@ -76,7 +76,7 @@ class Country extends \Opencart\System\Engine\Controller {
 				'action' => 'task/admin/country.info',
 				'args'   => [
 					'country_id'  => $country['country_id'],
-					'language_id' => (int)$language_info['language_id']
+					'language_id' => $language_info['language_id']
 				]
 			];
 
@@ -111,9 +111,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * Generate JSON country information file.
 	 *
-	 * @param array<string, mixed> $args
+	 * @param array<string, string> $args
 	 *
-	 * @return array<string, string>
+	 * @return array
 	 */
 	public function info(array $args = []): array {
 		$this->load->language('task/admin/country');
@@ -145,15 +145,15 @@ class Country extends \Opencart\System\Engine\Controller {
 			return ['error' => $this->language->get('error_country')];
 		}
 
-		$description_info = $this->model_localisation_country->getDescription((int)$args['country_id'], (int)$language_info['language_id']);
+		$description_info = $this->model_localisation_country->getDescription((int)$args['country_id'], $language_info['language_id']);
 
 		if (!$description_info) {
 			return ['error' => $this->language->get('error_description')];
 		}
 
 		$filter_data = [
-			'filter_country_id'  => (int)$country_info['country_id'],
-			'filter_language_id' => (int)$language_info['language_id']
+			'filter_country_id'  => $country_info['country_id'],
+			'filter_language_id' => $language_info['language_id']
 		];
 
 		$this->load->model('localisation/zone');
@@ -180,9 +180,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	 *
 	 * Delete generated JSON country files.
 	 *
-	 * @param array<string, mixed> $args
+	 * @param array<string, string> $args
 	 *
-	 * @return array<string, string>
+	 * @return array
 	 */
 	public function clear(array $args = []): array {
 		$this->load->language('task/admin/country');

@@ -23,6 +23,7 @@ class Task extends \Opencart\System\Engine\Controller {
 	 */
 	public function index(): ?\Opencart\System\Engine\Action {
 		register_shutdown_function([$this, 'trigger']);
+		
 		return null;
 	}
 

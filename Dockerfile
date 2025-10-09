@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install required extensions and tools
+# Install required extensions and tools including OpenSSL for Composer
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
@@ -8,9 +8,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libcurl4-openssl-dev \
     libxml2-dev \
+    libssl-dev \
     unzip \
     git \
     curl \
+    wget \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     mysqli \

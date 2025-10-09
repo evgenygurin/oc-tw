@@ -1,0 +1,439 @@
+# Cursor Rules for OpenCart with AI Integrations
+
+## Project Overview
+This is **oc-tw**, an OpenCart e-commerce platform with AI-powered integrations:
+- OpenCart 4.x running in Docker with custom `oc-astro` theme
+- ClickUp Integration for task management
+- CircleCI Integration for CI/CD monitoring
+- Codegen Orchestrator for unified automation
+- MariaDB, phpMyAdmin, MailHog for development
+
+## Architecture & Structure
+
+### Core Components
+- **OpenCart Core**: `/catalog/`, `/admin/`, `/system/`
+- **Custom Theme**: `/theme/oc-astro/` (bind-mounted to container)
+- **ClickUp Integration**: `/clickup_integration/`
+- **CircleCI Integration**: `/circleci_integration/`
+- **Codegen Orchestrator**: `/codegen_integration/` (primary)
+- **Docker Setup**: `docker-compose.yml`, `Dockerfile`
+
+### Database Schema
+- OpenCart tables: `oc_*`
+- ClickUp tables: `oc_clickup_*`
+- CircleCI tables: `oc_circleci_*`
+- Codegen tables: `oc_codegen_*`
+
+## Development Workflow
+
+### Essential Commands
+```bash
+# Docker management
+docker compose up -d          # Start all services
+docker compose down           # Stop services  
+docker compose restart opencart # Restart OpenCart only
+docker compose logs -f opencart # View logs
+
+# Integration installations
+./codegen_integration/docker-setup.sh     # Primary (recommended)
+./clickup_integration/docker-setup.sh     # E-commerce tasks
+./circleci_integration/install.php        # Advanced CI/CD
+
+# Modern CLI tools (ALWAYS use these)
+fd "*.php"                    # Find files (NOT find)
+rg "function" --type php      # Search content (NOT grep)
+```
+
+### Theme Development
+- Theme files in `/theme/oc-astro/` are live-mounted
+- No restart needed for template (.twig) changes
+- Restart OpenCart for PHP logic changes: `docker compose restart opencart`
+
+## Code Style & Standards
+
+### PHP Code Standards
+```php
+<?php
+/**
+ * Class description
+ * Purpose and functionality
+ */
+class ExampleClass {
+    private $registry;
+    private $db;
+    
+    public function __construct($registry) {
+        $this->registry = $registry;
+        $this->db = $registry->get('db');
+    }
+    
+    /**
+     * Method description with clear purpose
+     */
+    public function methodName($param) {
+        // Clear, readable code
+        $result = $this->db->query("SELECT * FROM table WHERE id = '" . (int)$param . "'");
+        return $result->rows;
+    }
+}
+```
+
+### File Organization
+- Controllers: `/admin/controller/extension/module/`
+- Models: `/admin/model/extension/module/`
+- Views: `/admin/view/template/extension/module/`
+- Languages: `/admin/language/en-gb/extension/module/`
+
+### Naming Conventions
+- Classes: `PascalCase` (e.g., `ClickUpIntegration`)
+- Methods: `camelCase` (e.g., `createTask`)
+- Database tables: `snake_case` with prefix (e.g., `oc_clickup_tasks`)
+- Files: `snake_case.php` (e.g., `clickup_integration.php`)
+
+## Integration Guidelines
+
+### Codegen Orchestrator (Primary)
+```php
+// Use Codegen tools for API access
+$this->callCodegenTool('circleci', 'get_pipelines', [
+    'project_slug' => $this->getSetting('circleci_project_slug')
+]);
+
+$this->callCodegenTool('clickup', 'create_task', [
+    'name' => $taskName,
+    'description' => $description,
+    'list_id' => $this->getSetting('clickup_list_id')
+]);
+```
+
+### Error Handling Pattern
+```php
+try {
+    $result = $this->performOperation();
+    $this->logActivity("Operation successful");
+    return $result;
+} catch (Exception $e) {
+    error_log("Integration Error: " . $e->getMessage());
+    $this->logActivity("Operation failed: " . $e->getMessage());
+    return false;
+}
+```
+
+### Database Patterns
+```php
+// Safe database queries
+$this->db->query("INSERT INTO `" . DB_PREFIX . "table_name` 
+                 SET field = '" . $this->db->escape($value) . "',
+                     date_added = NOW()");
+
+// Check existing records
+$existing = $this->db->query("SELECT * FROM `" . DB_PREFIX . "table_name` 
+                             WHERE id = '" . (int)$id . "'");
+if ($existing->num_rows > 0) {
+    // Handle existing record
+}
+```
+
+## Security Best Practices
+
+### Input Validation
+```php
+// Always validate and sanitize input
+if (!$this->user->hasPermission('modify', 'extension/module/example')) {
+    $this->error['warning'] = $this->language->get('error_permission');
+}
+
+// Escape database inputs
+$safe_value = $this->db->escape($user_input);
+$safe_int = (int)$user_input;
+```
+
+### API Security
+- Never store API tokens in code
+- Use Codegen tools for secure API access
+- Log all integration activities
+- Implement proper error handling
+
+### File Permissions
+```bash
+# Set proper permissions for OpenCart files
+chmod -R 755 directory/
+chmod -R 644 files.php
+chown -R www-data:www-data /var/www/html/
+```
+
+## Testing & Quality
+
+### Testing Approach
+```php
+// Always test integrations
+public function testConnection() {
+    if (!$this->isConfigured()) {
+        return ['success' => false, 'message' => 'Not configured'];
+    }
+    
+    try {
+        $result = $this->performTestOperation();
+        return ['success' => true, 'message' => 'Connected successfully'];
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => $e->getMessage()];
+    }
+}
+```
+
+### Quality Checklist
+- [ ] All database queries use proper escaping
+- [ ] Error handling implemented for all API calls
+- [ ] Logging added for important operations
+- [ ] Input validation on all user inputs
+- [ ] Permissions checked for admin actions
+- [ ] Integration settings properly validated
+
+## Docker & Deployment
+
+### Development Environment
+```yaml
+# docker-compose.yml structure
+services:
+  opencart:    # Port 8080
+  mariadb:     # Port 3306  
+  phpmyadmin:  # Port 8081
+  mailhog:     # Port 8025
+```
+
+### File Mounting
+```yaml
+# Theme development (live reload)
+volumes:
+  - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
+  - ./system/storage:/var/www/html/system/storage
+```
+
+### Health Checks
+```bash
+# Verify services are running
+docker compose ps
+docker compose logs -f
+make health  # If using Makefile
+```
+
+## Integration Workflows
+
+### ClickUp Task Creation
+```php
+// Standard task creation flow
+$taskData = [
+    'name' => $this->generateTaskName($data),
+    'description' => $this->buildTaskDescription($data),
+    'priority' => $this->determinePriority($data),
+    'tags' => $this->generateTags($data),
+    'assignees' => $this->determineAssignees($data)
+];
+
+$task = $this->createTask($taskData);
+```
+
+### CircleCI Monitoring
+```php
+// Pipeline monitoring pattern
+$pipelines = $this->getRecentPipelines();
+foreach ($pipelines as $pipeline) {
+    if ($this->hasFailed($pipeline)) {
+        $analysis = $this->analyzeFailure($pipeline);
+        $this->processFailure($pipeline, $analysis);
+    }
+}
+```
+
+### Event-Driven Architecture
+```php
+// Event handler pattern
+public function onOrderCreate($orderId, $orderData) {
+    if (!$this->isConfigured()) return false;
+    
+    $task = $this->createOrderTask($orderId, $orderData);
+    $this->logActivity("Task created for order #{$orderId}");
+    return $task;
+}
+```
+
+## Debugging & Troubleshooting
+
+### Logging Patterns
+```php
+// Comprehensive logging
+private function log($message, $level = 'info') {
+    $timestamp = date('Y-m-d H:i:s');
+    echo "[{$timestamp}] {$level}: {$message}\n";
+    
+    // Database logging
+    $this->db->query("INSERT INTO `" . DB_PREFIX . "activity_log` 
+                     SET message = '" . $this->db->escape($message) . "',
+                         level = '" . $this->db->escape($level) . "',
+                         date_added = NOW()");
+}
+```
+
+### Debug Mode
+```php
+// Enable debug mode
+if (defined('DEBUG') && DEBUG) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $this->enableDetailedLogging();
+}
+```
+
+### Common Issues
+```bash
+# Container not starting
+docker compose logs opencart
+
+# Permission issues  
+docker compose exec opencart chown -R www-data:www-data /var/www/html
+
+# Database connection
+docker compose exec mariadb mysql -u opencart -p
+
+# Theme not loading
+ls -la theme/oc-astro/
+docker compose restart opencart
+```
+
+## Performance Optimization
+
+### Database Optimization
+```php
+// Use indexes and efficient queries
+$this->db->query("CREATE INDEX idx_date_added ON `" . DB_PREFIX . "table_name` (date_added)");
+
+// Batch operations when possible
+$batch_size = 100;
+$batches = array_chunk($data, $batch_size);
+```
+
+### Caching Strategies
+```php
+// Cache expensive operations
+$cacheKey = 'integration_data_' . md5($params);
+$cached = $this->getCache($cacheKey);
+
+if (!$cached) {
+    $data = $this->expensiveOperation($params);
+    $this->setCache($cacheKey, $data, 300); // 5 minutes
+}
+```
+
+## Git & Version Control
+
+### Commit Messages
+```
+feat(clickup): add automatic order task creation
+fix(circleci): resolve pipeline monitoring timeout
+refactor(codegen): improve error handling in orchestrator
+docs(integration): update setup instructions
+```
+
+### Branch Naming
+- `feat/clickup-order-tasks`
+- `fix/circleci-webhook-endpoint`
+- `refactor/codegen-error-handling`
+
+## Environment Configuration
+
+### Required Environment Variables
+```env
+# Database
+MARIADB_ROOT_PASSWORD=secure_password
+MARIADB_DATABASE=opencart_db
+MARIADB_USER=opencart
+MARIADB_PASSWORD=secure_password
+
+# OpenCart
+OPENCART_ADMIN_USERNAME=admin
+OPENCART_ADMIN_PASSWORD=secure_password
+OPENCART_ADMIN_EMAIL=admin@example.com
+```
+
+### Integration Settings
+```env
+# Stored in database via admin panel
+CODEGEN_CIRCLECI_PROJECT_SLUG=gh/username/repository
+CODEGEN_CLICKUP_LIST_ID=list_id_here
+CODEGEN_AUTO_FIX_ENABLED=true
+```
+
+## AI Integration Best Practices
+
+### Codegen Tool Usage
+- Always use Codegen tools for API access
+- Implement proper error handling for tool calls
+- Cache results when appropriate
+- Log all tool interactions
+
+### Intelligent Automation
+- Analyze patterns in failures/data
+- Generate meaningful task descriptions
+- Route work to appropriate team members
+- Apply context-aware auto-fixes
+
+### Future-Proofing
+- Build on Codegen's evolving API platform
+- Design for extensibility and modularity
+- Implement comprehensive logging for debugging
+- Use consistent patterns across integrations
+
+## Documentation Standards
+
+### Code Documentation
+```php
+/**
+ * Create ClickUp task for order processing
+ * 
+ * @param int $orderId Order ID from OpenCart
+ * @param array $orderData Order details including customer info
+ * @return array|false Task data or false on failure
+ */
+public function createOrderTask($orderId, $orderData) {
+    // Implementation
+}
+```
+
+### README Structure
+- Clear installation instructions
+- Configuration examples
+- Usage scenarios
+- Troubleshooting section
+- API reference
+
+---
+
+## Quick Reference
+
+### Key Files
+- `CLAUDE.md` - Project guidance
+- `INTEGRATION_SUMMARY.md` - Integration comparison
+- `README_CODEGEN_ORCHESTRATOR.md` - Primary integration
+- `docker-compose.yml` - Service configuration
+- `.env.example` - Environment template
+
+### Key URLs
+- OpenCart: `http://localhost:8080`
+- Admin Panel: `http://localhost:8080/admin`
+- phpMyAdmin: `http://localhost:8081`
+- MailHog: `http://localhost:8025`
+
+### Support Commands
+```bash
+# Health check
+docker compose ps && docker compose logs --tail=10
+
+# Reset environment  
+docker compose down -v && docker compose up -d
+
+# Access containers
+docker compose exec opencart bash
+docker compose exec mariadb mysql -u root -p
+```
+
+**Always prioritize the Codegen Orchestrator for new functionality - it's the future-proof, unified approach to CI/CD and task management integration.**

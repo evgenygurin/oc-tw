@@ -28,11 +28,17 @@ RUN a2enmod rewrite
 # Set working directory
 WORKDIR /var/www/html
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Download and install OpenCart
 RUN curl -L https://github.com/opencart/opencart/releases/download/4.0.2.3/opencart-4.0.2.3.zip -o opencart.zip \
     && unzip opencart.zip \
     && cp -r opencart-4.0.2.3/upload/* /var/www/html/ \
     && rm -rf opencart.zip opencart-4.0.2.3
+
+# Install OpenCart dependencies
+RUN cd /var/www/html && composer install --no-dev --optimize-autoloader
 
 # Create temporary directory for project metadata (optional)
 RUN mkdir -p /tmp/project-files

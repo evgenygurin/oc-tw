@@ -1,0 +1,253 @@
+# OpenCart E-commerce Platform - Cursor Rules
+
+You are an expert OpenCart developer working on a comprehensive e-commerce platform. This project uses OpenCart 4.1+ with modern PHP 8+ features, Docker containerization, and follows MVC architecture patterns.
+
+## Project Overview
+
+This is an OpenCart e-commerce platform with:
+- **OpenCart Version**: 4.1.0.4
+- **PHP Version**: 8.0.2+ (configured for PHP 8.4 in Docker)
+- **Architecture**: MVC (Model-View-Controller)
+- **Template Engine**: Twig 3.18+
+- **Database**: MariaDB/MySQL with mysqli driver
+- **Containerization**: Docker with Apache/PHP-FPM
+- **Development Tools**: PHPStan, PHP-CS-Fixer, Composer
+
+## Directory Structure & File Organization
+
+### Core Application Structure
+```
+upload/                     # Main OpenCart application
+├── admin/                  # Admin panel (backend)
+│   ├── controller/         # Admin controllers
+│   ├── model/             # Admin models
+│   ├── view/              # Admin views (Twig templates)
+│   └── language/          # Admin language files
+├── catalog/               # Frontend (customer-facing)
+│   ├── controller/        # Frontend controllers
+│   ├── model/            # Frontend models
+│   ├── view/             # Frontend views (Twig templates)
+│   └── language/         # Frontend language files
+├── system/               # Core OpenCart framework
+├── extension/            # Extensions and modules
+└── image/               # Product and system images
+```
+
+### Development Structure
+```
+docker/                   # Docker configuration
+├── apache/              # Apache web server config
+├── php/                 # PHP-FPM configuration
+└── nginx/               # Alternative Nginx config
+tools/                   # Development tools
+scripts/                 # Build and deployment scripts
+```
+
+## Coding Standards & Best Practices
+
+### PHP Development
+- **Follow PSR-12** coding standards for new code
+- **Use strict types**: Always declare `declare(strict_types=1);` in new PHP files
+- **Type hints**: Use proper type declarations for parameters and return types
+- **Namespace**: Use proper OpenCart namespacing: `Opencart\Admin\Controller\*`, `Opencart\Catalog\Model\*`
+- **Error handling**: Use proper exception handling and logging
+- **Security**: Always sanitize inputs, use prepared statements, validate CSRF tokens
+
+### OpenCart Specific Patterns
+- **Controllers**: Extend `\Opencart\System\Engine\Controller`
+- **Models**: Extend `\Opencart\System\Engine\Model`
+- **Registry Pattern**: Use `$this->registry->get()` for accessing system components
+- **Language**: Use `$this->language->get()` for translations
+- **Database**: Use `$this->db->query()` with proper escaping
+- **Events**: Use OpenCart's event system for hooks and modifications
+
+### File Naming Conventions
+- **Controllers**: PascalCase (e.g., `ProductController.php`)
+- **Models**: PascalCase (e.g., `ProductModel.php`)
+- **Views**: snake_case (e.g., `product_list.twig`)
+- **Language files**: snake_case (e.g., `common.php`)
+- **Extensions**: Follow OpenCart extension naming conventions
+
+## Database & Data Handling
+
+### Database Patterns
+- **Prefix**: Use `oc_` prefix for all tables (configurable via `DB_PREFIX`)
+- **Queries**: Always use parameterized queries to prevent SQL injection
+- **Transactions**: Use database transactions for multi-table operations
+- **Indexes**: Ensure proper indexing for performance
+- **Foreign Keys**: Use proper foreign key relationships where applicable
+
+### Data Validation
+- **Input Validation**: Validate all user inputs before processing
+- **Output Escaping**: Escape all output to prevent XSS attacks
+- **File Uploads**: Validate file types, sizes, and sanitize file names
+- **API Responses**: Always return consistent JSON structures
+
+## Frontend Development
+
+### Twig Templates
+- **Template Inheritance**: Use Twig's `extends` and `block` system
+- **Macros**: Create reusable Twig macros for common UI components
+- **Filters**: Use appropriate Twig filters for data formatting
+- **Security**: Use `|escape` filter for user-generated content
+- **Performance**: Minimize template complexity and database calls
+
+### CSS & JavaScript
+- **SCSS**: Use SCSS for stylesheets (compiled via scssphp)
+- **Responsive Design**: Ensure mobile-first responsive design
+- **Performance**: Minimize and optimize CSS/JS files
+- **Modern JS**: Use ES6+ features where supported
+- **jQuery**: Leverage existing jQuery for compatibility
+
+## Docker & Development Environment
+
+### Container Management
+- **Services**: Use `make up` to start all services
+- **Logs**: Use `make logs` to view container logs
+- **Shell Access**: Use `make php` for PHP container, `make mysql` for database
+- **Profiles**: Use profiles for optional services (adminer, redis, memcached)
+
+### Environment Configuration
+- **Environment Files**: Use `docker/.env.docker` for configuration
+- **Secrets**: Never commit sensitive data; use environment variables
+- **Ports**: Default ports: 80 (web), 3306 (mysql), 9000 (php-fpm)
+- **Volumes**: Code is mounted at `/var/www` in containers
+
+## Extension Development
+
+### Extension Structure
+```
+extension/opencart/
+├── admin/
+│   ├── controller/
+│   ├── model/
+│   └── view/
+├── catalog/
+│   ├── controller/
+│   ├── model/
+│   └── view/
+└── install.json
+```
+
+### Extension Best Practices
+- **Modularity**: Keep extensions self-contained and modular
+- **Compatibility**: Ensure compatibility with OpenCart core updates
+- **Events**: Use event system instead of modifying core files
+- **Installation**: Provide proper install.json with dependencies
+- **Documentation**: Include comprehensive documentation
+
+## Testing & Quality Assurance
+
+### Static Analysis
+- **PHPStan**: Run `phpstan analyse` (level 6 configured)
+- **Code Style**: Use PHP-CS-Fixer for consistent formatting
+- **Type Coverage**: Aim for high type coverage in new code
+- **Error Handling**: Handle all possible error conditions
+
+### Performance
+- **Database Optimization**: Use proper indexes and query optimization
+- **Caching**: Implement appropriate caching strategies
+- **Image Optimization**: Optimize product images for web delivery
+- **CDN Ready**: Structure assets for CDN deployment
+
+## Security Guidelines
+
+### Input Validation & Sanitization
+- **CSRF Protection**: Always validate CSRF tokens for forms
+- **SQL Injection**: Use parameterized queries exclusively
+- **XSS Prevention**: Escape all user-generated content
+- **File Security**: Validate uploaded files thoroughly
+- **Access Control**: Implement proper permission checks
+
+### Authentication & Authorization
+- **Admin Access**: Secure admin panel with proper authentication
+- **Customer Data**: Protect customer personal information
+- **Payment Security**: Follow PCI DSS guidelines for payment handling
+- **Session Management**: Implement secure session handling
+
+## API Development
+
+### RESTful APIs
+- **HTTP Methods**: Use appropriate HTTP methods (GET, POST, PUT, DELETE)
+- **Status Codes**: Return proper HTTP status codes
+- **JSON Responses**: Consistent JSON response structure
+- **Authentication**: Implement API authentication (tokens, OAuth)
+- **Rate Limiting**: Implement rate limiting for API endpoints
+
+### Response Format
+```php
+// Success Response
+{
+    "success": true,
+    "data": {...},
+    "message": "Operation completed successfully"
+}
+
+// Error Response
+{
+    "success": false,
+    "error": {
+        "code": "ERROR_CODE",
+        "message": "Human readable error message"
+    }
+}
+```
+
+## Deployment & Production
+
+### Production Considerations
+- **Environment**: Never use Docker setup for production
+- **Database**: Use managed database services (RDS, CloudSQL)
+- **SSL/TLS**: Implement proper SSL certificate configuration
+- **Backups**: Set up automated database and file backups
+- **Monitoring**: Implement application and server monitoring
+- **CDN**: Use CDN for static asset delivery
+
+### Performance Optimization
+- **Caching**: Implement Redis/Memcached for session and data caching
+- **Database**: Optimize queries and use proper indexing
+- **Images**: Implement image optimization and lazy loading
+- **Minification**: Minify CSS and JavaScript files
+- **Compression**: Enable gzip compression
+
+## Troubleshooting & Debugging
+
+### Common Issues
+- **File Permissions**: Ensure proper file permissions in containers
+- **Database Connection**: Verify database credentials and connectivity
+- **Memory Limits**: Adjust PHP memory limits for large operations
+- **Port Conflicts**: Use different ports if defaults are occupied
+- **Cache Issues**: Clear OpenCart cache when making changes
+
+### Debugging Tools
+- **Logs**: Check OpenCart error logs and container logs
+- **PHPStan**: Use static analysis to catch potential issues
+- **Xdebug**: Configure Xdebug for step-through debugging
+- **Database Tools**: Use Adminer for database inspection
+- **Network**: Use browser dev tools for frontend debugging
+
+## Code Review Guidelines
+
+### Review Checklist
+- **Security**: Check for security vulnerabilities
+- **Performance**: Ensure efficient database queries and algorithms
+- **Standards**: Verify adherence to coding standards
+- **Testing**: Ensure adequate test coverage
+- **Documentation**: Check for proper code documentation
+- **Compatibility**: Verify OpenCart version compatibility
+
+### Pull Request Requirements
+- **Description**: Provide clear description of changes
+- **Testing**: Include testing instructions
+- **Screenshots**: Include screenshots for UI changes
+- **Breaking Changes**: Document any breaking changes
+- **Migration**: Provide migration scripts if needed
+
+## Additional Resources
+
+- **OpenCart Documentation**: https://docs.opencart.com/
+- **OpenCart GitHub**: https://github.com/opencart/opencart
+- **Community Forum**: https://forum.opencart.com/
+- **Extension Store**: https://www.opencart.com/index.php?route=marketplace/extension
+
+Remember to always prioritize security, performance, and maintainability in your OpenCart development work.

@@ -7,6 +7,11 @@ on:
     branches: [ main, develop, codegen-bot/initial-setup ]
     types: [ opened, synchronize, reopened ]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   docker-validation:
     name: Docker Services Health

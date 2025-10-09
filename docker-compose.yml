@@ -37,6 +37,7 @@ services:
     volumes:
       - ./system/storage:/var/www/html/system/storage
       - ./image:/var/www/html/image
+      - ./theme/oc-astro:/var/www/html/catalog/view/theme/oc-astro
     ports:
       - "8080:80"
     networks:
@@ -48,20 +49,29 @@ services:
       retries: 3
       start_period: 60s
 
-  # phpmyadmin:
-  #   image: phpmyadmin
-  #   container_name: opencart_phpmyadmin
-  #   depends_on:
-  #     - mariadb
-  #   environment:
-  #     PMA_HOST: mariadb
-  #     PMA_PORT: 3306
-  #     PMA_USER: ${MARIADB_USER}
-  #     PMA_PASSWORD: ${MARIADB_PASSWORD}
-  #   ports:
-  #     - "8081:80"
-  #   networks:
-  #     - opencart_network
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: opencart_phpmyadmin
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: ${MARIADB_USER}
+      PMA_PASSWORD: ${MARIADB_PASSWORD}
+    ports:
+      - "8081:80"
+    networks:
+      - opencart_network
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: opencart_mailhog
+    ports:
+      - "8025:8025"  # Web interface
+      - "1025:1025"  # SMTP server
+    networks:
+      - opencart_network
 
 volumes:
   mariadb_data:

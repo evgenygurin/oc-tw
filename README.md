@@ -302,7 +302,7 @@ OpenCart is licensed under GPL v3.0. See OpenCart documentation for details.
 4. Test thoroughly
 5. Submit a pull request
 
-## 🆘 Support
+## 🆘 Support 
 
 For issues:
 

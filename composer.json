@@ -1,0 +1,24 @@
+{
+    "name": "opencart/opencart-tw",
+    "description": "OpenCart e-commerce platform with Sentry integration",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "sentry/sentry": "^4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenCart\\": "system/library/"
+        },
+        "files": [
+            "system/helper/sentry.php"
+        ]
+    }
+}

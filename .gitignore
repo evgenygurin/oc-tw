@@ -23,6 +23,17 @@ Thumbs.db
 # Backup
 .backup/
 
+# Composer
+vendor/
+composer.lock
+
+# Test files
+test-sentry.php
+
+# Node modules
+node_modules/
+package-lock.json
+
 # Docker
 docker-compose.override.yml
 .docker/

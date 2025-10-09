@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "sentry": {
+      "command": "node",
+      "args": [
+        "node_modules/@modelcontextprotocol/server-sentry/dist/index.js"
+      ],
+      "env": {
+        "SENTRY_ORG": "${SENTRY_ORGANIZATION}",
+        "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}",
+        "SENTRY_PROJECT": "${SENTRY_PROJECT}"
+      }
+    }
+  }
+}

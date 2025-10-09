@@ -1,0 +1,180 @@
+{{ header }}
+
+<div class="container my-5">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        {% if loop.last %}
+          <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.text }}</li>
+        {% else %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  </nav>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Product Images -->
+      <div class="product-images">
+        {% if thumb %}
+          <div class="main-image mb-3">
+            <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-fluid rounded shadow">
+          </div>
+        {% endif %}
+        
+        {% if images %}
+          <div class="image-gallery">
+            <div class="row">
+              {% for image in images %}
+                <div class="col-3 mb-2">
+                  <img src="{{ image.thumb }}" alt="{{ heading_title }}" class="img-fluid rounded" 
+                       onclick="changeMainImage('{{ image.popup }}')">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <!-- Product Info -->
+      <h1 class="h2 mb-3">{{ heading_title }}</h1>
+      
+      {% if price %}
+        <div class="product-price mb-4">
+          {% if special %}
+            <span class="price-special h3 text-primary me-3">{{ special }}</span>
+            <span class="price-old text-muted text-decoration-line-through">{{ price }}</span>
+          {% else %}
+            <span class="price h3 text-primary">{{ price }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+      
+      {% if description %}
+        <div class="product-description mb-4">
+          {{ description }}
+        </div>
+      {% endif %}
+      
+      <form id="product-form">
+        {% if options %}
+          <div class="product-options mb-4">
+            {% for option in options %}
+              <div class="form-group mb-3">
+                <label class="form-label fw-bold">{{ option.name }}</label>
+                {% if option.type == 'select' %}
+                  <select name="option[{{ option.product_option_id }}]" class="form-select">
+                    <option value="">{{ text_select }}</option>
+                    {% for option_value in option.product_option_value %}
+                      <option value="{{ option_value.product_option_value_id }}">
+                        {{ option_value.name }}
+                        {% if option_value.price %} ({{ option_value.price_prefix }}{{ option_value.price }}){% endif %}
+                      </option>
+                    {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ entry_qty }}</label>
+            <input type="number" name="quantity" value="{{ minimum }}" min="{{ minimum }}" class="form-control">
+          </div>
+        </div>
+        
+        <div class="d-grid gap-2 d-md-flex">
+          <button type="button" id="button-cart" class="btn btn-primary btn-lg me-md-2">
+            <i class="fas fa-shopping-cart me-2"></i>{{ button_cart }}
+          </button>
+          <button type="button" class="btn btn-outline-secondary">
+            <i class="fas fa-heart"></i>
+          </button>
+          <button type="button" class="btn btn-outline-secondary">
+            <i class="fas fa-share"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Product Tabs -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <ul class="nav nav-tabs" role="tablist">
+        {% if description %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-description" type="button">
+              {{ tab_description }}
+            </button>
+          </li>
+        {% endif %}
+        {% if review_status %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-review" type="button">
+              {{ tab_review }} ({{ reviews }})
+            </button>
+          </li>
+        {% endif %}
+      </ul>
+      
+      <div class="tab-content mt-4">
+        {% if description %}
+          <div class="tab-pane fade show active" id="tab-description">
+            {{ description }}
+          </div>
+        {% endif %}
+        {% if review_status %}
+          <div class="tab-pane fade" id="tab-review">
+            <div id="review-list">{{ review }}</div>
+            <div id="review-form">{{ review_form }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Related Products -->
+  {% if products %}
+    <div class="related-products mt-5">
+      <h3 class="mb-4">{{ text_related }}</h3>
+      <div class="row">
+        {% for product in products %}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
+              {% if product.thumb %}
+                <img src="{{ product.thumb }}" class="card-img-top" alt="{{ product.name }}">
+              {% endif %}
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product.name }}</h5>
+                {% if product.price %}
+                  <p class="card-text text-primary fw-bold mt-auto">{{ product.price }}</p>
+                {% endif %}
+                <a href="{{ product.href }}" class="btn btn-primary">{{ button_cart }}</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+function changeMainImage(src) {
+  document.querySelector('.main-image img').src = src;
+}
+
+// Add to cart functionality
+document.getElementById('button-cart').addEventListener('click', function() {
+  // Add cart functionality here
+  alert('Product added to cart!');
+});
+</script>
+
+{{ footer }}

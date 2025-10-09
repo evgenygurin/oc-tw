@@ -1,0 +1,52 @@
+{{ header }}
+
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5 mb-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4">Welcome to {{ name }}</h1>
+        <p class="lead mb-4">Discover amazing products with our modern e-commerce platform</p>
+        <a href="{{ href_product }}" class="btn btn-light btn-lg">Shop Now</a>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-image text-center">
+          <i class="fas fa-shopping-bag display-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      {{ content_top }}
+    </div>
+  </div>
+  
+  <div class="row">
+    {% if column_left %}
+      <div class="col-md-3">
+        {{ column_left }}
+      </div>
+      <div class="col-md-9">
+        {{ content_bottom }}
+      </div>
+    {% elseif column_right %}
+      <div class="col-md-9">
+        {{ content_bottom }}
+      </div>
+      <div class="col-md-3">
+        {{ column_right }}
+      </div>
+    {% else %}
+      <div class="col-12">
+        {{ content_bottom }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{{ footer }}

@@ -60,6 +60,7 @@ docker compose exec opencart rm -rf /var/www/html/install
 - **Adminer**: Web-based database management (<http://localhost:8081>)
 - **MailHog**: Email testing tool (<http://localhost:8025>)
 - **Custom Theme**: `oc-astro` theme with modern styling
+- **ClickUp Integration**: 🆕 AI-powered task management integration ([Setup Guide](README_CLICKUP.md))
 
 ## 🛠️ Available Commands
 
@@ -81,6 +82,9 @@ make health        # Health check all services
 make backup-db     # Backup database
 make shell-opencart # Shell into OpenCart container
 make db-shell      # MySQL CLI access
+
+# ClickUp Integration
+./clickup_integration/docker-setup.sh  # Install ClickUp integration
 ```
 
 ## 🏗️ Architecture

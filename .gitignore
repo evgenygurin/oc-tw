@@ -3,6 +3,25 @@
 .env.local
 .env*.local
 
+# OpenCart Core Files (should be installed via Docker, not version controlled)
+admin/
+catalog/
+system/
+install/
+extension/
+image/
+*.php
+*.txt
+*.md
+!theme/
+!docker-compose.yml
+!Dockerfile
+!.env.example
+!.gitignore
+!CLAUDE.md
+!README.md
+!*.sh
+
 # OpenCart generated files
 config.php
 admin/config.php

@@ -50,6 +50,16 @@ set_exception_handler(function(object $e) use ($log, $config): void {
 	if ($config->get('error_log')) {
 		$log->write($message);
 	}
+	
+	// Send to Sentry if available
+	if (function_exists('sentryException')) {
+		sentryException($e, [
+			'opencart' => [
+				'route' => $_GET['route'] ?? 'unknown',
+				'application' => APPLICATION
+			]
+		]);
+	}
 
 	if ($config->get('error_display')) {
 		echo $message;

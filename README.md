@@ -30,22 +30,28 @@ For maintainers:
 # 1. Start Docker Desktop
 open -a Docker
 
-# 2. Configure environment (optional - defaults are set)
+# 2. Configure environment
 cp .env.example .env
+# Edit .env with your secure credentials
 
-# 3. Install OpenCart
-make install
+# 3. Start services
+docker compose up -d
 
-# 4. Access OpenCart
+# 4. Complete installation wizard
 open http://localhost:8080/install
+
+# 5. Remove install directory (security)
+docker compose exec opencart rm -rf /var/www/html/install
 ```
 
-**Default Credentials:**
+**Default Credentials** (from `.env`):
 
 - Username: `admin`
 - Password: `admin123`
 - Email: `admin@example.com`
 - Admin Panel: <http://localhost:8080/admin>
+
+**⚠️ Security Note**: After installation, the `/install` directory is automatically removed from the container for security. The local `/install` directory in your project is the OpenCart installer source code and should remain in the repository.
 
 ## 📦 What's Included
 

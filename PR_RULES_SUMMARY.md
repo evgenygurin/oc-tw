@@ -8,7 +8,7 @@
 
 ## 🎯 Что было создано
 
-Полная система автоматизации PR процесса для проекта **oc-tw** (OpenCart + Next.js).
+Полная система автоматизации PR процесса для проекта **oc-tw** (OpenCart E-commerce Platform).
 
 ### 📂 Созданные файлы
 
@@ -18,17 +18,17 @@
 
 ✅ .github/
    ├── README.md                    # Главный гайд по настройке конфигурации
-   ├── AGENTS.md                    # Правила для Codegen AI (570+ строк)
+   ├── AGENTS.md                    # Правила для Codegen AI (412+ строк, v2.0.0)
    ├── CODEOWNERS                   # Автоназначение reviewers
    ├── CONTRIBUTING.md              # Гайд для contributors (320+ строк)
    ├── PR_EXAMPLE.md                # Образцовый пример PR (280+ строк)
    ├── branch-protection.md         # Настройки защиты веток
    ├── pull_request_template.md    # Шаблон для новых PR
    └── workflows/
-       ├── pr-checks.yml           # 5 автоматических проверок
+       ├── pr-checks.yml           # 4 автоматических проверки
        └── auto-merge.yml          # Автоматический merge
 
-Итого: ~1800+ строк конфигурации и документации
+Итого: ~1700+ строк конфигурации и документации
 ```
 
 ---
@@ -47,29 +47,26 @@
 
 ### 2. **Automated Checks** (GitHub Actions)
 
-#### `pr-checks.yml` - 5 проверок
+#### `pr-checks.yml` - 4 проверки
 
-1. **Next.js Code Quality**
-   - ESLint (no errors)
-   - TypeScript (no type errors)
-   - Build (successful)
-
-2. **Docker Services Health**
-   - All services start correctly
+1. **Docker Services Health**
+   - All services start correctly (OpenCart, MariaDB, phpMyAdmin, MailHog)
    - Healthchecks pass
    - No errors in logs
+   - /install directory removed for security
 
-3. **Security Vulnerabilities**
-   - npm audit (moderate+)
+2. **Security Vulnerabilities**
    - TruffleHog (secrets detection)
    - Dependency scanning
+   - File upload validation
+   - SQL injection prevention checks
 
-4. **PR Template Validation**
+3. **PR Template Validation**
    - Description length (>50 chars)
    - WHY section present
    - Type selected
 
-5. **Commit Message Validation**
+4. **Commit Message Validation**
    - Conventional commits format
    - Proper type/scope
 
@@ -86,18 +83,18 @@ AI-powered code reviewer, который:
 
 **Автоматически проверяет:**
 
-- Code quality (TypeScript types, ESLint, PHP PSR-12)
-- Security (SQL injection, XSS, secrets)
-- Performance (N+1 queries, bundle size)
-- Testing (coverage, edge cases)
-- Documentation (comments, CLAUDE.md updates)
+- Code quality (PHP PSR-12, Twig syntax, CSS/SCSS validation)
+- Security (SQL injection, XSS, CSRF, secrets, file uploads)
+- Performance (N+1 queries, Docker image optimization, caching)
+- Testing (coverage, edge cases, manual testing evidence)
+- Documentation (PHPDoc comments, CLAUDE.md updates)
 
 **Может автоматически исправлять:**
 
-- ESLint issues (`--fix`)
-- Import sorting
-- Simple type mismatches
-- Code formatting
+- PHP code style issues (PSR-12)
+- Simple syntax errors
+- Twig template formatting
+- Code formatting inconsistencies
 
 **Блокирует PR при:**
 
@@ -111,10 +108,11 @@ AI-powered code reviewer, который:
 
 Автоматически назначает reviewers для:
 
-- Next.js files → @evgenygurin
-- OpenCart files → @evgenygurin
-- Docker config → @evgenygurin
-- Documentation → @evgenygurin
+- PHP files (*.php) → @evgenygurin
+- Twig templates (*.twig) → @evgenygurin
+- OpenCart theme files (/theme/**) → @evgenygurin
+- Docker config (docker-compose.yml, Dockerfile) → @evgenygurin
+- Documentation (*.md) → @evgenygurin
 - All files → @evgenygurin (default)
 
 ### 5. **Branch Protection** (применить вручную)
@@ -122,7 +120,7 @@ AI-powered code reviewer, который:
 **Main branch требования:**
 
 - ✅ Require 1 approval
-- ✅ Require 5 status checks pass
+- ✅ Require 4 status checks pass
 - ✅ Require linear history (squash merge)
 - ✅ Include administrators
 - ✅ Conversation resolution required
@@ -145,7 +143,6 @@ https://github.com/evgenygurin/oc-tw/settings/branches
 
 - ✅ Require pull request reviews before merging (1 approval)
 - ✅ Require status checks to pass before merging
-  - Next.js Code Quality
   - Docker Services Health
   - Security Vulnerabilities
   - PR Template Validation
@@ -164,7 +161,7 @@ gh auth login
 gh api --method PUT \
   -H "Accept: application/vnd.github+json" \
   /repos/evgenygurin/oc-tw/branches/main/protection \
-  -f required_status_checks='{"strict":true,"contexts":["Next.js Code Quality","Docker Services Health","Security Vulnerabilities","PR Template Validation","Commit Message Validation"]}' \
+  -f required_status_checks='{"strict":true,"contexts":["Docker Services Health","Security Vulnerabilities","PR Template Validation","Commit Message Validation"]}' \
   -f enforce_admins=true \
   -f required_pull_request_reviews='{"required_approving_review_count":1,"dismiss_stale_reviews":true}' \
   -f required_linear_history=true \
@@ -244,8 +241,7 @@ gh pr create \
 
 1. ✅ PR template автоматически загрузился
 2. ✅ @evgenygurin назначен как reviewer (CODEOWNERS)
-3. ✅ 5 GitHub Actions checks запустились:
-   - Next.js Code Quality
+3. ✅ 4 GitHub Actions checks запустились:
    - Docker Services Health
    - Security Vulnerabilities
    - PR Template Validation
@@ -267,7 +263,7 @@ gh pr close <number> --delete-branch
 
 - 📋 Чёткий template — знаете что писать в PR
 - 🤖 Автоматические проверки — быстрый feedback
-- ✨ Auto-fix — ESLint ошибки исправляются автоматически
+- ✨ Auto-fix — PHP code style исправляется автоматически
 - 📚 Примеры — [PR_EXAMPLE.md](.github/PR_EXAMPLE.md) показывает как надо
 
 ### Для Reviewers
@@ -296,14 +292,14 @@ gh pr close <number> --delete-branch
    - Checklist помогает ничего не забыть
 
 2. **GitHub Actions запускаются**
-   - 5 checks выполняются параллельно
+   - 4 checks выполняются параллельно
    - Результаты видны через 2-3 минуты
    - Если fail → developer фиксит и пушит снова
 
 3. **Codegen AI review**
    - Анализирует код, безопасность, производительность
    - Оставляет конкретные комментарии с fix suggestions
-   - Auto-fix применяет исправления к ESLint issues
+   - Auto-fix применяет исправления к PHP code style issues
 
 4. **Human review (если нужен)**
    - Reviewer смотрит бизнес-логику
@@ -469,7 +465,7 @@ gh run list --workflow="PR Quality Checks" --limit 5
 **Для contributors:**
 
 - 50% меньше iterations (template помогает)
-- 70% меньше code style issues (auto-fix)
+- 70% меньше PHP code style issues (auto-fix)
 - 90% faster feedback (automated checks)
 
 ---

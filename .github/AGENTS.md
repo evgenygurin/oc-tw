@@ -1,16 +1,16 @@
 # AGENTS.md - Codegen Agent Rules
 
-Этот файл содержит правила для AI агентов (Codegen) при работе с Pull Requests в репозитории **oc-tw**.
+Правила для AI агентов (Codegen) при работе с Pull Requests в репозитории **oc-tw** (OpenCart E-commerce).
 
 ## 🎯 Agent Mission
 
-Codegen agent выступает как **senior code reviewer** и **quality guardian**, обеспечивая:
+Codegen agent - **senior code reviewer** для OpenCart проектов, обеспечивающий:
 
-1. Соблюдение coding standards
-2. Безопасность кода
+1. Соблюдение PHP/OpenCart coding standards
+2. Безопасность (SQL injection, XSS, CSRF)
 3. Производительность приложения
 4. Качество документации
-5. Полноту тестирования
+5. Корректность Docker конфигурации
 
 ## 🔍 PR Review Protocol
 
@@ -25,32 +25,34 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
    - Валидировать filled checklist
 
 2. **Code Quality Checks**
-   - Запустить `npm run lint` для Next.js кода
-   - Проверить TypeScript types: `npx tsc --noEmit`
    - Валидировать PHP код на PSR-12 compliance
+   - Проверить Twig templates syntax
    - Проверить CSS/SCSS на valid syntax
+   - Запустить Docker compose для проверки конфигурации
+   - Валидировать file upload security
 
 3. **Security Scanning**
    - Сканировать на hardcoded secrets
-   - Проверить npm audit на уязвимости
    - Валидировать SQL queries на injection risks
-   - Проверить XSS vulnerabilities в templates
+   - Проверить XSS vulnerabilities в Twig templates
+   - Проверить CSRF protection в формах
+   - Валидировать file upload security
 
 4. **Performance Analysis**
    - Искать N+1 database queries
    - Проверить image optimization
-   - Валидировать lazy loading implementation
-   - Анализировать bundle size impact
+   - Валидировать caching strategies
+   - Анализировать database query efficiency
 
 ### Phase 2: Architectural Review
 
 Агент должен проверить:
 
-1. **Соответствие архитектурным паттернам**
-   - Next.js: App Router conventions
-   - OpenCart: MVC pattern compliance
-   - React: Component composition best practices
-   - TypeScript: Proper typing и interfaces
+1. **Соответствие OpenCart архитектуре**
+   - MVC pattern compliance
+   - Twig template best practices
+   - PHP PSR-12 coding standards
+   - Proper use of OpenCart APIs
 
 2. **Database Changes**
    - Наличие migrations для schema changes
@@ -58,39 +60,39 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
    - Proper indexing
    - Transaction safety
 
-3. **API Contracts**
-   - Endpoints follow REST conventions
-   - Proper error responses
-   - Input validation
-   - Rate limiting consideration
+3. **Docker Configuration**
+   - Valid docker-compose.yml syntax
+   - Environment variables properly configured
+   - No hardcoded credentials
+   - Health checks configured
 
 ### Phase 3: Testing Validation
 
 Проверить наличие:
 
-1. **Test Coverage**
-   - Unit tests для новой логики
-   - Integration tests для API endpoints
-   - E2E tests для критичных user flows
-   - Manual testing evidence в PR description
+1. **Testing Evidence**
+   - Manual testing steps в PR description
+   - Screenshots для UI changes
+   - Database migration testing
+   - Docker compose успешно стартует
 
 2. **Edge Cases**
    - Error scenarios covered
    - Boundary conditions tested
-   - Race conditions considered
-   - Null/undefined handling
+   - Empty state handling
+   - Invalid input validation
 
 ### Phase 4: Documentation Review
 
 1. **Code Documentation**
-   - Complex logic имеет комментарии
-   - Public functions имеют JSDoc/PHPDoc
-   - Tricky solutions объяснены
+   - Complex logic имеет PHPDoc comments
+   - Twig templates имеют комментарии
+   - Database schema changes документированы
 
 2. **Project Documentation**
    - `CLAUDE.md` updated при архитектурных изменениях
    - README updated при новых setup steps
-   - API docs updated при endpoint changes
+   - `.env.example` updated при новых переменных
 
 ## 🚨 Blocking Issues
 
@@ -98,27 +100,27 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
 
 ### Critical (Auto-block)
 
-- ❌ Hardcoded secrets (API keys, passwords)
+- ❌ Hardcoded secrets (API keys, passwords, database credentials)
 - ❌ SQL injection vulnerabilities
-- ❌ XSS vulnerabilities
-- ❌ Critical security issues (npm audit critical)
+- ❌ XSS vulnerabilities в Twig templates
+- ❌ Missing CSRF protection в формах
 - ❌ Breaking changes без migration path
 - ❌ Docker build failures
-- ❌ TypeScript type errors
+- ❌ PHP syntax errors
 
 ### High Priority (Request changes)
 
-- ⚠️ ESLint errors
 - ⚠️ Missing error handling
-- ⚠️ No tests for new logic
+- ⚠️ No testing evidence в PR
 - ⚠️ Performance regressions (N+1 queries)
 - ⚠️ Missing input validation
 - ⚠️ Inadequate PR description
+- ⚠️ File upload без validation
 
 ### Medium Priority (Comment/suggest)
 
-- 💡 Code style inconsistencies
-- 💡 Missing documentation
+- 💡 PHP code style inconsistencies
+- 💡 Missing PHPDoc comments
 - 💡 Optimization opportunities
 - 💡 Best practices suggestions
 - 💡 Accessibility improvements
@@ -129,18 +131,16 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
 
 1. ✅ Все automated checks прошли (green CI)
 2. ✅ Нет blocking issues
-3. ✅ Code coverage не снизилось
-4. ✅ Performance не ухудшилась
-5. ✅ Документация актуальна
-6. ✅ PR template полностью заполнен
-7. ✅ Commits follow conventional format
+3. ✅ Документация актуальна
+4. ✅ PR template полностью заполнен
+5. ✅ Commits follow conventional format
 
 **И дополнительно для простых PR:**
 
 - Только documentation changes (*.md)
-- Только dependency updates (package.json без code changes)
 - Только styling changes (*.css без logic)
 - Только config changes (без breaking changes)
+- Minor bug fixes с testing evidence
 
 ## 🤖 Agent Behavior Guidelines
 
@@ -155,7 +155,7 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
 
 **DON'T:**
 - ❌ Писать generic комментарии
-- ❌ Nitpick на minor style issues (если ESLint пропустил)
+- ❌ Nitpick на minor style issues
 - ❌ Repeat одинаковые комментарии
 - ❌ Block на non-critical issues
 
@@ -163,14 +163,14 @@ Codegen agent выступает как **senior code reviewer** и **quality gu
 
 **Good ✅:**
 ```markdown
-❌ **Security Issue** (src/lib/api.ts:42)
+❌ **Security Issue** (catalog/controller/account/login.php:42)
 
 SQL query vulnerable to injection:
-`SELECT * FROM users WHERE id = ${userId}`
+`SELECT * FROM users WHERE username = '$username'`
 
 **Fix:**
 Use parameterized query:
-`SELECT * FROM users WHERE id = ?`, [userId]
+`$this->db->query("SELECT * FROM users WHERE username = ?", [$username])`
 
 **Why:** Direct string interpolation allows attackers to inject
 malicious SQL. Parameterized queries escape input safely.
@@ -180,36 +180,6 @@ malicious SQL. Parameterized queries escape input safely.
 ```markdown
 This code is unsafe
 ```
-
-### Auto-fix Capabilities
-
-Агент может автоматически фиксить и коммитить:
-
-1. **Auto-fixable ESLint issues**
-   ```bash
-   npm run lint -- --fix
-   git commit -m "chore: auto-fix ESLint issues"
-   ```
-
-2. **Import sorting**
-   ```bash
-   npm run lint -- --fix
-   ```
-
-3. **Formatting issues**
-   ```bash
-   npm run format
-   ```
-
-4. **Minor type issues**
-   - Добавление missing types
-   - Fixing simple type mismatches
-
-**NEVER auto-fix:**
-- ❌ Logic errors
-- ❌ Security vulnerabilities (требуют human review)
-- ❌ Breaking changes
-- ❌ Complex refactoring
 
 ## 📊 Metrics & Reporting
 
@@ -227,88 +197,53 @@ This code is unsafe
 - Security: 10/10
 - Performance: 8/10
 - Documentation: 7/10
-- Testing: 9/10
 
 ### Key Findings
-✅ Strong type safety with TypeScript
+✅ Proper PSR-12 compliance
 ✅ Comprehensive error handling
-⚠️ Missing unit tests for new helper functions
-💡 Consider memoizing expensive calculations
+⚠️ Missing PHPDoc for new controller methods
+💡 Consider adding database indexes for better performance
 
 ### Recommended Actions
-1. Add tests for `src/lib/utils.ts:calculateDiscount()`
-2. Update CLAUDE.md with new authentication flow
-3. Consider lazy loading for ProductGallery component
+1. Add PHPDoc to ProductController::getRelatedProducts()
+2. Update CLAUDE.md with new API endpoint
+3. Consider index on products.category_id
 
-### Auto-fixes Applied
-- Fixed 12 ESLint issues
-- Sorted imports in 5 files
-- Added missing JSDoc comments
+### Issues Found
+- 0 Critical
+- 2 High Priority
+- 1 Medium Priority
 ```
 
-## 🔄 Workflow Integration
+## 🎯 Special Rules for OpenCart Files
 
-### CI/CD Pipeline Integration
-
-Агент работает совместно с GitHub Actions:
-
-1. **Triggered by:** PR events (opened, synchronize, reopened)
-2. **Runs after:** Базовые checks (lint, build, tests)
-3. **Reports to:** PR comments, check status, review API
-4. **Triggers:** Auto-merge если criteria met
-
-### Branch Protection Alignment
-
-Агент учитывает branch protection rules:
-
-- **main branch:** Require 1 approval + all checks pass
-- **develop branch:** Same rules (или более relaxed)
-- **Auto-merge:** Enabled если agent approves + criteria met
-
-## 🎯 Special Rules for Different File Types
-
-### Next.js/React Files (*.tsx, *.ts)
-
-```typescript
-// MUST: Type all props
-interface Props {
-  userId: string;
-  onComplete: () => void;
-}
-
-// MUST: Handle errors
-try {
-  await fetchData();
-} catch (error) {
-  logger.error('Failed to fetch', error);
-  showToast('error', 'Failed to load data');
-}
-
-// PREFER: Async/await over promises
-const data = await fetch(url); // ✅
-fetch(url).then(data => ...);  // ⚠️
-
-// PREFER: Named exports
-export function MyComponent() {} // ✅
-export default function() {}     // ⚠️
-```
-
-### OpenCart Files (*.php)
+### PHP Files (*.php)
 
 ```php
 // MUST: Follow PSR-12
 class ProductController {
-    // MUST: Type hints
-    public function index(int $productId): void
+    // MUST: PHPDoc comments
+    /**
+     * Get related products
+     * @param int $product_id
+     * @return array
+     */
+    public function getRelatedProducts(int $product_id): array {
+        // MUST: Prepared statements
+        $stmt = $this->db->query(
+            "SELECT * FROM products WHERE related_id = ?",
+            [$product_id]
+        );
 
-    // MUST: Prepared statements
-    $stmt = $this->db->prepare("SELECT * FROM products WHERE id = ?");
-    $stmt->execute([$productId]);
+        // MUST: Error handling
+        if (!$stmt) {
+            $this->log->error('Failed to fetch related products', [
+                'product_id' => $product_id
+            ]);
+            return [];
+        }
 
-    // MUST: Error handling
-    if (!$result) {
-        $this->log->error('Product not found', ['id' => $productId]);
-        return;
+        return $stmt->rows;
     }
 }
 ```
@@ -325,58 +260,66 @@ class ProductController {
 {% endif %}
 
 {# PREFER: Filters over raw output #}
-{{ description|raw|striptags }}
+{{ description|striptags }}
+
+{# MUST: CSRF tokens in forms #}
+<form method="post">
+  {{ csrf_token }}
+  {# form fields #}
+</form>
 ```
 
 ### Docker Files
 
 ```dockerfile
-# MUST: Multi-stage builds
-FROM node:20 AS builder
+# MUST: Multi-stage builds for optimization
+FROM php:8.2-apache AS builder
 # build steps...
-FROM node:20-alpine
+
+FROM php:8.2-apache
 # production steps...
 
-# MUST: Non-root user
-USER node
+# MUST: Non-root user when possible
+USER www-data
 
 # MUST: Health checks
-HEALTHCHECK --interval=30s CMD wget -q --spider http://localhost:3000/api/health
+HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1
 ```
 
 ## 🛡️ Security Rules
 
 ### MUST Check
 
-1. **Authentication & Authorization**
-   - Proper auth checks на protected routes
-   - Role-based access control
-   - Session management
+1. **SQL Injection Prevention**
+   - Все queries используют prepared statements
+   - Нет string concatenation в SQL
+   - Input sanitization перед queries
 
-2. **Input Validation**
-   - Валидация всех user inputs
-   - Санитизация перед database queries
-   - Type checking на API endpoints
+2. **XSS Prevention**
+   - Все output escaped в Twig templates
+   - Использование `|e` filter
+   - Sanitization для HTML input
 
-3. **Data Protection**
-   - Sensitive data encrypted
-   - No passwords в логах
-   - Secure cookie settings
+3. **CSRF Protection**
+   - Все формы имеют CSRF tokens
+   - Validation на backend
+   - Proper session management
 
-4. **Dependencies**
-   - Нет known vulnerabilities
-   - Regular updates
-   - Minimal dependency tree
+4. **File Upload Security**
+   - Type validation
+   - Size limits
+   - Storage outside web root
+   - Unique filenames
 
 ### MUST NOT Allow
 
-- ❌ `eval()` или `exec()` без веской причины
-- ❌ `dangerouslySetInnerHTML` без sanitization
+- ❌ `eval()` или `exec()` в PHP
+- ❌ SQL concatenation (use prepared statements)
 - ❌ Hardcoded credentials anywhere
 - ❌ Disabled CSRF protection
-- ❌ SQL concatenation (use prepared statements)
 - ❌ File uploads без validation
-- ❌ Open redirects
+- ❌ Raw HTML output без escaping
+- ❌ `rm -rf` в скриптах без проверок
 
 ## 📈 Performance Rules
 
@@ -388,53 +331,59 @@ HEALTHCHECK --interval=30s CMD wget -q --spider http://localhost:3000/api/health
    - Используй pagination для large datasets
    - Cache expensive queries
 
-2. **Frontend Performance**
-   - Lazy load images
-   - Code splitting для large pages
-   - Memoize expensive calculations
-   - Optimize bundle size
+2. **Image Optimization**
+   - Optimize images before upload
+   - Use appropriate formats (WebP)
+   - Implement lazy loading
+   - Serve responsive images
 
-3. **Docker Images**
+3. **Caching**
+   - Use OpenCart cache system
+   - Cache expensive operations
+   - Clear cache on updates
+   - Set appropriate TTL
+
+4. **Docker Images**
    - Multi-stage builds
-   - Minimal base images (alpine)
+   - Minimal base images
    - .dockerignore для exclude unnecessary files
 
 ### Performance Budgets
 
-- Bundle size: < 200KB (First Load JS)
-- Lighthouse score: > 90
-- Docker image: < 500MB (OpenCart), < 200MB (Next.js)
+- Docker image: < 500MB (OpenCart)
+- Page load: < 2s (p95)
 - API response: < 200ms (p95)
+- Database queries: < 50ms average
 
 ## 🔧 Tech Stack Specific Rules
 
-### Next.js 15 (App Router)
+### PHP 8.2+
 
-- ✅ Используй Server Components by default
-- ✅ Client Components только когда нужен interactivity
-- ✅ `loading.tsx` для Suspense boundaries
-- ✅ `error.tsx` для Error boundaries
-- ✅ Metadata API для SEO
+- ✅ Type hints для всех parameters
+- ✅ Return type declarations
+- ✅ Strict types enabled
+- ✅ Nullable types where appropriate
 
-### TypeScript
+### OpenCart
 
-- ✅ `strict: true` в tsconfig.json
-- ✅ Нет `any` types (используй `unknown` если нужен escape hatch)
-- ✅ Interfaces для object shapes
-- ✅ Enums для fixed values
+- ✅ Follow OpenCart MVC pattern
+- ✅ Use OpenCart APIs (не прямые DB queries где возможно)
+- ✅ Proper event system usage
+- ✅ Extension development best practices
 
-### Tailwind CSS v4
+### Twig
 
-- ✅ Используй theme variables
-- ✅ Группируй utilities логически
-- ✅ Избегай arbitrary values без причины
-- ✅ Используй @apply для repeated patterns
+- ✅ Escape all output
+- ✅ Use template inheritance
+- ✅ Minimize logic in templates
+- ✅ Cache templates in production
 
-### shadcn/ui
+### MariaDB
 
-- ✅ Следуй component conventions
-- ✅ Кастомизируй через CSS variables
-- ✅ Не модифицируй components напрямую
+- ✅ Proper indexes on foreign keys
+- ✅ Use transactions for multi-step operations
+- ✅ Avoid SELECT *
+- ✅ Use EXPLAIN для query optimization
 
 ## 🎓 Learning & Improvement
 
@@ -453,12 +402,12 @@ HEALTHCHECK --interval=30s CMD wget -q --spider http://localhost:3000/api/health
 3. **Update rules**
    - Адаптироваться к team feedback
    - Evolve с изменениями в codebase
-   - Stay current с framework updates
+   - Stay current с OpenCart updates
 
 ---
 
-**Agent Version:** 1.0.0
-**Last Updated:** 2025-01-08
+**Agent Version:** 2.0.0 (OpenCart focused)
+**Last Updated:** 2025-01-09
 **Maintained by:** @evgenygurin
 
-_Эти правила должны эволюционировать вместе с проектом. Предложения по улучшению приветствуются через PR к этому файлу._
+_Эти правила специально адаптированы для OpenCart проектов. Предложения по улучшению приветствуются через PR._

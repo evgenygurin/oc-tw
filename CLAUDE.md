@@ -102,13 +102,18 @@ cp .env.example .env
 docker compose up -d
 
 # 3. Complete OpenCart installation wizard
-open http://localhost:8080
+open http://localhost:8080/install
 # Follow wizard, use database credentials from .env
 
-# 4. Activate custom theme
+# 4. IMPORTANT: Remove install directory (security)
+docker compose exec opencart rm -rf /var/www/html/install
+
+# 5. Activate custom theme
 # Login to http://localhost:8080/admin
 # Extensions → Themes → oc-astro → Install → Edit
 ```
+
+**Security Note**: The `/install` directory MUST be removed from the container after installation to prevent unauthorized reinstallation. The local `/install` directory in your project contains the OpenCart installer source code and should remain in the repository.
 
 ### Database Reset (Fresh OpenCart Install)
 

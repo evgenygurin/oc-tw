@@ -1,153 +1,284 @@
-# Branch Protection Rules
+# Branch Protection Rules Configuration
 
-## Настройки для применения в GitHub Settings
+This document outlines the recommended branch protection rules for the OpenCart repository to ensure code quality, security, and stability.
 
-Перейдите в **Settings → Branches → Add rule** и примените следующие настройки:
+## 🛡️ Branch Protection Overview
 
-### Защита ветки `main`
+Branch protection rules help maintain code quality by requiring certain conditions to be met before code can be merged into protected branches.
 
-#### Branch name pattern
-```text
-main
-```
+## 📋 Protection Rules by Branch
 
-#### Protect matching branches
+### Main Branch (`master` or `main`)
 
-**Require a pull request before merging** ✅
-- Require approvals: **1**
-- Dismiss stale pull request approvals when new commits are pushed ✅
-- Require review from Code Owners ❌ (если нет CODEOWNERS файла)
+#### Required Status Checks
+- **Require status checks to pass before merging**: ✅ Enabled
+- **Require branches to be up to date before merging**: ✅ Enabled
 
-**Require status checks to pass before merging** ✅
+**Required Checks:**
+- `ci/lint` - Code linting and style checks
+- `ci/tests` - Unit and integration tests
+- `ci/security-scan` - Security vulnerability scanning
+- `ci/performance-check` - Performance regression tests
+- `ai/code-review` - AI-powered code review
+- `build/docker` - Docker build verification
 
-Required status checks:
-- `Next.js Code Quality`
-- `Docker Services Health`
-- `Security Vulnerabilities`
-- `PR Template Validation`
-- `Commit Message Validation`
+#### Pull Request Requirements
+- **Require pull request reviews before merging**: ✅ Enabled
+- **Required number of reviewers**: `2`
+- **Dismiss stale reviews when new commits are pushed**: ✅ Enabled
+- **Require review from code owners**: ✅ Enabled
+- **Restrict reviews to users with write access**: ✅ Enabled
 
-Additional settings:
-- Require branches to be up to date before merging ✅
-- Require conversation resolution before merging ✅
+#### Additional Restrictions
+- **Restrict pushes that create files**: ❌ Disabled
+- **Require signed commits**: ✅ Enabled (recommended)
+- **Require linear history**: ✅ Enabled
+- **Include administrators**: ✅ Enabled
 
-**Require signed commits** ❌ (опционально, усложняет workflow)
+#### Force Push and Deletion Protection
+- **Allow force pushes**: ❌ Disabled
+- **Allow deletions**: ❌ Disabled
 
-**Require linear history** ✅ (использовать squash merge)
+### Development Branch (`develop`)
 
-**Require deployments to succeed before merging** ❌
+#### Required Status Checks
+- **Require status checks to pass before merging**: ✅ Enabled
+- **Require branches to be up to date before merging**: ✅ Enabled
 
-**Lock branch** ❌
+**Required Checks:**
+- `ci/lint` - Code linting and style checks
+- `ci/tests` - Unit and integration tests
+- `ci/security-scan` - Security vulnerability scanning
+- `ai/code-review` - AI-powered code review
 
-**Do not allow bypassing the above settings** ✅
+#### Pull Request Requirements
+- **Require pull request reviews before merging**: ✅ Enabled
+- **Required number of reviewers**: `1`
+- **Dismiss stale reviews when new commits are pushed**: ✅ Enabled
+- **Require review from code owners**: ✅ Enabled
 
-**Restrict who can push to matching branches** ❌ (или укажите конкретных пользователей/команды)
+#### Additional Restrictions
+- **Require signed commits**: ✅ Enabled (recommended)
+- **Include administrators**: ✅ Enabled
 
----
+#### Force Push and Deletion Protection
+- **Allow force pushes**: ❌ Disabled
+- **Allow deletions**: ❌ Disabled
 
-### Защита ветки `develop` (если используется)
+### Release Branches (`release/*`)
 
-#### Branch name pattern
-```text
-develop
-```
+#### Required Status Checks
+- **Require status checks to pass before merging**: ✅ Enabled
+- **Require branches to be up to date before merging**: ✅ Enabled
 
-#### Protect matching branches
+**Required Checks:**
+- `ci/lint` - Code linting and style checks
+- `ci/tests` - Full test suite
+- `ci/security-scan` - Comprehensive security scan
+- `ci/performance-check` - Performance benchmarks
+- `ci/integration-tests` - End-to-end tests
+- `ai/code-review` - AI-powered code review
 
-Те же настройки, что для `main`, но:
-- Require approvals: **1** (можно снизить до 0 для development)
-- Require branches to be up to date: ✅
+#### Pull Request Requirements
+- **Require pull request reviews before merging**: ✅ Enabled
+- **Required number of reviewers**: `3`
+- **Dismiss stale reviews when new commits are pushed**: ✅ Enabled
+- **Require review from code owners**: ✅ Enabled
+- **Restrict reviews to users with write access**: ✅ Enabled
 
----
+#### Additional Restrictions
+- **Require signed commits**: ✅ Enabled
+- **Require linear history**: ✅ Enabled
+- **Include administrators**: ✅ Enabled
 
-## Автоматическое применение через GitHub API
+#### Force Push and Deletion Protection
+- **Allow force pushes**: ❌ Disabled
+- **Allow deletions**: ❌ Disabled
 
-Если у вас есть Personal Access Token с правами `repo`, можно применить автоматически:
+## 🔧 GitHub CLI Configuration Script
+
+Use this script to automatically configure branch protection rules:
 
 ```bash
-# Установить gh CLI
-brew install gh
+#!/bin/bash
 
-# Авторизоваться
-gh auth login
+# Configure branch protection for OpenCart repository
+# Run this script with appropriate GitHub permissions
 
-# Применить защиту для main
-gh api \
+REPO="your-org/opencart"  # Replace with your repository
+
+echo "🛡️  Configuring branch protection rules for $REPO..."
+
+# Main branch protection
+gh api repos/$REPO/branches/master/protection \
   --method PUT \
-  -H "Accept: application/vnd.github+json" \
-  /repos/evgenygurin/oc-tw/branches/main/protection \
-  -f required_status_checks='{"strict":true,"contexts":["Next.js Code Quality","Docker Services Health","Security Vulnerabilities","PR Template Validation","Commit Message Validation"]}' \
-  -f enforce_admins=true \
-  -f required_pull_request_reviews='{"required_approving_review_count":1,"dismiss_stale_reviews":true}' \
-  -f restrictions=null \
-  -f required_linear_history=true \
-  -f allow_force_pushes=false \
-  -f allow_deletions=false
+  --field required_status_checks='{"strict":true,"contexts":["ci/lint","ci/tests","ci/security-scan","ci/performance-check","ai/code-review","build/docker"]}' \
+  --field enforce_admins=true \
+  --field required_pull_request_reviews='{"required_approving_review_count":2,"dismiss_stale_reviews":true,"require_code_owner_reviews":true,"restrict_reviews_to_collaborators":true}' \
+  --field restrictions=null \
+  --field required_linear_history=true \
+  --field allow_force_pushes=false \
+  --field allow_deletions=false
+
+# Development branch protection
+gh api repos/$REPO/branches/develop/protection \
+  --method PUT \
+  --field required_status_checks='{"strict":true,"contexts":["ci/lint","ci/tests","ci/security-scan","ai/code-review"]}' \
+  --field enforce_admins=true \
+  --field required_pull_request_reviews='{"required_approving_review_count":1,"dismiss_stale_reviews":true,"require_code_owner_reviews":true}' \
+  --field restrictions=null \
+  --field allow_force_pushes=false \
+  --field allow_deletions=false
+
+echo "✅ Branch protection rules configured successfully!"
 ```
 
----
+## 🏷️ Required Labels
 
-## Настройки Auto-merge
+Create these labels in your repository for proper PR categorization:
 
-### В Settings → General → Pull Requests
+### Priority Labels
+- `priority/critical` - #D93F0B (Red)
+- `priority/high` - #FF9500 (Orange)
+- `priority/medium` - #FBCA04 (Yellow)
+- `priority/low` - #0E8A16 (Green)
 
-- ✅ Allow squash merging
-  - Default to pull request title and description
-- ❌ Allow merge commits (отключить для linear history)
-- ❌ Allow rebase merging (отключить для упрощения)
-- ✅ Always suggest updating pull request branches
-- ✅ Allow auto-merge
-- ✅ Automatically delete head branches
+### Type Labels
+- `type/bug` - #D93F0B (Red)
+- `type/feature` - #0052CC (Blue)
+- `type/enhancement` - #7057FF (Purple)
+- `type/documentation` - #0E8A16 (Green)
+- `type/security` - #B60205 (Dark Red)
+- `type/performance` - #FBCA04 (Yellow)
 
----
+### Component Labels
+- `component/frontend` - #0052CC (Blue)
+- `component/backend` - #5319E7 (Purple)
+- `component/api` - #FF6B6B (Pink)
+- `component/database` - #FFA500 (Orange)
+- `component/docker` - #2496ED (Docker Blue)
+- `component/extension` - #7057FF (Purple)
 
-## Rulesets (новая функция GitHub)
+### Size Labels
+- `size/XS` - #C2E0C6 (Light Green)
+- `size/S` - #7057FF (Purple)
+- `size/M` - #FBCA04 (Yellow)
+- `size/L` - #FF9500 (Orange)
+- `size/XL` - #D93F0B (Red)
 
-Альтернативно можно использовать **Rulesets** (Settings → Rules → Rulesets):
+### Status Labels
+- `status/needs-review` - #FBCA04 (Yellow)
+- `status/needs-changes` - #FF9500 (Orange)
+- `status/ready-to-merge` - #0E8A16 (Green)
+- `status/blocked` - #D93F0B (Red)
+- `status/work-in-progress` - #C2E0C6 (Light Green)
 
-### Create Ruleset: "Main Branch Protection"
+### Special Labels
+- `good-first-issue` - #7057FF (Purple)
+- `help-wanted` - #0052CC (Blue)
+- `breaking-change` - #B60205 (Dark Red)
+- `needs-documentation` - #0E8A16 (Green)
+- `ai-generated` - #F9D0C4 (Light Pink)
 
-**Target branches:** `main`
-
-**Rules:**
-
-1. **Require a pull request before merging**
-   - Required approvals: 1
-   - Dismiss stale reviews: ✅
-
-2. **Require status checks to pass**
-   - Status checks:
-     - `Next.js Code Quality`
-     - `Docker Services Health`
-     - `Security Vulnerabilities`
-     - `PR Template Validation`
-     - `Commit Message Validation`
-   - Require branches to be up to date: ✅
-
-3. **Block force pushes** ✅
-
-4. **Require linear history** ✅
-
-5. **Require conversation resolution** ✅
-
-**Bypass list:** (оставить пустым или добавить admin)
-
----
-
-## Проверка настроек
-
-После применения проверьте:
+## 🤖 Automated Label Creation Script
 
 ```bash
-# Через gh CLI
-gh api /repos/evgenygurin/oc-tw/branches/main/protection
+#!/bin/bash
 
-# Или в браузере
-https://github.com/evgenygurin/oc-tw/settings/branches
+# Create labels for OpenCart repository
+REPO="your-org/opencart"  # Replace with your repository
+
+echo "🏷️  Creating labels for $REPO..."
+
+# Priority labels
+gh label create "priority/critical" --color "D93F0B" --description "Critical priority issue" --repo $REPO
+gh label create "priority/high" --color "FF9500" --description "High priority issue" --repo $REPO
+gh label create "priority/medium" --color "FBCA04" --description "Medium priority issue" --repo $REPO
+gh label create "priority/low" --color "0E8A16" --description "Low priority issue" --repo $REPO
+
+# Type labels
+gh label create "type/bug" --color "D93F0B" --description "Bug report" --repo $REPO
+gh label create "type/feature" --color "0052CC" --description "New feature request" --repo $REPO
+gh label create "type/enhancement" --color "7057FF" --description "Enhancement to existing feature" --repo $REPO
+gh label create "type/documentation" --color "0E8A16" --description "Documentation update" --repo $REPO
+gh label create "type/security" --color "B60205" --description "Security-related issue" --repo $REPO
+gh label create "type/performance" --color "FBCA04" --description "Performance improvement" --repo $REPO
+
+# Component labels
+gh label create "component/frontend" --color "0052CC" --description "Frontend/customer-facing changes" --repo $REPO
+gh label create "component/backend" --color "5319E7" --description "Backend/admin panel changes" --repo $REPO
+gh label create "component/api" --color "FF6B6B" --description "API-related changes" --repo $REPO
+gh label create "component/database" --color "FFA500" --description "Database-related changes" --repo $REPO
+gh label create "component/docker" --color "2496ED" --description "Docker configuration changes" --repo $REPO
+gh label create "component/extension" --color "7057FF" --description "Extension system changes" --repo $REPO
+
+echo "✅ Labels created successfully!"
 ```
 
-Должны быть видны:
-- ✅ Require pull request reviews before merging (1 approval)
-- ✅ Require status checks to pass before merging (5 checks)
-- ✅ Require linear history
-- ✅ Include administrators (enforce for admins)
+## 🔐 Security Considerations
+
+### Signed Commits
+Require signed commits to ensure authenticity:
+1. Enable "Require signed commits" in branch protection
+2. Team members must set up GPG signing
+3. Configure Git to sign commits by default
+
+### Sensitive File Protection
+Use `.gitignore` and additional rules to prevent sensitive data:
+```gitignore
+# Sensitive configuration files
+.env
+.env.local
+.env.production
+config.php
+admin/config.php
+
+# Security keys and certificates
+*.pem
+*.key
+*.crt
+*.p12
+
+# Database dumps with sensitive data
+*.sql
+!install/opencart-*.sql
+```
+
+### Access Control
+1. **Repository access**: Limit write access to core team members
+2. **Branch permissions**: Use branch-specific permissions
+3. **Secret management**: Use GitHub Secrets for sensitive data
+4. **Audit logging**: Enable security audit logs
+
+## 📊 Monitoring and Compliance
+
+### Required Integrations
+- **Dependabot**: Automated dependency updates
+- **CodeQL**: Security vulnerability scanning
+- **Secret scanning**: Prevent credential leaks
+- **Dependency review**: Review dependency changes
+
+### Compliance Checks
+- All PRs must pass security scans
+- License compatibility verification
+- GDPR compliance for data handling
+- PCI DSS compliance for payment processing
+
+## 🚀 Implementation Steps
+
+1. **Create GitHub Teams**: Set up teams mentioned in CODEOWNERS
+2. **Configure Branch Protection**: Apply rules using GitHub UI or CLI
+3. **Create Labels**: Use the provided script
+4. **Set up Integrations**: Enable security and quality tools
+5. **Train Team**: Educate team on new processes
+6. **Monitor Compliance**: Regular audits of protection effectiveness
+
+## 📚 Additional Resources
+
+- [GitHub Branch Protection Documentation](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches)
+- [GitHub Security Features](https://docs.github.com/en/code-security)
+- [OpenCart Security Guidelines](https://docs.opencart.com/security/)
+
+---
+
+**Note**: Adjust these rules based on your team size, workflow, and security requirements. Start with stricter rules and relax them as needed rather than the opposite.

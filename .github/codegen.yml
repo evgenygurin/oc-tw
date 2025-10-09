@@ -1,0 +1,327 @@
+# Codegen AI Configuration for OpenCart E-commerce Platform
+# This file configures AI-powered automation for pull requests and code review
+
+# Basic Configuration
+version: "1.0"
+enabled: true
+
+# AI Model Configuration
+ai:
+  model: "gpt-4-turbo"
+  temperature: 0.1  # Lower temperature for more consistent, focused responses
+  max_tokens: 4000
+  
+  # Context configuration
+  context:
+    include_files: true
+    include_diff: true
+    include_commit_messages: true
+    max_context_size: 16000
+
+# Pull Request Automation
+pull_requests:
+  # Auto-review configuration
+  auto_review:
+    enabled: true
+    trigger_on:
+      - opened
+      - synchronize
+      - ready_for_review
+    
+    # Review criteria
+    review_criteria:
+      - code_quality
+      - security
+      - performance
+      - documentation
+      - testing
+      - opencart_standards
+    
+    # Auto-approval rules
+    auto_approve:
+      enabled: false  # Require human review for all PRs
+      conditions:
+        - author_is_trusted: false
+        - changes_are_minor: false
+        - tests_pass: true
+    
+    # Review comment configuration
+    comments:
+      max_comments_per_review: 10
+      include_suggestions: true
+      include_explanations: true
+      tone: "constructive"
+      
+  # Auto-labeling
+  auto_label:
+    enabled: true
+    labels:
+      # Component-based labels
+      frontend:
+        patterns: ["upload/catalog/view/**", "upload/catalog/controller/**"]
+        color: "0052CC"
+      backend:
+        patterns: ["upload/admin/**"]
+        color: "5319E7"
+      api:
+        patterns: ["**/api/**", "**/rest/**"]
+        color: "FF6B6B"
+      database:
+        patterns: ["**/*.sql", "**/migration/**", "**/schema/**"]
+        color: "FFA500"
+      docker:
+        patterns: ["docker/**", "Dockerfile*", "docker-compose*"]
+        color: "2496ED"
+      documentation:
+        patterns: ["**/*.md", "docs/**"]
+        color: "0E8A16"
+      security:
+        patterns: ["**/security/**", "**/auth/**", "**/login/**"]
+        color: "D93F0B"
+      performance:
+        patterns: ["**/cache/**", "**/optimization/**"]
+        color: "FBCA04"
+      extension:
+        patterns: ["upload/extension/**"]
+        color: "7057FF"
+      theme:
+        patterns: ["**/template/**", "**/*.css", "**/*.scss", "**/*.js"]
+        color: "F9D0C4"
+      config:
+        patterns: ["**/*config*", "**/*.env*", "**/*.yml", "**/*.yaml"]
+        color: "BFD4F2"
+      tests:
+        patterns: ["**/test/**", "**/*Test.php", "**/*.test.*"]
+        color: "C2E0C6"
+      
+      # Size-based labels
+      size_xs:
+        condition: "changes < 10"
+        color: "C2E0C6"
+      size_s:
+        condition: "changes < 30"
+        color: "7057FF"
+      size_m:
+        condition: "changes < 100"
+        color: "FBCA04"
+      size_l:
+        condition: "changes < 500"
+        color: "FF9500"
+      size_xl:
+        condition: "changes >= 500"
+        color: "D93F0B"
+
+# Code Analysis Rules
+analysis:
+  # OpenCart-specific rules
+  opencart:
+    # MVC Pattern enforcement
+    mvc_patterns:
+      controllers:
+        required_extends: "\\Opencart\\System\\Engine\\Controller"
+        naming_convention: "*Controller"
+        location: "upload/*/controller/**"
+      models:
+        required_extends: "\\Opencart\\System\\Engine\\Model"
+        naming_convention: "*Model"
+        location: "upload/*/model/**"
+      views:
+        file_extension: ".twig"
+        location: "upload/*/view/**"
+    
+    # Security rules
+    security:
+      forbidden_functions:
+        - "eval"
+        - "exec"
+        - "system"
+        - "shell_exec"
+        - "mysql_*"  # Deprecated MySQL functions
+      
+      required_validation:
+        - input_sanitization
+        - output_escaping
+        - csrf_protection
+      
+      sql_injection_prevention:
+        - use_prepared_statements: true
+        - avoid_string_concatenation: true
+    
+    # Performance rules
+    performance:
+      database:
+        avoid_select_star: true
+        require_indexes: true
+        limit_n_plus_one: true
+      
+      caching:
+        encourage_caching: true
+        cache_expensive_operations: true
+      
+      optimization:
+        minify_assets: true
+        optimize_images: true
+        use_cdn: true
+    
+    # Code quality rules
+    quality:
+      php_standards:
+        psr12_compliance: true
+        strict_types: encouraged
+        type_hints: required
+        docblocks: required
+      
+      naming_conventions:
+        classes: "PascalCase"
+        methods: "camelCase"
+        variables: "camelCase"
+        constants: "UPPER_CASE"
+      
+      complexity:
+        max_cyclomatic_complexity: 10
+        max_method_length: 50
+        max_class_length: 500
+
+# Review Templates
+review_templates:
+  security_review: |
+    ## 🔒 Security Review
+    
+    I've analyzed this PR for security implications:
+    
+    **Security Checklist:**
+    - Input validation and sanitization
+    - Output encoding and escaping
+    - SQL injection prevention
+    - XSS protection
+    - CSRF token validation
+    - Authentication and authorization
+    
+    **Findings:** {findings}
+    
+    **Recommendations:** {recommendations}
+  
+  performance_review: |
+    ## ⚡ Performance Review
+    
+    Performance analysis for this PR:
+    
+    **Performance Checklist:**
+    - Database query optimization
+    - Caching implementation
+    - Asset optimization
+    - Memory usage
+    - Load time impact
+    
+    **Analysis:** {analysis}
+    
+    **Suggestions:** {suggestions}
+  
+  code_quality_review: |
+    ## 📊 Code Quality Review
+    
+    Code quality assessment:
+    
+    **Quality Metrics:**
+    - OpenCart standards compliance
+    - PSR-12 coding standards
+    - Type safety and documentation
+    - Error handling
+    - Code complexity
+    
+    **Assessment:** {assessment}
+    
+    **Improvements:** {improvements}
+
+# Integration Settings
+integrations:
+  # GitHub integration
+  github:
+    auto_assign_reviewers: true
+    reviewer_groups:
+      backend_experts: ["backend-dev-1", "backend-dev-2"]
+      frontend_experts: ["frontend-dev-1", "frontend-dev-2"]
+      security_experts: ["security-expert"]
+      performance_experts: ["performance-expert"]
+    
+    # Status checks
+    status_checks:
+      required:
+        - "ci/lint"
+        - "ci/tests"
+        - "ci/security-scan"
+        - "ai/code-review"
+      
+      # Auto-merge conditions
+      auto_merge:
+        enabled: false  # Disabled for safety
+        conditions:
+          - all_checks_pass: true
+          - approved_by_codeowners: true
+          - no_requested_changes: true
+  
+  # External tools integration
+  external_tools:
+    phpstan:
+      enabled: true
+      config_file: "phpstan.neon"
+      level: 6
+    
+    php_cs_fixer:
+      enabled: true
+      config_file: ".php-cs-fixer.php"
+    
+    security_scanner:
+      enabled: true
+      tools: ["psalm", "phpstan-security"]
+
+# Notification Settings
+notifications:
+  # Slack integration (if configured)
+  slack:
+    enabled: false
+    channels:
+      critical_issues: "#critical-alerts"
+      pr_reviews: "#code-review"
+      security_alerts: "#security"
+  
+  # Email notifications
+  email:
+    enabled: true
+    recipients:
+      security_issues: ["security@opencart.com"]
+      critical_bugs: ["dev-team@opencart.com"]
+
+# Learning and Adaptation
+learning:
+  # Feedback collection
+  collect_feedback: true
+  
+  # Model improvement
+  adapt_to_codebase: true
+  learn_from_reviews: true
+  
+  # Custom patterns
+  custom_patterns:
+    opencart_specific: true
+    project_conventions: true
+
+# Rate Limiting
+rate_limits:
+  api_calls_per_hour: 1000
+  reviews_per_pr: 5
+  comments_per_review: 10
+
+# Debugging and Logging
+debug:
+  enabled: false
+  log_level: "info"
+  log_ai_decisions: true
+  log_performance_metrics: true
+
+# Feature Flags
+features:
+  experimental_features: false
+  beta_features: false
+  advanced_analysis: true
+  custom_rules: true

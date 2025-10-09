@@ -1,58 +1,64 @@
-# Environment
+# Config and Htaccess Files
+/upload/.htaccess
+/upload/config.php
+/upload/admin/config.php
+
+# Install Files
+/upload/install.lock
+
+# Catalog JSON Files
+/upload/catalog/view/data/*
+!/upload/catalog/view/data/index.html
+
+# Catalog HTML Files
+/upload/catalog/view/html/*
+!/upload/catalog/view/html/index.html
+
+# CSS Files
+/upload/catalog/view/stylesheet/stylesheet.css
+
+# Catalog HTML Files
+/upload/shop/*
+
+# Image Cache Files
+/upload/image/cache/*
+!/upload/image/cache/index.html
+
+# Backup Files
+/upload/system/storage/backup/*
+!/upload/system/storage/backup/index.html
+
+# System Cache Files
+/upload/system/storage/cache/*
+!/upload/system/storage/cache/index.html
+
+# Download Files
+/upload/system/storage/download/*
+!/upload/system/storage/download/index.html
+
+# Log Files
+/upload/system/storage/logs/*
+!/upload/system/storage/logs/index.html
+
+# Marketplace Files
+#/upload/system/storage/marketplace/*
+#!/upload/system/storage/marketplace/index.html
+
+# Session Files
+/upload/system/storage/session/*
+!/upload/system/storage/session/index.html
+
+# Upload Files
+/upload/system/storage/upload/*
+!/upload/system/storage/upload/index.html
+
+# IDE Project files
+/upload/.idea/*
+/.idea/*
+/.DS_Store
+/.cache
+/.php-cs-fixer.cache
+
+# ENV
 .env
-.env.local
-.env*.local
-
-# OpenCart generated files
-config.php
-admin/config.php
-system/storage/
-
-# Image uploads
-image/cache/
-image/catalog/
-
-# Logs
-*.log
-
-# System files
-.DS_Store
-Thumbs.db
-*.pem
-
-# Backup
-.backup/
-
-# Docker
-docker-compose.override.yml
-.docker/
-mariadb_data/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Node.js (if used for theme development)
-node_modules/
-.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Next.js (if used)
-/.next/
-/out/
-/build
-*.tsbuildinfo
-next-env.d.ts
-.vercel
+.env.docker

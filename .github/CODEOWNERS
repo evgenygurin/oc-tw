@@ -1,0 +1,49 @@
+# Code Owners для автоматического назначения ревьюеров
+# Подробнее: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+# Эти пользователи будут автоматически запрошены для ревью всех PR
+* @evgenygurin
+
+# Next.js Frontend
+/src/**                    @evgenygurin
+/src/app/**                @evgenygurin
+/src/components/**         @evgenygurin
+*.tsx                      @evgenygurin
+*.ts                       @evgenygurin
+package.json               @evgenygurin
+package-lock.json          @evgenygurin
+tsconfig.json              @evgenygurin
+next.config.ts             @evgenygurin
+tailwind.config.ts         @evgenygurin
+
+# OpenCart Backend & Theme
+/theme/**                  @evgenygurin
+*.php                      @evgenygurin
+*.twig                     @evgenygurin
+composer.json              @evgenygurin
+
+# Docker & Infrastructure
+docker-compose.yml         @evgenygurin
+Dockerfile*                @evgenygurin
+.env.example               @evgenygurin
+
+# Configuration & CI/CD
+/.github/**                @evgenygurin
+.eslintrc.json             @evgenygurin
+.prettierrc                @evgenygurin
+
+# Documentation
+*.md                       @evgenygurin
+CLAUDE.md                  @evgenygurin
+README.md                  @evgenygurin
+
+# Security & Dependencies
+package.json               @evgenygurin
+package-lock.json          @evgenygurin
+composer.json              @evgenygurin
+composer.lock              @evgenygurin
+
+# Styles
+*.css                      @evgenygurin
+*.scss                     @evgenygurin

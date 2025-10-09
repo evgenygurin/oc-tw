@@ -1,32 +1,58 @@
-# OpenCart Taiwan (oc-tw)
+# oc-tw - OpenCart + Next.js E-commerce Platform
 
-Modern OpenCart e-commerce platform with custom theming and Docker-based development environment.
+OpenCart e-commerce platform running in Docker with MariaDB, phpMyAdmin, and modern Next.js frontend.
+
+## 📋 PR Automation Setup
+
+**🎉 This repository has comprehensive PR automation!**
+
+For contributors:
+
+- 📖 Read [Contributing Guide](.github/CONTRIBUTING.md)
+- ✨ See [PR Example](.github/PR_EXAMPLE.md)
+
+For maintainers:
+
+- ⚙️ Apply [GitHub Settings](.github/branch-protection.md)
+- 🤖 Configure [Codegen AI](.github/AGENTS.md)
+- 📊 See [Full Summary](PR_RULES_SUMMARY.md)
 
 ## 🚀 Quick Start
 
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd oc-tw
+### Prerequisites
 
-# Start the stack
+- Docker Desktop installed and running
+- Stable internet connection for pulling Docker images
+
+### Installation
+
+```bash
+# 1. Start Docker Desktop
+open -a Docker
+
+# 2. Configure environment (optional - defaults are set)
+cp .env.example .env
+
+# 3. Install OpenCart
 make install
 
-# Access OpenCart
-open http://localhost:8080
+# 4. Access OpenCart
+open http://localhost:8080/install
 ```
 
 **Default Credentials:**
+
 - Username: `admin`
 - Password: `admin123`
-- Admin Panel: http://localhost:8080/admin
+- Email: `admin@example.com`
+- Admin Panel: <http://localhost:8080/admin>
 
 ## 📦 What's Included
 
 - **OpenCart**: Latest version from master branch
 - **MariaDB 10.11**: Optimized MySQL-compatible database
-- **Adminer**: Web-based database management (http://localhost:8081)
-- **MailHog**: Email testing tool (http://localhost:8025)
+- **Adminer**: Web-based database management (<http://localhost:8081>)
+- **MailHog**: Email testing tool (<http://localhost:8025>)
 - **Custom Theme**: `oc-astro` theme with modern styling
 
 ## 🛠️ Available Commands
@@ -75,7 +101,7 @@ make db-shell      # MySQL CLI access
 
 ### Directory Structure
 
-```
+```text
 oc-tw/
 ├── theme/
 │   └── oc-astro/            # Custom OpenCart theme (bind-mounted)
@@ -107,7 +133,7 @@ make restart
 
 ### Theme Structure
 
-```
+```text
 theme/oc-astro/
 ├── template/
 │   ├── common/      # header.twig, footer.twig, home.twig
@@ -122,6 +148,7 @@ theme/oc-astro/
 ### "Too many open files" error
 
 This is a Docker Desktop on macOS issue. Solutions:
+
 1. Restart Docker Desktop
 2. Increase file descriptor limits (already set in config)
 3. Use `make prune` to clean up Docker resources
@@ -150,6 +177,7 @@ cat .env
 ### Port conflicts
 
 Edit `docker-compose.yml` and change ports:
+
 ```yaml
 ports:
   - "9080:80"  # Change 8080 to 9080
@@ -179,7 +207,8 @@ TZ=UTC
 ### Database Access
 
 **Via Adminer** (Web UI):
-- URL: http://localhost:8081
+
+- URL: <http://localhost:8081>
 - System: MySQL
 - Server: `mysql`
 - Username: `opencart`
@@ -187,6 +216,7 @@ TZ=UTC
 - Database: `opencart_db`
 
 **Via Command Line**:
+
 ```bash
 make db-shell
 # Or manually:
@@ -209,6 +239,7 @@ make restore-db file=backups/opencart_20250108_120000.sql
 **DO NOT** use this Docker setup in production. This is a development environment.
 
 For production:
+
 1. Use managed database (RDS, CloudSQL, etc.)
 2. Deploy OpenCart to a PHP hosting environment
 3. Configure proper SSL/TLS
@@ -268,6 +299,7 @@ OpenCart is licensed under GPL v3.0. See OpenCart documentation for details.
 ## 🆘 Support
 
 For issues:
+
 1. Check logs: `make logs`
 2. Verify health: `make health`
 3. Review troubleshooting section above

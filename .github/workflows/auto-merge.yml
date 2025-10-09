@@ -1,0 +1,101 @@
+name: Auto-merge PR
+
+on:
+  pull_request_review:
+    types: [ submitted ]
+  check_suite:
+    types: [ completed ]
+
+jobs:
+  auto-merge:
+    name: Auto-merge if criteria met
+    runs-on: ubuntu-latest
+
+    # Only run on approved PRs with all checks passed
+    if: |
+      github.event.review.state == 'approved' ||
+      github.event.check_suite.conclusion == 'success'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check auto-merge criteria
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // Get reviews
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            // Get check runs
+            const { data: checks } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: pr.head.sha
+            });
+
+            // Criteria checks
+            const hasApproval = reviews.some(r => r.state === 'APPROVED');
+            const allChecksPassed = checks.check_runs.every(c => c.conclusion === 'success');
+            const noConflicts = pr.mergeable_state === 'clean';
+            const isUpToDate = pr.mergeable_state !== 'behind';
+
+            core.setOutput('can_merge', hasApproval && allChecksPassed && noConflicts && isUpToDate);
+
+            // Log results
+            core.info(`✅ Has approval: ${hasApproval}`);
+            core.info(`✅ All checks passed: ${allChecksPassed}`);
+            core.info(`✅ No conflicts: ${noConflicts}`);
+            core.info(`✅ Up to date: ${isUpToDate}`);
+
+            return hasApproval && allChecksPassed && noConflicts && isUpToDate;
+
+      - name: Enable auto-merge
+        if: steps.check.outputs.can_merge == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              merge_method: 'squash',
+              commit_title: `${context.payload.pull_request.title} (#${context.issue.number})`,
+              commit_message: context.payload.pull_request.body
+            });
+
+            core.info('🎉 PR auto-merged successfully!');
+
+      - name: Add merge comment
+        if: steps.check.outputs.can_merge == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '🤖 **Auto-merged** - All criteria met:\n\n✅ Approved by reviewer\n✅ All checks passed\n✅ No merge conflicts\n✅ Branch up-to-date'
+            });
+
+      - name: Block merge comment
+        if: steps.check.outputs.can_merge != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '⚠️ **Auto-merge blocked** - Please ensure:\n\n- [ ] PR has at least 1 approval\n- [ ] All automated checks pass\n- [ ] No merge conflicts\n- [ ] Branch is up-to-date with base'
+            });

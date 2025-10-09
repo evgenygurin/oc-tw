@@ -89,6 +89,13 @@ CODEGEN_WEBHOOK_URL=https://yourdomain.com/codegen_integration/webhook_endpoint.
 # 3. Test the integration with sample failures
 EOF
     echo "✅ Created .env.codegen template"
+    echo ""
+    echo "💡 TIP: For MCP server API keys (Exa, Tavily, Sentry, etc.):"
+    echo "   Copy .env.codegen.example → .env.codegen and add your keys"
+    echo "   Never commit .env.codegen to git (it's in .gitignore)"
+else
+    echo "ℹ️  .env.codegen already exists"
+    echo "💡 TIP: Check .env.codegen.example for MCP server API keys template"
 fi
 
 # Create sample CircleCI configuration with Codegen integration

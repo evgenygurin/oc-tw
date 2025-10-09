@@ -24,11 +24,19 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy OpenCart files
 COPY . /var/www/html/
+
+# Install Composer dependencies
+RUN if [ -f composer.json ]; then \
+        composer install --no-dev --optimize-autoloader; \
+    fi
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

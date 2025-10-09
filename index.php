@@ -18,7 +18,15 @@ if (!defined('DIR_APPLICATION')) {
 // Startup
 require_once(DIR_SYSTEM . 'startup.php');
 
+// Initialize Composer autoloader if available
+if (file_exists(DIR_SYSTEM . '../vendor/autoload.php')) {
+	require_once(DIR_SYSTEM . '../vendor/autoload.php');
+	
+	// Initialize Sentry
+	if (function_exists('initSentry')) {
+		initSentry();
+	}
+}
+
 // Framework
 require_once(DIR_SYSTEM . 'framework.php');
-
-print_r($_GET);

@@ -5,18 +5,6 @@
 # Эти пользователи будут автоматически запрошены для ревью всех PR
 * @evgenygurin
 
-# Next.js Frontend
-/src/**                    @evgenygurin
-/src/app/**                @evgenygurin
-/src/components/**         @evgenygurin
-*.tsx                      @evgenygurin
-*.ts                       @evgenygurin
-package.json               @evgenygurin
-package-lock.json          @evgenygurin
-tsconfig.json              @evgenygurin
-next.config.ts             @evgenygurin
-tailwind.config.ts         @evgenygurin
-
 # OpenCart Backend & Theme
 /theme/**                  @evgenygurin
 *.php                      @evgenygurin
@@ -30,8 +18,6 @@ Dockerfile*                @evgenygurin
 
 # Configuration & CI/CD
 /.github/**                @evgenygurin
-.eslintrc.json             @evgenygurin
-.prettierrc                @evgenygurin
 
 # Documentation
 *.md                       @evgenygurin
@@ -39,8 +25,6 @@ CLAUDE.md                  @evgenygurin
 README.md                  @evgenygurin
 
 # Security & Dependencies
-package.json               @evgenygurin
-package-lock.json          @evgenygurin
 composer.json              @evgenygurin
 composer.lock              @evgenygurin
 

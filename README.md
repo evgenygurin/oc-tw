@@ -1,6 +1,6 @@
-# oc-tw - OpenCart + Next.js E-commerce Platform
+# oc-tw - OpenCart E-commerce Platform
 
-OpenCart e-commerce platform running in Docker with MariaDB, phpMyAdmin, and modern Next.js frontend.
+OpenCart e-commerce platform running in Docker with MariaDB and phpMyAdmin.
 
 ## 📋 PR Automation Setup
 
